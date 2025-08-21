@@ -826,7 +826,8 @@
         function setupDataListeners(uid) {
             
             // Listeners for the combined data document
-            onSnapshot(doc(db, `artifacts/${appId}/users/${uid}/private_data`, DOC_ID), (docSnap) => {
+            const dataDocRef = doc(db, `artifacts/${appId}/users/${uid}/private_data`, DOC_ID);
+            onSnapshot(dataDocRef, (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     masterIngredients = data.masterIngredients || [];
@@ -853,8 +854,9 @@
                 return;
             }
             try {
-                const docRef = doc(db, `artifacts/${appId}/users/${userId}/private_data`, DOC_ID);
-                await setDoc(docRef, {
+                // Corrected path to ensure an even number of segments
+                const dataDocRef = doc(db, `artifacts/${appId}/users/${userId}/private_data`, DOC_ID);
+                await setDoc(dataDocRef, {
                     masterIngredients,
                     menuItems,
                     dailySales,
