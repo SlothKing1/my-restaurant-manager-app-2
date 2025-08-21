@@ -6,6 +6,8 @@
     <title>Restaurant Manager</title>
     <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Chart.js CDN for charts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -22,28 +24,27 @@
         input[type="number"] {
             -moz-appearance: textfield;
         }
+        .logo-placeholder {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #e5e7eb;
+            color: #9ca3af;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
 
-    <!-- Login/Password Form -->
-    <div id="login-container" class="container bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
-        <h1 class="text-4xl font-extrabold text-gray-800 text-center mb-4">Restaurant Manager</h1>
-        <p class="text-center text-gray-500 mb-6">Enter the password to access the app.</p>
-        <form id="login-form">
-            <input type="password" id="password-input" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-            <button type="submit" class="w-full mt-4 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
-                Log In
-            </button>
-        </form>
-        <div id="login-message" class="mt-4 text-center text-sm font-medium text-red-500 hidden">Incorrect password. Please try again.</div>
-    </div>
-
-    <div id="app-content" class="container bg-white rounded-xl shadow-2xl p-8 w-full hidden">
+    <div id="app-content" class="container bg-white rounded-xl shadow-2xl p-8 w-full">
         <!-- Title and Description -->
         <div class="flex items-center justify-between mb-8">
             <div class="text-center">
-                <h1 class="text-4xl font-extrabold text-gray-800">Restaurant Manager</h1>
+                <h1 id="app-title" class="text-4xl font-extrabold text-gray-800">Restaurant Manager</h1>
                 <p class="mt-2 text-lg text-gray-500">Your all-in-one tool for costing, sales, and purchases.</p>
             </div>
         </div>
@@ -64,6 +65,12 @@
             </button>
             <button id="salary-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
                 Salary
+            </button>
+            <button id="documents-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
+                Documents
+            </button>
+            <button id="reports-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
+                Reports
             </button>
         </div>
 
@@ -315,18 +322,20 @@
             <!-- Record Salary Form -->
             <div class="mb-6 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
                 <h3 class="text-xl font-semibold text-gray-600 mb-3">Record Salary Payment</h3>
-                <div class="grid md:grid-cols-4 gap-4 items-end">
+                <div class="grid md:grid-cols-5 gap-4 items-end">
                     <input type="date" id="salary-date" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="text" id="salary-employee" placeholder="Employee Name" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="salary-hours" placeholder="Hours" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="salary-rate" placeholder="Hourly Rate (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <select id="salary-type" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                         <option value="">Select Payment Type</option>
+                        <option value="Daily Salary">Daily Salary</option>
                         <option value="Weekly Salary">Weekly Salary</option>
                         <option value="Monthly Salary">Monthly Salary</option>
                         <option value="Bonus">Bonus</option>
                         <option value="Overtime">Overtime</option>
                     </select>
-                    <input type="number" id="salary-amount" placeholder="Amount (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <button id="add-salary-btn" class="col-span-4 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                    <button id="add-salary-btn" class="col-span-5 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Record Payment
                     </button>
                 </div>
@@ -342,6 +351,8 @@
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Employee Name</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Type</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Hours</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Hourly Rate (£)</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Amount (£)</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                         </tr>
@@ -386,6 +397,97 @@
                 </div>
             </div>
         </div>
+
+        <!-- Documents Section (New) -->
+        <div id="documents-section" class="p-6 bg-gray-50 rounded-lg hidden transition-opacity duration-300 ease-in-out">
+            <h2 class="text-2xl font-bold mb-4 text-gray-700">Documents</h2>
+            
+            <!-- Upload Document Form -->
+            <div class="mb-6 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
+                <h3 class="text-xl font-semibold text-gray-600 mb-3">Upload a Document</h3>
+                <div class="flex flex-col sm:flex-row gap-4 items-center">
+                    <input type="file" id="document-file" class="flex-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
+                    <button id="upload-document-btn" class="w-full sm:w-auto p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                        Upload Document
+                    </button>
+                </div>
+                <div id="document-message" class="mt-4 text-sm font-medium text-gray-600"></div>
+            </div>
+
+            <!-- Documents List Table -->
+            <div class="overflow-x-auto">
+                <h3 class="text-xl font-semibold mb-2 text-gray-700">Uploaded Documents</h3>
+                <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+                    <thead class="bg-gray-100 border-b border-gray-200">
+                        <tr>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Document Name</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Type</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Size</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="documents-table-body">
+                        <!-- Document rows will be dynamically inserted here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Reports Section (New) -->
+        <div id="reports-section" class="p-6 bg-gray-50 rounded-lg hidden transition-opacity duration-300 ease-in-out">
+            <h2 class="text-2xl font-bold mb-4 text-gray-700">Reports & Analytics</h2>
+            
+            <!-- Sales Trends Chart -->
+            <div class="mb-8 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
+                <h3 class="text-xl font-semibold mb-4 text-gray-600">Daily Sales Trends</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 items-end">
+                    <div class="md:col-span-1">
+                        <label for="report-start-date" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
+                        <input type="date" id="report-start-date" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div class="md:col-span-1">
+                        <label for="report-end-date" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
+                        <input type="date" id="report-end-date" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div class="md:col-span-1">
+                        <label for="sales-target-input" class="block text-sm font-medium text-gray-700 mb-1">Daily Sales Target (£)</label>
+                        <input type="number" id="sales-target-input" placeholder="e.g. 500" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div class="flex gap-4 md:col-span-1">
+                        <button id="filter-sales-btn" class="flex-1 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                            Apply Filter
+                        </button>
+                        <button id="download-sales-report-pdf" class="flex-1 p-3 text-white font-bold rounded-lg bg-gray-600 hover:bg-gray-700 transition-colors duration-200 shadow-md">
+                            Download PDF
+                        </button>
+                    </div>
+                </div>
+                
+                <canvas id="salesChart"></canvas>
+            </div>
+
+            <!-- Profitability Report -->
+            <div class="p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
+                <h3 class="text-xl font-semibold mb-4 text-gray-600">Menu Item Profitability</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+                        <thead class="bg-gray-100 border-b border-gray-200">
+                            <tr>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Menu Item</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">COGS (£)</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Dine-In Price (£)</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Profit (£)</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Profit Margin (%)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="profit-report-body">
+                            <!-- Profit report rows will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
         
     </div>
     
@@ -417,6 +519,7 @@
         let dailySales;
         let dailyPurchases;
         let salary;
+        let documents;
         
         try {
             masterIngredients = JSON.parse(localStorage.getItem('masterIngredients')) || [];
@@ -424,6 +527,7 @@
             dailySales = JSON.parse(localStorage.getItem('dailySales')) || [];
             dailyPurchases = JSON.parse(localStorage.getItem('dailyPurchases')) || [];
             salary = JSON.parse(localStorage.getItem('salary')) || [];
+            documents = JSON.parse(localStorage.getItem('documents')) || [];
         } catch (e) {
             console.error("Error parsing data from local storage. Resetting data.", e);
             masterIngredients = [];
@@ -431,6 +535,7 @@
             dailySales = [];
             dailyPurchases = [];
             salary = [];
+            documents = [];
             localStorage.clear();
         }
         
@@ -440,26 +545,30 @@
         function saveDailySales() { localStorage.setItem('dailySales', JSON.stringify(dailySales)); }
         function saveDailyPurchases() { localStorage.setItem('dailyPurchases', JSON.stringify(dailyPurchases)); }
         function saveSalary() { localStorage.setItem('salary', JSON.stringify(salary)); }
+        function saveDocuments() { localStorage.setItem('documents', JSON.stringify(documents)); }
+        function saveSalesTarget(target) { localStorage.setItem('salesTarget', target); }
+        function getSalesTarget() { return localStorage.getItem('salesTarget') ? parseFloat(localStorage.getItem('salesTarget')) : 0; }
 
 
         // --- DOM Elements & Event Listeners ---
-        const loginContainer = document.getElementById('login-container');
-        const loginForm = document.getElementById('login-form');
-        const passwordInput = document.getElementById('password-input');
-        const loginMessage = document.getElementById('login-message');
         const appContent = document.getElementById('app-content');
+        const appTitle = document.getElementById('app-title');
         
         const masterTab = document.getElementById('master-tab');
         const menuTab = document.getElementById('menu-tab');
         const salesTab = document.getElementById('sales-tab');
         const purchasesTab = document.getElementById('purchases-tab');
         const salaryTab = document.getElementById('salary-tab');
+        const documentsTab = document.getElementById('documents-tab');
+        const reportsTab = document.getElementById('reports-tab');
 
         const masterSection = document.getElementById('master-section');
         const menuSection = document.getElementById('menu-section');
         const salesSection = document.getElementById('sales-section');
         const purchasesSection = document.getElementById('purchases-section');
         const salarySection = document.getElementById('salary-section');
+        const documentsSection = document.getElementById('documents-section');
+        const reportsSection = document.getElementById('reports-section');
         
         const ingredientsTableBody = document.getElementById('ingredients-table-body');
         const addIngredientBtn = document.getElementById('add-ingredient-btn');
@@ -497,8 +606,9 @@
         
         const salaryDateInput = document.getElementById('salary-date');
         const salaryEmployeeInput = document.getElementById('salary-employee');
+        const salaryHoursInput = document.getElementById('salary-hours');
+        const salaryRateInput = document.getElementById('salary-rate');
         const salaryTypeInput = document.getElementById('salary-type');
-        const salaryAmountInput = document.getElementById('salary-amount');
         const addSalaryBtn = document.getElementById('add-salary-btn');
         const salaryMessage = document.getElementById('salary-message');
         const salaryHistoryBody = document.getElementById('salary-history-body');
@@ -531,6 +641,19 @@
         const uploadIngredientsFile = document.getElementById('upload-ingredients-file');
         const uploadIngredientsBtn = document.getElementById('upload-ingredients-btn');
 
+        const documentFile = document.getElementById('document-file');
+        const uploadDocumentBtn = document.getElementById('upload-document-btn');
+        const documentsTableBody = document.getElementById('documents-table-body');
+        const documentMessage = document.getElementById('document-message');
+        
+        const salesChartCanvas = document.getElementById('salesChart');
+        const profitReportBody = document.getElementById('profit-report-body');
+        
+        const reportStartDateInput = document.getElementById('report-start-date');
+        const reportEndDateInput = document.getElementById('report-end-date');
+        const salesTargetInput = document.getElementById('sales-target-input');
+        const filterSalesBtn = document.getElementById('filter-sales-btn');
+        const downloadSalesReportPdfBtn = document.getElementById('download-sales-report-pdf');
 
         // Set today's date on the date pickers
         const today = new Date().toISOString().split('T')[0];
@@ -543,34 +666,29 @@
         downloadPurchaseEndDateInput.value = today;
         downloadSalaryStartDateInput.value = today;
         downloadSalaryEndDateInput.value = today;
-
-
-        // --- Password Logic ---
-        const correctPassword = "Summer2025";
-        loginForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (passwordInput.value === correctPassword) {
-                loginContainer.classList.add('hidden');
-                appContent.classList.remove('hidden');
-                // Initial render of the content after successful login
-                switchTab(masterTab, masterSection);
-                renderIngredients();
-                renderMenuItems();
-                renderSalary();
-            } else {
-                loginMessage.classList.remove('hidden');
-            }
-        });
-
+        
+        // Set default date range for reports (last 30 days)
+        const last30Days = new Date();
+        last30Days.setDate(last30Days.getDate() - 30);
+        reportStartDateInput.value = last30Days.toISOString().split('T')[0];
+        reportEndDateInput.value = today;
+        
+        // Set initial sales target from local storage
+        salesTargetInput.value = getSalesTarget();
 
         // Function to switch tabs
         function switchTab(activeTab, activeSection) {
-            const tabs = [masterTab, menuTab, salesTab, purchasesTab, salaryTab];
-            const sections = [masterSection, menuSection, salesSection, purchasesSection, salarySection];
+            const tabs = [masterTab, menuTab, salesTab, purchasesTab, salaryTab, documentsTab, reportsTab];
+            const sections = [masterSection, menuSection, salesSection, purchasesSection, salarySection, documentsSection, reportsSection];
             tabs.forEach(tab => tab.classList.remove('border-indigo-500', 'text-indigo-600'));
             sections.forEach(section => section.classList.add('hidden'));
             activeTab.classList.add('border-indigo-500', 'text-indigo-600');
             activeSection.classList.remove('hidden');
+            
+            // Special rendering for new sections
+            if (activeSection === reportsSection) {
+                renderReports();
+            }
         }
 
         // Tab click handlers
@@ -579,6 +697,8 @@
         salesTab.addEventListener('click', () => { switchTab(salesTab, salesSection); renderDailySales(); });
         purchasesTab.addEventListener('click', () => { switchTab(purchasesTab, purchasesSection); renderPurchases(); });
         salaryTab.addEventListener('click', () => { switchTab(salaryTab, salarySection); renderSalary(); });
+        documentsTab.addEventListener('click', () => { switchTab(documentsTab, documentsSection); renderDocuments(); });
+        reportsTab.addEventListener('click', () => { switchTab(reportsTab, reportsSection); renderReports(); });
 
         // --- Master Ingredients Logic ---
         function renderIngredients() {
@@ -664,7 +784,7 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFontSize(18);
-            doc.text("Master Ingredients List", 14, 20);
+            doc.text(`Restaurant Manager - Master Ingredients List`, 14, 20);
             const tableColumn = ["Ingredient Name", "Unit", "Cost per Unit (£)"];
             const tableRows = masterIngredients.map(ing => [ing.name, ing.unit, ing.cost.toFixed(2)]);
             doc.autoTable({
@@ -806,6 +926,10 @@
                 const dineInCogsWithVat = item.cogs + dineInVat;
                 const takeAwayCogsWithVat = item.cogs + takeAwayVat;
 
+                // Calculate profit and profit margin for the menu item
+                const profit = item.dineInPrice - item.cogs;
+                const profitMargin = (profit / item.dineInPrice) * 100;
+                
                 const itemCard = document.createElement('div');
                 itemCard.className = 'p-6 bg-white rounded-lg shadow-md border border-gray-200';
                 itemCard.innerHTML = `
@@ -823,7 +947,7 @@
                         </div>
                     </div>
                     
-                    <div id="item-details-${index}" class="space-y-4">
+                    <div id="item-details-${index}" class="space-y-4 hidden">
                         <div class="grid md:grid-cols-3 gap-4">
                             <div class="p-2 border rounded-lg">
                                 <span class="block text-gray-500 text-sm">Dine-In Price</span>
@@ -874,6 +998,22 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        <!-- New Profit Margin Display -->
+                        <div class="p-4 border border-green-200 rounded-lg bg-green-50 mt-4">
+                            <h4 class="text-md font-semibold text-gray-700 mb-2">Profitability Analysis</h4>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <span class="block text-gray-500 text-sm">Profit (Dine-In):</span>
+                                    <span class="block text-green-700 font-bold text-lg">£${item.dineInPrice > 0 ? profit.toFixed(2) : 'N/A'}</span>
+                                </div>
+                                <div>
+                                    <span class="block text-gray-500 text-sm">Profit Margin:</span>
+                                    <span class="block text-green-700 font-bold text-lg">${item.dineInPrice > 0 ? profitMargin.toFixed(2) : 'N/A'}%</span>
+                                </div>
+                            </div>
+                        </div>
+
 
                         <div class="overflow-x-auto mt-4">
                             <table class="min-w-full bg-white border border-gray-200 rounded-lg">
@@ -950,7 +1090,7 @@
         function attachMenuEventListeners() {
             document.querySelectorAll('.add-component-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const itemIndex = btn.dataset.itemIndex;
+                    const itemIndex = btn.dataset.item-index;
                     const item = menuItems[itemIndex];
                     const card = btn.closest('.p-6');
                     const select = card.querySelector('.component-select');
@@ -1148,7 +1288,7 @@
         function renderSalary() {
             salaryHistoryBody.innerHTML = '';
             if (salary.length === 0) {
-                salaryHistoryBody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-600 py-4">No salary payments recorded yet.</td></tr>';
+                salaryHistoryBody.innerHTML = '<tr><td colspan="7" class="text-center text-gray-600 py-4">No salary payments recorded yet.</td></tr>';
                 return;
             }
             salary.forEach((payment, index) => {
@@ -1158,6 +1298,8 @@
                     <td class="py-3 px-4">${payment.date}</td>
                     <td class="py-3 px-4">${payment.employee}</td>
                     <td class="py-3 px-4">${payment.type}</td>
+                    <td class="py-3 px-4">${payment.hours ? payment.hours.toFixed(2) : '-'}</td>
+                    <td class="py-3 px-4">£${payment.rate ? payment.rate.toFixed(2) : '-'}</td>
                     <td class="py-3 px-4">£${payment.amount.toFixed(2)}</td>
                     <td class="py-3 px-4">
                         <button data-index="${index}" class="delete-salary-btn text-red-500 hover:text-red-700">
@@ -1198,21 +1340,242 @@
             const date = salaryDateInput.value;
             const employee = salaryEmployeeInput.value.trim();
             const type = salaryTypeInput.value;
-            const amount = parseFloat(salaryAmountInput.value);
-            if (!date || !employee || !type || isNaN(amount) || amount <= 0) {
+            const hours = parseFloat(salaryHoursInput.value);
+            const rate = parseFloat(salaryRateInput.value);
+            
+            if (!date || !employee || isNaN(hours) || hours <= 0 || isNaN(rate) || rate <= 0) {
                 salaryMessage.textContent = 'Please fill out all fields with valid data.';
                 return;
             }
-            salary.push({ date, employee, type, amount });
+            
+            const amount = hours * rate;
+
+            salary.push({ date, employee, type, hours, rate, amount });
             saveSalary();
             renderSalary();
             salaryDateInput.value = today;
             salaryEmployeeInput.value = '';
+            salaryHoursInput.value = '';
+            salaryRateInput.value = '';
             salaryTypeInput.value = '';
-            salaryAmountInput.value = '';
             salaryMessage.textContent = 'Salary payment recorded successfully!';
         });
 
+        // --- Documents Logic ---
+        function renderDocuments() {
+            documentsTableBody.innerHTML = '';
+            if (documents.length === 0) {
+                documentsTableBody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-600 py-4">No documents uploaded yet.</td></tr>';
+                return;
+            }
+            documents.forEach((doc, index) => {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="py-3 px-4 text-gray-800">${doc.name}</td>
+                    <td class="py-3 px-4 text-gray-800">${doc.type}</td>
+                    <td class="py-3 px-4 text-gray-800">${(doc.size / 1024).toFixed(2)} KB</td>
+                    <td class="py-3 px-4 flex gap-2">
+                        <button data-index="${index}" class="download-document-btn text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
+                            Download
+                        </button>
+                        <button data-index="${index}" class="delete-document-btn text-red-500 hover:text-red-700 transition-colors duration-200">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        </button>
+                    </td>
+                `;
+                documentsTableBody.appendChild(row);
+            });
+            attachDocumentEventListeners();
+        }
+
+        function attachDocumentEventListeners() {
+            // Download button
+            document.querySelectorAll('.download-document-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = e.target.closest('button').dataset.index;
+                    const doc = documents[index];
+                    if (doc.data) {
+                        const link = document.createElement('a');
+                        link.href = doc.data;
+                        link.download = doc.name;
+                        document.body.appendChild(link);
+                        link.click();
+                        document.body.removeChild(link);
+                    }
+                });
+            });
+
+            // Delete button
+            document.querySelectorAll('.delete-document-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = e.target.closest('button').dataset.index;
+                    pendingDeleteIndex = index;
+                    pendingDeleteType = 'documents';
+                    confirmModal.classList.remove('hidden');
+                    confirmMessage.textContent = `Are you sure you want to delete the document "${documents[index].name}"?`;
+                });
+            });
+        }
+
+        uploadDocumentBtn.addEventListener('click', () => {
+            const file = documentFile.files[0];
+            if (!file) {
+                documentMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                documentMessage.textContent = 'Please select a file to upload.';
+                setTimeout(() => documentMessage.textContent = '', 3000);
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                documents.push({
+                    name: file.name,
+                    type: file.type,
+                    size: file.size,
+                    data: e.target.result
+                });
+                saveDocuments();
+                renderDocuments();
+                documentFile.value = '';
+                documentMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-green-500 rounded-lg bg-green-100';
+                documentMessage.textContent = 'Document uploaded successfully!';
+                setTimeout(() => documentMessage.textContent = '', 3000);
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // --- Reports Logic (New) ---
+        function renderReports(startDate = null, endDate = null) {
+            renderSalesChart(startDate, endDate);
+            renderProfitReport();
+        }
+
+        function renderSalesChart(startDate = null, endDate = null) {
+            // Use a default date range if none is provided
+            if (!startDate || !endDate) {
+                const today = new Date();
+                const defaultStartDate = new Date();
+                defaultStartDate.setDate(today.getDate() - 30);
+                startDate = defaultStartDate.toISOString().split('T')[0];
+                endDate = today.toISOString().split('T')[0];
+                reportStartDateInput.value = startDate;
+                reportEndDateInput.value = endDate;
+            }
+
+            const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            const salesByDate = {};
+            
+            // Filter sales data by date range
+            const filteredSales = dailySales.filter(sale => sale.date >= startDate && sale.date <= endDate);
+
+            filteredSales.forEach(sale => {
+                const totalSales = sale.cash + sale.card + sale.uber + sale.justeat + sale.deliveroo + sale.website + sale.advance + sale.toogoodtogo;
+                if (salesByDate[sale.date]) {
+                    salesByDate[sale.date] += totalSales;
+                } else {
+                    salesByDate[sale.date] = totalSales;
+                }
+            });
+
+            const sortedDates = Object.keys(salesByDate).sort();
+            const salesData = sortedDates.map(date => salesByDate[date]);
+            const labels = sortedDates.map(dateStr => {
+                const date = new Date(dateStr);
+                return `${daysOfWeek[date.getDay()]} (${date.getDate()})`;
+            });
+
+            // Get sales target and determine point colors
+            const salesTarget = getSalesTarget();
+            const pointColors = salesData.map(sale => {
+                if (salesTarget > 0) {
+                    if (sale >= salesTarget) {
+                        return '#10b981'; // green
+                    } else if (sale >= salesTarget * 0.9) {
+                        return '#f59e0b'; // amber
+                    } else {
+                        return '#ef4444'; // red
+                    }
+                }
+                return '#4f46e5'; // default indigo
+            });
+
+            // If a chart instance already exists, destroy it before creating a new one
+            if (window.salesChartInstance) {
+                window.salesChartInstance.destroy();
+            }
+
+            window.salesChartInstance = new Chart(salesChartCanvas, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Daily Total Sales (£)',
+                        data: salesData,
+                        borderColor: '#4f46e5',
+                        backgroundColor: 'rgba(79, 70, 229, 0.2)',
+                        pointBackgroundColor: pointColors, // Set point colors based on target
+                        pointRadius: 5,
+                        pointHoverRadius: 8,
+                        tension: 0.1,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: false,
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Total Sales (£)'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderProfitReport() {
+            profitReportBody.innerHTML = '';
+            if (menuItems.length === 0) {
+                profitReportBody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-600 py-4">No menu items to analyze.</td></tr>';
+                return;
+            }
+
+            menuItems.forEach(item => {
+                // Ensure COGS is calculated for the report
+                item.cogs = calculateCogs(item.ingredients);
+                const profit = item.dineInPrice - item.cogs;
+                const profitMargin = item.dineInPrice > 0 ? (profit / item.dineInPrice) * 100 : 0;
+                
+                const row = document.createElement('tr');
+                row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="py-3 px-4 text-gray-800">${item.name}</td>
+                    <td class="py-3 px-4 text-gray-800">£${item.cogs.toFixed(2)}</td>
+                    <td class="py-3 px-4 text-gray-800">£${item.dineInPrice ? item.dineInPrice.toFixed(2) : 'N/A'}</td>
+                    <td class="py-3 px-4 text-green-600 font-semibold">£${item.dineInPrice > 0 ? profit.toFixed(2) : 'N/A'}</td>
+                    <td class="py-3 px-4 text-green-600 font-semibold">${item.dineInPrice > 0 ? profitMargin.toFixed(2) : 'N/A'}%</td>
+                `;
+                profitReportBody.appendChild(row);
+            });
+        }
+        
         // --- Global Data Management (Confirmation & Downloads) ---
         confirmDeleteBtn.addEventListener('click', () => {
             if (pendingDeleteType === 'master-ingredient') {
@@ -1233,6 +1596,7 @@
                     dailySales.splice(pendingDeleteIndex, 1);
                     saveDailySales();
                     renderDailySales();
+                    renderReports(); // Update reports
                 }
             } else if (pendingDeleteType === 'purchases') {
                 if (pendingDeleteIndex !== -1) {
@@ -1245,6 +1609,12 @@
                     salary.splice(pendingDeleteIndex, 1);
                     saveSalary();
                     renderSalary();
+                }
+            } else if (pendingDeleteType === 'documents') {
+                if (pendingDeleteIndex !== -1) {
+                    documents.splice(pendingDeleteIndex, 1);
+                    saveDocuments();
+                    renderDocuments();
                 }
             }
             pendingDeleteIndex = -1;
@@ -1284,7 +1654,7 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFontSize(18);
-            doc.text("Daily Sales Report", 14, 20);
+            doc.text(`Restaurant Manager - Daily Sales Report`, 14, 20);
             doc.setFontSize(12);
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
             const tableColumn = ["Date", "Cash (£)", "Card (£)", "Online (£)", "Total (£)"];
@@ -1386,7 +1756,7 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFontSize(18);
-            doc.text("Daily Purchases Report", 14, 20);
+            doc.text(`Restaurant Manager - Daily Purchases Report`, 14, 20);
             doc.setFontSize(12);
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
             const tableColumn = ["Date", "Item/Service", "Total Cost (£)"];
@@ -1481,18 +1851,20 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFontSize(18);
-            doc.text("Salary Report", 14, 20);
+            doc.text(`Restaurant Manager - Salary Report`, 14, 20);
             doc.setFontSize(12);
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
             if (selectedEmployees.length > 0 && selectedEmployees[0] !== "") {
                 doc.text(`Employees: ${selectedEmployees.join(', ')}`, 14, 37);
             }
 
-            const tableColumn = ["Date", "Employee Name", "Payment Type", "Amount (£)"];
+            const tableColumn = ["Date", "Employee Name", "Payment Type", "Hours", "Hourly Rate (£)", "Amount (£)"];
             const tableRows = filteredSalary.map(payment => [
                 payment.date,
                 payment.employee,
                 payment.type,
+                payment.hours.toFixed(2),
+                payment.rate.toFixed(2),
                 payment.amount.toFixed(2)
             ]);
             doc.autoTable({
@@ -1537,11 +1909,13 @@
                 return;
             }
 
-            const headers = ["Date", "Employee Name", "Payment Type", "Amount"];
+            const headers = ["Date", "Employee Name", "Payment Type", "Hours", "Hourly Rate", "Amount"];
             const rows = filteredSalary.map(payment => [
                 `"${payment.date}"`,
                 `"${payment.employee}"`,
                 `"${payment.type}"`,
+                `"${payment.hours}"`,
+                `"${payment.rate}"`,
                 `"${payment.amount}"`
             ].join(","));
             const csvContent = [headers.join(","), ...rows].join("\n");
@@ -1556,11 +1930,92 @@
             document.body.removeChild(link);
         });
         
-        // Initial state: show master ingredients tab
-        switchTab(masterTab, masterSection);
-        renderIngredients();
-        renderMenuItems();
-        renderSalary();
+        // --- Initial setup function
+        function initializeApp() {
+            switchTab(masterTab, masterSection);
+            renderIngredients();
+            renderMenuItems();
+            renderSalary();
+            renderDocuments();
+            renderReports(); 
+        }
+
+        // Event listeners for the new report features
+        filterSalesBtn.addEventListener('click', () => {
+            const startDate = reportStartDateInput.value;
+            const endDate = reportEndDateInput.value;
+            const salesTarget = parseFloat(salesTargetInput.value);
+            if (!isNaN(salesTarget) && salesTarget > 0) {
+                saveSalesTarget(salesTarget);
+            }
+            renderSalesChart(startDate, endDate);
+        });
+
+        downloadSalesReportPdfBtn.addEventListener('click', () => {
+            const startDate = reportStartDateInput.value;
+            const endDate = reportEndDateInput.value;
+            const salesTarget = getSalesTarget();
+
+            if (!startDate || !endDate) {
+                alert('Please select a valid date range.');
+                return;
+            }
+
+            const filteredSales = dailySales.filter(sale => {
+                return sale.date >= startDate && sale.date <= endDate;
+            });
+
+            if (filteredSales.length === 0) {
+                alert('No sales data found for the selected date range.');
+                return;
+            }
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFontSize(18);
+            doc.text(`Restaurant Manager - Daily Sales Report`, 14, 20);
+            doc.setFontSize(12);
+            doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
+            if (salesTarget > 0) {
+                doc.text(`Daily Sales Target: £${salesTarget.toFixed(2)}`, 14, 37);
+            }
+
+            const tableColumn = ["Date", "Day of Week", "Total Sales (£)", "Status"];
+            const tableRows = filteredSales.map(sale => {
+                const total = sale.cash + sale.card + sale.uber + sale.justeat + sale.deliveroo + sale.website + sale.advance + sale.toogoodtogo;
+                const date = new Date(sale.date);
+                const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][date.getDay()];
+                
+                let status = 'N/A';
+                if (salesTarget > 0) {
+                    if (total >= salesTarget) {
+                        status = 'Target Met';
+                    } else if (total >= salesTarget * 0.9) {
+                        status = '10% Below Target';
+                    } else {
+                        status = 'Below Target';
+                    }
+                }
+                
+                return [
+                    sale.date,
+                    dayOfWeek,
+                    total.toFixed(2),
+                    status
+                ];
+            });
+            doc.autoTable({
+                head: [tableColumn],
+                body: tableRows,
+                startY: salesTarget > 0 ? 45 : 40,
+                styles: { fontSize: 10, cellPadding: 2 },
+                headStyles: { fillColor: [243, 244, 246], textColor: [0, 0, 0] }
+            });
+            doc.save(`Sales_Report_${startDate}_to_${endDate}.pdf`);
+        });
+
+        // Call the initial setup function when the script loads
+        initializeApp();
 
     </script>
 </body>
