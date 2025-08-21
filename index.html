@@ -605,7 +605,7 @@
         const authPasswordInput = document.getElementById('auth-password');
         const authSigninBtn = document.getElementById('auth-signin-btn');
         const authSignupBtn = document.getElementById('auth-signup-btn');
-        const forgotPasswordBtn = document.getElementById('forgot-password-btn'); // New forgot password button
+        const forgotPasswordBtn = document.getElementById('forgot-password-btn');
         const authGoogleBtn = document.getElementById('auth-google-btn');
         const mainLogoutBtn = document.getElementById('main-logout-btn');
         const authMessage = document.getElementById('auth-message');
@@ -2079,8 +2079,6 @@
         downloadSalaryCsvBtn.addEventListener('click', () => {
             const startDate = downloadSalaryStartDateInput.value;
             const endDate = downloadSalaryEndDateInput.value;
-            const selectedEmployees = Array.from(downloadSalaryEmployeesSelect.selectedOptions).map(opt => opt.value);
-            
             if (!startDate || !endDate) {
                 const downloadMessage = document.createElement('div');
                 downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
