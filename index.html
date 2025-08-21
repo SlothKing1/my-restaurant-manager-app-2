@@ -40,12 +40,62 @@
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
 
-    <div id="app-content" class="container bg-white rounded-xl shadow-2xl p-8 w-full">
-        <!-- Title and Description -->
+    <!-- Authentication Section (visible on load) -->
+    <div id="auth-section" class="bg-white p-8 rounded-2xl shadow-xl max-w-sm w-full">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Welcome Back</h2>
+        <div class="mb-4">
+            <label for="auth-email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input type="email" id="auth-email" placeholder="email@example.com" class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+        <div class="mb-2">
+            <label for="auth-password" class="block text-sm font-medium text-gray-700">Password</label>
+            <input type="password" id="auth-password" placeholder="Password" class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        </div>
+        <div class="flex justify-end mb-6">
+            <button id="forgot-password-btn" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
+                Forgot Password?
+            </button>
+        </div>
+        <div class="space-y-4">
+            <button id="auth-signin-btn" class="w-full p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200">
+                Sign In
+            </button>
+            <button id="auth-signup-btn" class="w-full p-3 text-indigo-600 font-bold rounded-lg border border-indigo-600 hover:bg-indigo-50 transition-colors duration-200">
+                Create Account
+            </button>
+            <div class="flex items-center my-4">
+                <div class="flex-grow border-t border-gray-300"></div>
+                <span class="flex-shrink mx-4 text-gray-400">OR</span>
+                <div class="flex-grow border-t border-gray-300"></div>
+            </div>
+            <button id="auth-google-btn" class="w-full p-3 text-gray-800 font-bold rounded-lg bg-white border border-gray-300 hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center space-x-2">
+                <svg class="h-5 w-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.619 4.357-6.527 6.32-10.703 6.32-6.101 0-11.104-5.021-11.104-11.233 0-6.213 5.003-11.234 11.104-11.234 3.359 0 6.042 1.139 8.325 3.322l7.57-7.573c-4.646-4.511-10.934-7.247-18.195-7.247-13.375 0-24.168 10.875-24.168 24.25S10.375 48 23.75 48c12.75 0 22.952-11.17 22.952-24.25 0-1.554-.188-3.111-.462-4.629z"/>
+                    <path fill="#FF3D00" d="M6.321 14.853l7.575 7.643c.87-2.584 2.895-5.006 5.86-7.583H6.321z"/>
+                    <path fill="#4CAF50" d="M23.75 44c-5.166 0-9.945-2.29-13.24-6.002l-7.581 7.58c3.463 4.295 8.358 6.582 13.521 6.582 8.783 0 16.033-6.299 18.714-14.718l-7.572-7.571c-2.355 5.753-8.835 10.11-12.835 10.11z"/>
+                    <path fill="#1976D2" d="M43.611 20.083H42V20h-18v8h11.303a12.16 12.16 0 01-2.923 5.795l7.579 7.576A23.518 23.518 0 0023.75 4c-4.845 0-9.351 1.83-12.735 4.972l7.576 7.576c2.449-1.849 5.378-2.926 8.163-2.926 2.062 0 4.041.678 5.642 2.05z"/>
+                </svg>
+                <span>Sign in with Google</span>
+            </button>
+        </div>
+        <p id="auth-message" class="mt-4 text-center text-sm font-medium text-red-500"></p>
+    </div>
+
+    <!-- Main App Content (hidden on load) -->
+    <div id="app-container" class="container bg-white rounded-xl shadow-2xl p-8 w-full hidden">
+        <!-- Header with Sign Out button -->
         <div class="flex items-center justify-between mb-8">
-            <div class="text-center">
+            <div class="text-left">
                 <h1 id="app-title" class="text-4xl font-extrabold text-gray-800">Restaurant Manager</h1>
                 <p class="mt-2 text-lg text-gray-500">Your all-in-one tool for costing, sales, and purchases.</p>
+            </div>
+            <div class="flex flex-col items-end">
+                <button id="main-logout-btn" class="p-2 text-white bg-red-500 hover:bg-red-600 rounded-lg shadow transition-colors duration-200">
+                    Sign Out
+                </button>
+                <div id="user-info" class="text-xs font-mono text-gray-500 mt-2">
+                    User ID: <span id="user-id"></span>
+                </div>
             </div>
         </div>
 
@@ -473,16 +523,16 @@
                 <div class="overflow-x-auto">
                     <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
                         <thead class="bg-gray-100 border-b border-gray-200">
-                            <tr>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Menu Item</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600">COGS (£)</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Dine-In Price (£)</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Profit (£)</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Profit Margin (%)</th>
-                            </tr>
+                        <tr>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Menu Item</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">COGS (£)</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Dine-In Price (£)</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Profit (£)</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Profit Margin (%)</th>
+                        </tr>
                         </thead>
                         <tbody id="profit-report-body">
-                            <!-- Profit report rows will be dynamically inserted here -->
+                        <!-- Profit report rows will be dynamically inserted here -->
                         </tbody>
                     </table>
                 </div>
@@ -511,49 +561,57 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
     
-
-    <script>
-        // --- Core Data Structures & Local Storage Functions ---
-        let masterIngredients;
-        let menuItems;
-        let dailySales;
-        let dailyPurchases;
-        let salary;
-        let documents;
+    <!-- Firebase SDK Imports -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, doc, onSnapshot, setDoc, addDoc, updateDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
-        try {
-            masterIngredients = JSON.parse(localStorage.getItem('masterIngredients')) || [];
-            menuItems = JSON.parse(localStorage.getItem('menuItems')) || [];
-            dailySales = JSON.parse(localStorage.getItem('dailySales')) || [];
-            dailyPurchases = JSON.parse(localStorage.getItem('dailyPurchases')) || [];
-            salary = JSON.parse(localStorage.getItem('salary')) || [];
-            documents = JSON.parse(localStorage.getItem('documents')) || [];
-        } catch (e) {
-            console.error("Error parsing data from local storage. Resetting data.", e);
-            masterIngredients = [];
-            menuItems = [];
-            dailySales = [];
-            dailyPurchases = [];
-            salary = [];
-            documents = [];
-            localStorage.clear();
-        }
+        // --- Firebase Configuration & Initialization ---
+        // Your Firebase configuration object.
+        const firebaseConfig = {
+            apiKey: "AIzaSyAbg7QkC0I9saYVTgnlOSiWgJOoGlBIJ4k",
+            authDomain: "my-web-app-4da9b.firebaseapp.com",
+            projectId: "my-web-app-4da9b",
+            storageBucket: "my-web-app-4da9b.firebasestorage.app",
+            messagingSenderId: "981498815324",
+            appId: "1:981498815324:web:2a4dec6a183768efffd799"
+        };
         
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
 
-        function saveIngredients() { localStorage.setItem('masterIngredients', JSON.stringify(masterIngredients)); }
-        function saveMenuItems() { localStorage.setItem('menuItems', JSON.stringify(menuItems)); }
-        function saveDailySales() { localStorage.setItem('dailySales', JSON.stringify(dailySales)); }
-        function saveDailyPurchases() { localStorage.setItem('dailyPurchases', JSON.stringify(dailyPurchases)); }
-        function saveSalary() { localStorage.setItem('salary', JSON.stringify(salary)); }
-        function saveDocuments() { localStorage.setItem('documents', JSON.stringify(documents)); }
-        function saveSalesTarget(target) { localStorage.setItem('salesTarget', target); }
-        function getSalesTarget() { return localStorage.getItem('salesTarget') ? parseFloat(localStorage.getItem('salesTarget')) : 0; }
+        // Global variables for data
+        let masterIngredients = [];
+        let menuItems = [];
+        let dailySales = [];
+        let dailyPurchases = [];
+        let salary = [];
+        let documents = [];
 
+        let userId = null;
+        let isAuthReady = false;
+
+        // Document ID for single-document data storage
+        const DOC_ID = 'restaurant-data';
 
         // --- DOM Elements & Event Listeners ---
-        const appContent = document.getElementById('app-content');
-        const appTitle = document.getElementById('app-title');
+        const authSection = document.getElementById('auth-section');
+        const appContainer = document.getElementById('app-container');
+        const authEmailInput = document.getElementById('auth-email');
+        const authPasswordInput = document.getElementById('auth-password');
+        const authSigninBtn = document.getElementById('auth-signin-btn');
+        const authSignupBtn = document.getElementById('auth-signup-btn');
+        const forgotPasswordBtn = document.getElementById('forgot-password-btn'); // New forgot password button
+        const authGoogleBtn = document.getElementById('auth-google-btn');
+        const mainLogoutBtn = document.getElementById('main-logout-btn');
+        const authMessage = document.getElementById('auth-message');
+        const userIdSpan = document.getElementById('user-id');
         
+        // The rest of the DOM elements from the original code
         const masterTab = document.getElementById('master-tab');
         const menuTab = document.getElementById('menu-tab');
         const salesTab = document.getElementById('sales-tab');
@@ -676,6 +734,159 @@
         // Set initial sales target from local storage
         salesTargetInput.value = getSalesTarget();
 
+        // --- Authentication Logic ---
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in, show app content
+                userId = user.uid;
+                isAuthReady = true;
+                authSection.classList.add('hidden');
+                appContainer.classList.remove('hidden');
+                userIdSpan.textContent = userId;
+                setupDataListeners(userId);
+            } else {
+                // User is signed out, show auth form
+                isAuthReady = false;
+                userId = null;
+                authSection.classList.remove('hidden');
+                appContainer.classList.add('hidden');
+            }
+        });
+
+        authSignupBtn.addEventListener('click', async () => {
+            const email = authEmailInput.value;
+            const password = authPasswordInput.value;
+            authMessage.textContent = '';
+            if (email.trim() === '' || password.trim() === '') {
+                authMessage.textContent = 'Please enter an email and password.';
+                return;
+            }
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                authMessage.textContent = `Error: ${error.message}`;
+            }
+        });
+
+        authSigninBtn.addEventListener('click', async () => {
+            const email = authEmailInput.value;
+            const password = authPasswordInput.value;
+            authMessage.textContent = '';
+            if (email.trim() === '' || password.trim() === '') {
+                authMessage.textContent = 'Please enter an email and password.';
+                return;
+            }
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                authMessage.textContent = `Error: ${error.message}`;
+            }
+        });
+
+        authGoogleBtn.addEventListener('click', async () => {
+            authMessage.textContent = '';
+            try {
+                const provider = new GoogleAuthProvider();
+                await signInWithPopup(auth, provider);
+            } catch (error) {
+                authMessage.textContent = `Error: ${error.message}`;
+            }
+        });
+        
+        // New event listener for the forgot password button
+        forgotPasswordBtn.addEventListener('click', async () => {
+            const email = authEmailInput.value;
+            authMessage.textContent = '';
+            if (email.trim() === '') {
+                authMessage.textContent = 'Please enter your email address to reset your password.';
+                return;
+            }
+            try {
+                await sendPasswordResetEmail(auth, email);
+                authMessage.textContent = 'A password reset email has been sent to your address.';
+                authMessage.classList.remove('text-red-500');
+                authMessage.classList.add('text-green-500');
+            } catch (error) {
+                authMessage.textContent = `Error: ${error.message}`;
+                authMessage.classList.remove('text-green-500');
+                authMessage.classList.add('text-red-500');
+            }
+        });
+
+        mainLogoutBtn.addEventListener('click', async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error("Logout failed:", error);
+            }
+        });
+
+
+        // --- Firestore Real-Time Listeners ---
+        function setupDataListeners(uid) {
+            
+            // Listeners for the combined data document
+            onSnapshot(doc(db, `artifacts/${appId}/users/${uid}/private_data`, DOC_ID), (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    masterIngredients = data.masterIngredients || [];
+                    menuItems = data.menuItems || [];
+                    dailySales = data.dailySales || [];
+                    dailyPurchases = data.dailyPurchases || [];
+                    salary = data.salary || [];
+                    documents = data.documents || [];
+                } else {
+                    console.log("No data found for this user. Starting fresh.");
+                }
+                
+                // Re-render all sections after receiving data
+                renderAllData();
+            }, (error) => {
+                console.error("Error fetching data:", error);
+            });
+        }
+        
+        // Function to update Firestore
+        async function saveData() {
+            if (!isAuthReady) {
+                console.warn("Authentication not ready. Cannot save data.");
+                return;
+            }
+            try {
+                const docRef = doc(db, `artifacts/${appId}/users/${userId}/private_data`, DOC_ID);
+                await setDoc(docRef, {
+                    masterIngredients,
+                    menuItems,
+                    dailySales,
+                    dailyPurchases,
+                    salary,
+                    documents
+                });
+            } catch (e) {
+                console.error("Error saving data:", e);
+                const errorMessage = `Error saving data: ${e.message}`;
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                errorDiv.textContent = errorMessage;
+                document.body.appendChild(errorDiv);
+                setTimeout(() => errorDiv.remove(), 5000);
+            }
+        }
+        
+        // --- Core Data Structures & Functions (Updated for Firestore) ---
+        // Functions now call `saveData` after manipulating the local arrays
+        function saveIngredients() { saveData(); }
+        function saveMenuItems() { saveData(); }
+        function saveDailySales() { saveData(); }
+        function saveDailyPurchases() { saveData(); }
+        function saveSalary() { saveData(); }
+        function saveDocuments() { saveData(); }
+        function saveSalesTarget(target) { 
+            // Sales target remains in local storage as it is a user-specific preference, not part of core data.
+            localStorage.setItem('salesTarget', target);
+        }
+        function getSalesTarget() { return localStorage.getItem('salesTarget') ? parseFloat(localStorage.getItem('salesTarget')) : 0; }
+        
         // Function to switch tabs
         function switchTab(activeTab, activeSection) {
             const tabs = [masterTab, menuTab, salesTab, purchasesTab, salaryTab, documentsTab, reportsTab];
@@ -731,7 +942,7 @@
         function attachIngredientEventListeners() {
             // Delete button
             document.querySelectorAll('#ingredients-table-body .delete-ingredient-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+                btn.addEventListener('click', async (e) => {
                     const index = e.target.closest('button').dataset.index;
                     pendingDeleteIndex = index;
                     pendingDeleteType = 'master-ingredient';
@@ -754,7 +965,7 @@
             });
         }
         
-        addIngredientBtn.addEventListener('click', () => {
+        addIngredientBtn.addEventListener('click', async () => {
             const name = ingredientNameInput.value.trim();
             const unit = ingredientUnitInput.value.trim();
             const cost = parseFloat(ingredientCostInput.value);
@@ -763,8 +974,7 @@
                 return;
             }
             masterIngredients.push({ name, unit, cost });
-            saveIngredients();
-            renderIngredients();
+            await saveData();
             ingredientNameInput.value = '';
             ingredientUnitInput.value = '';
             ingredientCostInput.value = '';
@@ -825,7 +1035,7 @@
         });
 
         // Master Ingredients Upload
-        uploadIngredientsBtn.addEventListener('click', () => {
+        uploadIngredientsBtn.addEventListener('click', async () => {
             const file = uploadIngredientsFile.files[0];
             if (!file) {
                 masterMessage.textContent = 'Please select a CSV file to upload.';
@@ -833,7 +1043,7 @@
             }
 
             const reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = async (e) => {
                 const content = e.target.result;
                 const lines = content.split('\n');
                 const newIngredients = [];
@@ -855,9 +1065,7 @@
                     }
                 }
                 masterIngredients = newIngredients;
-                saveIngredients();
-                renderIngredients();
-                renderMenuItems();
+                await saveData();
                 masterMessage.textContent = `Successfully uploaded ${newIngredients.length} ingredients!`;
             };
             reader.readAsText(file);
@@ -1073,23 +1281,22 @@
             return 0;
         }
 
-        addMenuItemBtn.addEventListener('click', () => {
+        addMenuItemBtn.addEventListener('click', async () => {
             const name = menuItemNameInput.value.trim();
             const type = itemTypeSelect.value;
             const dineInPrice = parseFloat(dineInPriceInput.value);
             const takeAwayPrice = parseFloat(takeAwayPriceInput.value);
             if (!name) { return; }
             menuItems.push({ name, type, ingredients: [], cogs: 0, dineInPrice, takeAwayPrice });
-            saveMenuItems();
+            await saveData();
             menuItemNameInput.value = '';
             dineInPriceInput.value = '';
             takeAwayPriceInput.value = '';
-            renderMenuItems();
         });
 
         function attachMenuEventListeners() {
             document.querySelectorAll('.add-component-btn').forEach(btn => {
-                btn.addEventListener('click', () => {
+                btn.addEventListener('click', async () => {
                     const itemIndex = btn.dataset.item-index;
                     const item = menuItems[itemIndex];
                     const card = btn.closest('.p-6');
@@ -1102,8 +1309,7 @@
                     if (!name || isNaN(quantity) || quantity <= 0) { return; }
                     
                     item.ingredients.push({ name, quantity, type });
-                    saveMenuItems();
-                    renderMenuItems();
+                    await saveData();
                     
                     card.querySelector('.component-select').value = '';
                     card.querySelector('.component-quantity').value = '';
@@ -1121,12 +1327,11 @@
             });
             
             document.querySelectorAll('.remove-component-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
+                btn.addEventListener('click', async (e) => {
                     const itemIndex = e.target.closest('button').dataset.itemIndex;
                     const componentIndex = e.target.closest('button').dataset.componentIndex;
                     menuItems[itemIndex].ingredients.splice(componentIndex, 1);
-                    saveMenuItems();
-                    renderMenuItems();
+                    await saveData();
                 });
             });
             
@@ -1197,7 +1402,7 @@
             });
         }
 
-        addSalesBtn.addEventListener('click', () => {
+        addSalesBtn.addEventListener('click', async () => {
             const date = salesDateInput.value;
             const cash = parseFloat(salesCashInput.value) || 0;
             const card = parseFloat(salesCardInput.value) || 0;
@@ -1214,8 +1419,7 @@
             }
             
             dailySales.push({ date, cash, card, uber, justeat, deliveroo, website, advance, toogoodtogo });
-            saveDailySales();
-            renderDailySales();
+            await saveData();
             salesMessage.textContent = 'Sales recorded successfully!';
             
             // Clear input fields
@@ -1267,7 +1471,7 @@
             });
         }
         
-        addPurchaseBtn.addEventListener('click', () => {
+        addPurchaseBtn.addEventListener('click', async () => {
             const date = purchaseDateInput.value;
             const item = purchaseItemInput.value.trim();
             const cost = parseFloat(purchaseCostInput.value);
@@ -1276,8 +1480,7 @@
                 return;
             }
             dailyPurchases.push({ date, item, cost });
-            saveDailyPurchases();
-            renderPurchases();
+            await saveData();
             purchaseDateInput.value = today;
             purchaseItemInput.value = '';
             purchaseCostInput.value = '';
@@ -1336,7 +1539,7 @@
             });
         }
 
-        addSalaryBtn.addEventListener('click', () => {
+        addSalaryBtn.addEventListener('click', async () => {
             const date = salaryDateInput.value;
             const employee = salaryEmployeeInput.value.trim();
             const type = salaryTypeInput.value;
@@ -1351,8 +1554,7 @@
             const amount = hours * rate;
 
             salary.push({ date, employee, type, hours, rate, amount });
-            saveSalary();
-            renderSalary();
+            await saveData();
             salaryDateInput.value = today;
             salaryEmployeeInput.value = '';
             salaryHoursInput.value = '';
@@ -1418,7 +1620,7 @@
             });
         }
 
-        uploadDocumentBtn.addEventListener('click', () => {
+        uploadDocumentBtn.addEventListener('click', async () => {
             const file = documentFile.files[0];
             if (!file) {
                 documentMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
@@ -1428,15 +1630,14 @@
             }
 
             const reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = async (e) => {
                 documents.push({
                     name: file.name,
                     type: file.type,
                     size: file.size,
                     data: e.target.result
                 });
-                saveDocuments();
-                renderDocuments();
+                await saveData();
                 documentFile.value = '';
                 documentMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-green-500 rounded-lg bg-green-100';
                 documentMessage.textContent = 'Document uploaded successfully!';
@@ -1577,44 +1778,38 @@
         }
         
         // --- Global Data Management (Confirmation & Downloads) ---
-        confirmDeleteBtn.addEventListener('click', () => {
+        confirmDeleteBtn.addEventListener('click', async () => {
             if (pendingDeleteType === 'master-ingredient') {
                 if (pendingDeleteIndex !== -1) {
                     masterIngredients.splice(pendingDeleteIndex, 1);
-                    saveIngredients();
-                    renderIngredients();
+                    await saveData();
                     renderMenuItems(); // Recalculate COGS
                 }
             } else if (pendingDeleteType === 'menu-item') {
                 if (pendingDeleteIndex !== -1) {
                     menuItems.splice(pendingDeleteIndex, 1);
-                    saveMenuItems();
-                    renderMenuItems();
+                    await saveData();
                 }
             } else if (pendingDeleteType === 'sales') {
                 if (pendingDeleteIndex !== -1) {
                     dailySales.splice(pendingDeleteIndex, 1);
-                    saveDailySales();
-                    renderDailySales();
+                    await saveData();
                     renderReports(); // Update reports
                 }
             } else if (pendingDeleteType === 'purchases') {
                 if (pendingDeleteIndex !== -1) {
                     dailyPurchases.splice(pendingDeleteIndex, 1);
-                    saveDailyPurchases();
-                    renderPurchases();
+                    await saveData();
                 }
             } else if (pendingDeleteType === 'salary') {
                 if (pendingDeleteIndex !== -1) {
                     salary.splice(pendingDeleteIndex, 1);
-                    saveSalary();
-                    renderSalary();
+                    await saveData();
                 }
             } else if (pendingDeleteType === 'documents') {
                 if (pendingDeleteIndex !== -1) {
                     documents.splice(pendingDeleteIndex, 1);
-                    saveDocuments();
-                    renderDocuments();
+                    await saveData();
                 }
             }
             pendingDeleteIndex = -1;
@@ -1633,10 +1828,11 @@
             const startDate = downloadStartDateInput.value;
             const endDate = downloadEndDateInput.value;
             if (!startDate || !endDate) {
+                // Using a custom message box instead of alert()
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
                 downloadMessage.textContent = 'Please select a start and end date for the download.';
-                downloadPdfBtn.parentElement.appendChild(downloadMessage);
+                document.body.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1645,9 +1841,9 @@
             });
             if (filteredSales.length === 0) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
                 downloadMessage.textContent = 'No sales data found for the selected date range.';
-                downloadPdfBtn.parentElement.appendChild(downloadMessage);
+                document.body.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1685,9 +1881,9 @@
             const endDate = downloadEndDateInput.value;
             if (!startDate || !endDate) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
                 downloadMessage.textContent = 'Please select a start and end date for the download.';
-                downloadCsvBtn.parentElement.appendChild(downloadMessage);
+                document.body.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1696,9 +1892,9 @@
             });
             if (filteredSales.length === 0) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
                 downloadMessage.textContent = 'No sales data found for the selected date range.';
-                downloadCsvBtn.parentElement.appendChild(downloadMessage);
+                document.body.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1736,9 +1932,9 @@
             const endDate = downloadPurchaseEndDateInput.value;
             if (!startDate || !endDate) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
                 downloadMessage.textContent = 'Please select a start and end date for the download.';
-                downloadPurchasePdfBtn.parentElement.appendChild(downloadMessage);
+                document.body.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1747,9 +1943,9 @@
             });
             if (filteredPurchases.length === 0) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
                 downloadMessage.textContent = 'No purchase data found for the selected date range.';
-                downloadPurchasePdfBtn.parentElement.appendChild(downloadMessage);
+                document.body.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1781,9 +1977,9 @@
             const endDate = downloadPurchaseEndDateInput.value;
             if (!startDate || !endDate) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
                 downloadMessage.textContent = 'Please select a start and end date for the download.';
-                downloadPurchaseCsvBtn.parentElement.appendChild(downloadMessage);
+                document.body.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1792,9 +1988,9 @@
             });
             if (filteredPurchases.length === 0) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
                 downloadMessage.textContent = 'No purchase data found for the selected date range.';
-                downloadPurchaseCsvBtn.parentElement.appendChild(downloadMessage);
+                document.body.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1824,9 +2020,9 @@
             
             if (!startDate || !endDate) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
                 downloadMessage.textContent = 'Please select a start and end date for the download.';
-                downloadSalaryPdfBtn.parentElement.appendChild(downloadMessage);
+                document.body.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1841,9 +2037,9 @@
 
             if (filteredSalary.length === 0) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
                 downloadMessage.textContent = 'No salary data found for the selected criteria.';
-                downloadSalaryPdfBtn.parentElement.appendChild(downloadMessage);
+                document.body.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1885,9 +2081,9 @@
             
             if (!startDate || !endDate) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
                 downloadMessage.textContent = 'Please select a start and end date for the download.';
-                downloadSalaryCsvBtn.parentElement.appendChild(downloadMessage);
+                document.body.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1902,9 +2098,9 @@
             
             if (filteredSalary.length === 0) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
                 downloadMessage.textContent = 'No salary data found for the selected criteria.';
-                downloadSalaryCsvBtn.parentElement.appendChild(downloadMessage);
+                document.body.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1931,10 +2127,11 @@
         });
         
         // --- Initial setup function
-        function initializeApp() {
-            switchTab(masterTab, masterSection);
+        function renderAllData() {
             renderIngredients();
             renderMenuItems();
+            renderDailySales();
+            renderPurchases();
             renderSalary();
             renderDocuments();
             renderReports(); 
@@ -1957,7 +2154,12 @@
             const salesTarget = getSalesTarget();
 
             if (!startDate || !endDate) {
-                alert('Please select a valid date range.');
+                // Using a custom message box instead of alert()
+                const downloadMessage = document.createElement('div');
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.textContent = 'Please select a valid date range.';
+                document.body.appendChild(downloadMessage);
+                setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
 
@@ -1966,7 +2168,11 @@
             });
 
             if (filteredSales.length === 0) {
-                alert('No sales data found for the selected date range.');
+                const downloadMessage = document.createElement('div');
+                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.textContent = 'No sales data found for the selected date range.';
+                document.body.appendChild(downloadMessage);
+                setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
 
@@ -2013,9 +2219,6 @@
             });
             doc.save(`Sales_Report_${startDate}_to_${endDate}.pdf`);
         });
-
-        // Call the initial setup function when the script loads
-        initializeApp();
 
     </script>
 </body>
