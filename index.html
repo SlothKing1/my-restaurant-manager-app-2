@@ -6,14 +6,20 @@
     <title>Restaurant Manager</title>
     <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts for a modern look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* Use the Inter font family */
         body {
             font-family: 'Inter', sans-serif;
             background-color: #f3f4f6;
         }
         .container {
-            max-width: 1100px;
+            max-width: 1200px; /* Increased max-width for better layout on larger screens */
         }
+        /* Hide number input spinners for a cleaner look */
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -21,6 +27,10 @@
         }
         input[type="number"] {
             -moz-appearance: textfield;
+        }
+        /* Simple transition for tab content visibility */
+        .tab-content {
+            transition: opacity 0.3s ease-in-out;
         }
         .hidden {
             display: none;
@@ -42,13 +52,12 @@
         <div id="login-message" class="mt-4 text-center text-sm font-medium text-red-500 hidden">Incorrect password. Please try again.</div>
     </div>
 
+    <!-- Main Application Content -->
     <div id="app-content" class="container bg-white rounded-xl shadow-2xl p-8 w-full hidden">
-        <!-- Title and Description -->
-        <div class="flex items-center justify-between mb-8">
-            <div class="text-center">
-                <h1 class="text-4xl font-extrabold text-gray-800">Restaurant Manager</h1>
-                <p class="mt-2 text-lg text-gray-500">Your all-in-one tool for costing, sales, and purchases.</p>
-            </div>
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-extrabold text-gray-800">Restaurant Manager</h1>
+            <p class="mt-2 text-lg text-gray-500">Your all-in-one tool for costing, sales, and purchases.</p>
         </div>
 
         <!-- Navigation Tabs -->
@@ -73,7 +82,7 @@
         <!-- Content Sections -->
 
         <!-- Master Ingredients Section -->
-        <div id="master-section" class="p-6 bg-gray-50 rounded-lg transition-opacity duration-300 ease-in-out">
+        <div id="master-section" class="tab-content p-6 bg-gray-50 rounded-lg">
             <h2 class="text-2xl font-bold mb-4 text-gray-700">Master Ingredients</h2>
             
             <!-- Add New Ingredient Form -->
@@ -144,7 +153,7 @@
         </div>
 
         <!-- Menu Items & Platters Section -->
-        <div id="menu-section" class="p-6 bg-gray-50 rounded-lg hidden transition-opacity duration-300 ease-in-out">
+        <div id="menu-section" class="tab-content p-6 bg-gray-50 rounded-lg hidden">
             <h2 class="text-2xl font-bold mb-4 text-gray-700">Menu Costing</h2>
 
             <!-- Add New Menu Item Form -->
@@ -180,7 +189,7 @@
         </div>
         
         <!-- Daily Sales Section -->
-        <div id="sales-section" class="p-6 bg-gray-50 rounded-lg hidden transition-opacity duration-300 ease-in-out">
+        <div id="sales-section" class="tab-content p-6 bg-gray-50 rounded-lg hidden">
             <h2 class="text-2xl font-bold mb-4 text-gray-700">Daily Sales & Bookings</h2>
             
             <!-- Record Sales Form -->
@@ -255,7 +264,7 @@
         </div>
 
         <!-- Purchases Section -->
-        <div id="purchases-section" class="p-6 bg-gray-50 rounded-lg hidden transition-opacity duration-300 ease-in-out">
+        <div id="purchases-section" class="tab-content p-6 bg-gray-50 rounded-lg hidden">
             <h2 class="text-2xl font-bold mb-4 text-gray-700">Purchases & Expenses</h2>
 
             <!-- Record Purchase Form -->
@@ -322,7 +331,7 @@
         </div>
         
         <!-- Salary Section -->
-        <div id="salary-section" class="p-6 bg-gray-50 rounded-lg hidden transition-opacity duration-300 ease-in-out">
+        <div id="salary-section" class="tab-content p-6 bg-gray-50 rounded-lg hidden">
             <h2 class="text-2xl font-bold mb-4 text-gray-700">Salary</h2>
 
             <!-- Record Salary Form -->
@@ -426,16 +435,16 @@
     
     <!-- Firebase SDKs -->
     <script type="module">
+        // IMPORTANT: Replace with your actual Firebase project configuration
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
-        // Firebase configuration provided by the user
+        // Firebase configuration 
         const firebaseConfig = {
           apiKey: "AIzaSyAoWY28i0hP3DN2t8fw2A61rBDw2yoIwS0",
           authDomain: "my-web-app2-c8dd0.firebaseapp.com",
           projectId: "my-web-app2-c8dd0",
-          storageBucket: "my-web-app2-c8dd0.firebasestorage.app",
+          storageBucket: "my-web-app2-c8dd0.appspot.com",
           messagingSenderId: "430499672591",
           appId: "1:430499672591:web:f11185605aece22dbee97a"
         };
@@ -453,15 +462,15 @@
         
         // Initialize Firebase.
         try {
-            initializeApp(firebaseConfig);
-            db = getFirestore();
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
         } catch (e) {
             console.error("Firebase initialization failed:", e);
         }
 
         // Firestore data saving function
         async function saveDataToFirestore() {
-            // The path is to a "public" collection, meaning it's not tied to a specific user.
+            if (!db) return;
             const dataRef = doc(db, 'public', mainDocId);
             const data = {
                 masterIngredients,
@@ -471,7 +480,7 @@
                 salary
             };
             try {
-                await setDoc(dataRef, data);
+                await setDoc(dataRef, data, { merge: true });
             } catch (e) {
                 console.error("Error writing document: ", e);
             }
@@ -479,7 +488,7 @@
         
         // Use onSnapshot to get real-time updates for all data
         function setupFirestoreListeners() {
-            // Reference to the public document
+            if (!db) return;
             const dataRef = doc(db, 'public', mainDocId);
 
             onSnapshot(dataRef, (docSnap) => {
@@ -506,7 +515,6 @@
                 renderSalary();
             }, (error) => {
                 console.error("Error listening to data:", error);
-                // Handle error gracefully
             });
         }
         
@@ -625,8 +633,7 @@
             if (passwordInput.value === correctPassword) {
                 loginContainer.classList.add('hidden');
                 appContent.classList.remove('hidden');
-                // Initial render of the content after successful login
-                // Now we initiate the Firebase listener
+                // Initiate the Firebase listener after successful login
                 setupFirestoreListeners();
                 switchTab(masterTab, masterSection);
             } else {
@@ -690,7 +697,7 @@
             // Delete button
             document.querySelectorAll('#ingredients-table-body .delete-ingredient-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const index = e.target.closest('button').dataset.index;
+                    const index = e.currentTarget.dataset.index;
                     pendingDeleteIndex = index;
                     pendingDeleteType = 'master-ingredient';
                     confirmModal.classList.remove('hidden');
@@ -700,7 +707,7 @@
 
             // Editable cost input
             document.querySelectorAll('#ingredients-table-body input[type="number"]').forEach(input => {
-                input.addEventListener('input', (e) => {
+                input.addEventListener('change', (e) => { // Use 'change' to save only when focus is lost
                     const index = e.target.dataset.index;
                     const newCost = parseFloat(e.target.value);
                     if (!isNaN(newCost) && newCost >= 0) {
@@ -731,11 +738,7 @@
         // Master Ingredients Download
         downloadIngredientsPdfBtn.addEventListener('click', () => {
             if (masterIngredients.length === 0) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'No ingredients to download.';
-                downloadIngredientsPdfBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadIngredientsPdfBtn, 'No ingredients to download.');
                 return;
             }
             const { jsPDF } = window.jspdf;
@@ -756,18 +759,14 @@
 
         downloadIngredientsCsvBtn.addEventListener('click', () => {
             if (masterIngredients.length === 0) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'No ingredients to download.';
-                downloadIngredientsCsvBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadIngredientsCsvBtn, 'No ingredients to download.');
                 return;
             }
             const headers = ["Ingredient Name", "Unit", "Cost per Unit"];
             const rows = masterIngredients.map(ing => [
-                `"${ing.name}"`,
-                `"${ing.unit}"`,
-                `"${ing.cost}"`
+                `"${ing.name.replace(/"/g, '""')}"`, // Handle quotes in names
+                `"${ing.unit.replace(/"/g, '""')}"`,
+                ing.cost
             ].join(","));
             const csvContent = [headers.join(","), ...rows].join("\n");
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -792,7 +791,7 @@
             const reader = new FileReader();
             reader.onload = (e) => {
                 const content = e.target.result;
-                const lines = content.split('\n');
+                const lines = content.split(/\r?\n/); // Handle different line endings
                 const newIngredients = [];
                 const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
                 if (headers[0] !== 'Ingredient Name' || headers[1] !== 'Unit' || headers[2] !== 'Cost per Unit') {
@@ -822,21 +821,17 @@
 
 
         // --- Menu Items & Platters Logic ---
-        function getIngredientCost(name) {
-            const ingredient = masterIngredients.find(ing => ing.name === name);
-            return ingredient ? ingredient.cost : 0;
-        }
-
         function calculateCogs(ingredients) {
             let totalCogs = 0;
+            if (!ingredients) return 0;
             ingredients.forEach(item => {
                 let cost = 0;
                 if (item.type === 'ingredient') {
                     const masterIng = masterIngredients.find(ing => ing.name === item.name);
                     cost = masterIng ? masterIng.cost * item.quantity : 0;
-                } else if (item.type !== 'ingredient') {
+                } else { // It's a dish/platter etc.
                     const dish = menuItems.find(menuItem => menuItem.name === item.name);
-                    cost = dish ? dish.cogs * item.quantity : 0;
+                    cost = dish ? calculateCogs(dish.ingredients) * item.quantity : 0; // Recursive calculation
                 }
                 totalCogs += cost;
             });
@@ -848,11 +843,11 @@
             let colorClass = 'text-gray-400';
             if (percent > 0 && percent <= 30) {
                 colorClass = 'text-yellow-400';
-            } else if (percent >= 31 && percent <= 35) {
+            } else if (percent > 30 && percent <= 35) {
                 colorClass = 'text-green-500';
-            } else if (percent >= 36 && percent <= 40) {
+            } else if (percent > 35 && percent <= 40) {
                 colorClass = 'text-amber-500';
-            } else if (percent >= 41) {
+            } else if (percent > 40) {
                 colorClass = 'text-red-500';
             }
             
@@ -873,15 +868,15 @@
                 return;
             }
             data.forEach((item, index) => {
-                item.cogs = calculateCogs(item.ingredients);
+                const cogs = calculateCogs(item.ingredients);
                 const dineInVat = item.dineInPrice ? item.dineInPrice * 0.20 : 0;
                 const takeAwayVat = item.takeAwayPrice ? item.takeAwayPrice * 0.20 : 0;
                 
-                const dineInCogsPercent = item.dineInPrice > 0 ? (item.cogs / item.dineInPrice) * 100 : 0;
-                const takeAwayCogsPercent = item.takeAwayPrice > 0 ? (item.cogs / item.takeAwayPrice) * 100 : 0;
+                const dineInCogsPercent = item.dineInPrice > 0 ? (cogs / item.dineInPrice) * 100 : 0;
+                const takeAwayCogsPercent = item.takeAwayPrice > 0 ? (cogs / item.takeAwayPrice) * 100 : 0;
                 
-                const dineInCogsWithVat = item.cogs + dineInVat;
-                const takeAwayCogsWithVat = item.cogs + takeAwayVat;
+                const dineInCogsWithVat = cogs + dineInVat;
+                const takeAwayCogsWithVat = cogs + takeAwayVat;
 
                 const itemCard = document.createElement('div');
                 itemCard.className = 'p-6 bg-white rounded-lg shadow-md border border-gray-200';
@@ -890,7 +885,7 @@
                         <h3 class="text-xl font-bold text-gray-800">${item.name} (${item.type.charAt(0).toUpperCase() + item.type.slice(1)})</h3>
                         <div class="flex items-center space-x-4">
                             <span class="text-lg font-semibold text-gray-600">COGS:</span>
-                            <span class="text-2xl font-extrabold text-indigo-600">£${item.cogs.toFixed(2)}</span>
+                            <span class="text-2xl font-extrabold text-indigo-600">£${cogs.toFixed(2)}</span>
                             <button class="delete-item-btn text-red-500 hover:text-red-700" data-index="${index}">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                             </button>
@@ -964,7 +959,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="recipe-table-body-${index}">
-                                    ${item.ingredients.map((ing, i) => `
+                                    ${(item.ingredients || []).map((ing, i) => `
                                         <tr class="border-b border-gray-200 last:border-b-0">
                                             <td class="py-2 px-3 text-gray-700">${ing.name}</td>
                                             <td class="py-2 px-3 text-gray-700">${ing.quantity}</td>
@@ -986,7 +981,7 @@
                                     <optgroup label="Ingredients">
                                         ${masterIngredients.map(ing => `<option value="${ing.name}" data-type="ingredient">${ing.name}</option>`).join('')}
                                     </optgroup>
-                                    ${item.type === 'platter' ? `<optgroup label="Dishes">${menuItems.filter(m => m.type !== 'platter').map(d => `<option value="${d.name}" data-type="dish">${d.name}</option>`).join('')}</optgroup>` : ''}
+                                    ${item.type === 'platter' ? `<optgroup label="Dishes">${menuItems.filter(m => m.type !== 'platter' && m.name !== item.name).map(d => `<option value="${d.name}" data-type="dish">${d.name}</option>`).join('')}</optgroup>` : ''}
                                 </select>
                                 <input type="number" placeholder="Quantity" class="component-quantity p-2 border border-gray-300 rounded-lg">
                                 <button class="add-component-btn p-2 text-white font-bold rounded-lg bg-indigo-500 hover:bg-indigo-600 transition-colors" data-item-index="${index}">Add</button>
@@ -1009,20 +1004,19 @@
             if (component.type === 'ingredient') {
                 const ing = masterIngredients.find(i => i.name === component.name);
                 return ing ? ing.cost * component.quantity : 0;
-            } else if (component.type !== 'ingredient') {
+            } else { // It's a dish/platter etc.
                 const dish = menuItems.find(i => i.name === component.name);
-                return dish ? dish.cogs * component.quantity : 0;
+                return dish ? calculateCogs(dish.ingredients) * component.quantity : 0;
             }
-            return 0;
         }
 
         addMenuItemBtn.addEventListener('click', () => {
             const name = menuItemNameInput.value.trim();
             const type = itemTypeSelect.value;
-            const dineInPrice = parseFloat(dineInPriceInput.value);
-            const takeAwayPrice = parseFloat(takeAwayPriceInput.value);
+            const dineInPrice = parseFloat(dineInPriceInput.value) || 0;
+            const takeAwayPrice = parseFloat(takeAwayPriceInput.value) || 0;
             if (!name) { return; }
-            menuItems.push({ name, type, ingredients: [], cogs: 0, dineInPrice, takeAwayPrice });
+            menuItems.push({ name, type, ingredients: [], dineInPrice, takeAwayPrice });
             saveDataToFirestore();
             menuItemNameInput.value = '';
             dineInPriceInput.value = '';
@@ -1032,9 +1026,11 @@
         function attachMenuEventListeners() {
             document.querySelectorAll('.add-component-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    // Fix: Use correct camelCase for dataset properties
                     const itemIndex = btn.dataset.itemIndex;
                     const item = menuItems[itemIndex];
+                    if (!item.ingredients) {
+                        item.ingredients = [];
+                    }
                     const card = btn.closest('.p-6');
                     const select = card.querySelector('.component-select');
                     const quantity = parseFloat(card.querySelector('.component-quantity').value);
@@ -1054,7 +1050,7 @@
 
             document.querySelectorAll('.delete-item-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const index = e.target.closest('button').dataset.index;
+                    const index = e.currentTarget.dataset.index;
                     pendingDeleteIndex = index;
                     pendingDeleteType = 'menu-item';
                     confirmModal.classList.remove('hidden');
@@ -1064,9 +1060,8 @@
             
             document.querySelectorAll('.remove-component-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    // Fix: Use correct camelCase for dataset properties
-                    const itemIndex = e.target.closest('button').dataset.itemIndex;
-                    const componentIndex = e.target.closest('button').dataset.componentIndex;
+                    const itemIndex = e.currentTarget.dataset.itemIndex;
+                    const componentIndex = e.currentTarget.dataset.componentIndex;
                     menuItems[itemIndex].ingredients.splice(componentIndex, 1);
                     saveDataToFirestore();
                 });
@@ -1105,19 +1100,20 @@
                 salesHistoryBody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-600 py-4">No sales recorded yet.</td></tr>';
                 return;
             }
+            data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date descending
             data.forEach((sale, index) => {
-                const total = sale.cash + sale.card + sale.uber + sale.justeat + sale.deliveroo + sale.website + sale.advance + sale.toogoodtogo;
-                const onlineTotal = sale.uber + sale.justeat + sale.deliveroo + sale.website + sale.toogoodtogo;
+                const onlineTotal = (sale.uber || 0) + (sale.justeat || 0) + (sale.deliveroo || 0) + (sale.website || 0) + (sale.toogoodtogo || 0);
+                const total = (sale.cash || 0) + (sale.card || 0) + onlineTotal + (sale.advance || 0);
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
                 row.innerHTML = `
                     <td class="py-3 px-4">${sale.date}</td>
-                    <td class="py-3 px-4">£${sale.cash.toFixed(2)}</td>
-                    <td class="py-3 px-4">£${sale.card.toFixed(2)}</td>
+                    <td class="py-3 px-4">£${(sale.cash || 0).toFixed(2)}</td>
+                    <td class="py-3 px-4">£${(sale.card || 0).toFixed(2)}</td>
                     <td class="py-3 px-4">£${onlineTotal.toFixed(2)}</td>
                     <td class="py-3 px-4 font-bold">£${total.toFixed(2)}</td>
                     <td class="py-3 px-4">
-                        <button data-index="${index}" class="delete-sales-record-btn text-red-500 hover:text-red-700 transition-colors duration-200">
+                        <button data-date="${sale.date}" class="delete-sales-record-btn text-red-500 hover:text-red-700 transition-colors duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                         </button>
                     </td>
@@ -1136,11 +1132,14 @@
         function attachSalesEventListeners() {
             document.querySelectorAll('.delete-sales-record-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const index = e.target.closest('button').dataset.index;
-                    pendingDeleteIndex = index;
-                    pendingDeleteType = 'sales';
-                    confirmModal.classList.remove('hidden');
-                    confirmMessage.textContent = `Are you sure you want to delete the sales record for ${dailySales[index].date}?`;
+                    const date = e.currentTarget.dataset.date;
+                    const index = dailySales.findIndex(s => s.date === date);
+                    if (index > -1) {
+                        pendingDeleteIndex = index;
+                        pendingDeleteType = 'sales';
+                        confirmModal.classList.remove('hidden');
+                        confirmMessage.textContent = `Are you sure you want to delete the sales record for ${dailySales[index].date}?`;
+                    }
                 });
             });
         }
@@ -1161,9 +1160,25 @@
                 return; 
             }
             
-            dailySales.push({ date, cash, card, uber, justeat, deliveroo, website, advance, toogoodtogo });
+            const totalSales = cash + card + uber + justeat + deliveroo + website + advance + toogoodtogo;
+            if (totalSales === 0) {
+                salesMessage.textContent = 'Please enter a value for at least one sales category.';
+                return;
+            }
+
+            // Check if a record for this date already exists
+            const existingSaleIndex = dailySales.findIndex(sale => sale.date === date);
+            if (existingSaleIndex > -1) {
+                // Update existing record
+                dailySales[existingSaleIndex] = { date, cash, card, uber, justeat, deliveroo, website, advance, toogoodtogo };
+                salesMessage.textContent = 'Sales record updated successfully!';
+            } else {
+                // Add new record
+                dailySales.push({ date, cash, card, uber, justeat, deliveroo, website, advance, toogoodtogo });
+                salesMessage.textContent = 'Sales recorded successfully!';
+            }
+            
             saveDataToFirestore();
-            salesMessage.textContent = 'Sales recorded successfully!';
             
             // Clear input fields
             salesCashInput.value = '';
@@ -1184,6 +1199,7 @@
                 purchasesHistoryBody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-600 py-4">No purchases recorded yet.</td></tr>';
                 return;
             }
+            data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date
             data.forEach((purchase, index) => {
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
@@ -1192,7 +1208,7 @@
                     <td class="py-3 px-4">${purchase.item}</td>
                     <td class="py-3 px-4">£${purchase.cost.toFixed(2)}</td>
                     <td class="py-3 px-4">
-                        <button data-index="${index}" class="delete-purchase-btn text-red-500 hover:text-red-700">
+                        <button data-id="${purchase.id}" class="delete-purchase-btn text-red-500 hover:text-red-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                         </button>
                     </td>
@@ -1211,11 +1227,14 @@
         function attachPurchasesEventListeners() {
             document.querySelectorAll('.delete-purchase-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const index = e.target.closest('button').dataset.index;
-                    pendingDeleteIndex = index;
-                    pendingDeleteType = 'purchases';
-                    confirmModal.classList.remove('hidden');
-                    confirmMessage.textContent = `Are you sure you want to delete the purchase record for "${dailyPurchases[index].item}" on ${dailyPurchases[index].date}?`;
+                    const id = e.currentTarget.dataset.id;
+                    const index = dailyPurchases.findIndex(p => p.id === id);
+                    if (index > -1) {
+                        pendingDeleteIndex = index;
+                        pendingDeleteType = 'purchases';
+                        confirmModal.classList.remove('hidden');
+                        confirmMessage.textContent = `Are you sure you want to delete the purchase record for "${dailyPurchases[index].item}" on ${dailyPurchases[index].date}?`;
+                    }
                 });
             });
         }
@@ -1228,7 +1247,8 @@
                 purchaseMessage.textContent = 'Please fill out all fields with valid data.';
                 return;
             }
-            dailyPurchases.push({ date, item, cost });
+            const id = `purchase_${Date.now()}`; // Unique ID for each purchase
+            dailyPurchases.push({ id, date, item, cost });
             saveDataToFirestore();
             purchaseDateInput.value = today;
             purchaseItemInput.value = '';
@@ -1243,6 +1263,7 @@
                 salaryHistoryBody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-600 py-4">No salary payments recorded yet.</td></tr>';
                 return;
             }
+            data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date
             data.forEach((payment, index) => {
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
@@ -1252,7 +1273,7 @@
                     <td class="py-3 px-4">${payment.type}</td>
                     <td class="py-3 px-4">£${payment.amount.toFixed(2)}</td>
                     <td class="py-3 px-4">
-                        <button data-index="${index}" class="delete-salary-btn text-red-500 hover:text-red-700">
+                        <button data-id="${payment.id}" class="delete-salary-btn text-red-500 hover:text-red-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                         </button>
                     </td>
@@ -1283,11 +1304,14 @@
         function attachSalaryEventListeners() {
             document.querySelectorAll('.delete-salary-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const index = e.target.closest('button').dataset.index;
-                    pendingDeleteIndex = index;
-                    pendingDeleteType = 'salary';
-                    confirmModal.classList.remove('hidden');
-                    confirmMessage.textContent = `Are you sure you want to delete the salary payment for "${salary[index].employee}" on ${salary[index].date}?`;
+                    const id = e.currentTarget.dataset.id;
+                    const index = salary.findIndex(p => p.id === id);
+                    if (index > -1) {
+                        pendingDeleteIndex = index;
+                        pendingDeleteType = 'salary';
+                        confirmModal.classList.remove('hidden');
+                        confirmMessage.textContent = `Are you sure you want to delete the salary payment for "${salary[index].employee}" on ${salary[index].date}?`;
+                    }
                 });
             });
         }
@@ -1301,7 +1325,8 @@
                 salaryMessage.textContent = 'Please fill out all fields with valid data.';
                 return;
             }
-            salary.push({ date, employee, type, amount });
+            const id = `salary_${Date.now()}`; // Unique ID
+            salary.push({ id, date, employee, type, amount });
             saveDataToFirestore();
             salaryDateInput.value = today;
             salaryEmployeeInput.value = '';
@@ -1311,32 +1336,20 @@
         });
 
         // --- Global Data Management (Confirmation & Downloads) ---
-        confirmDeleteBtn.addEventListener('click', () => {
-            if (pendingDeleteType === 'master-ingredient') {
-                if (pendingDeleteIndex !== -1) {
+        confirmDeleteBtn.addEventListener('click', async () => {
+            if (pendingDeleteIndex !== -1) {
+                if (pendingDeleteType === 'master-ingredient') {
                     masterIngredients.splice(pendingDeleteIndex, 1);
-                    saveDataToFirestore();
-                }
-            } else if (pendingDeleteType === 'menu-item') {
-                if (pendingDeleteIndex !== -1) {
+                } else if (pendingDeleteType === 'menu-item') {
                     menuItems.splice(pendingDeleteIndex, 1);
-                    saveDataToFirestore();
-                }
-            } else if (pendingDeleteType === 'sales') {
-                if (pendingDeleteIndex !== -1) {
+                } else if (pendingDeleteType === 'sales') {
                     dailySales.splice(pendingDeleteIndex, 1);
-                    saveDataToFirestore();
-                }
-            } else if (pendingDeleteType === 'purchases') {
-                if (pendingDeleteIndex !== -1) {
+                } else if (pendingDeleteType === 'purchases') {
                     dailyPurchases.splice(pendingDeleteIndex, 1);
-                    saveDataToFirestore();
-                }
-            } else if (pendingDeleteType === 'salary') {
-                if (pendingDeleteIndex !== -1) {
+                } else if (pendingDeleteType === 'salary') {
                     salary.splice(pendingDeleteIndex, 1);
-                    saveDataToFirestore();
                 }
+                await saveDataToFirestore();
             }
             pendingDeleteIndex = -1;
             pendingDeleteType = '';
@@ -1348,28 +1361,30 @@
             pendingDeleteType = '';
             confirmModal.classList.add('hidden');
         });
+        
+        // --- Helper function for temporary messages ---
+        function showTemporaryMessage(element, message, isError = true) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `mt-2 text-sm font-medium ${isError ? 'text-red-500' : 'text-green-500'}`;
+            messageDiv.textContent = message;
+            // Insert after the button's container
+            element.closest('div').insertAdjacentElement('afterend', messageDiv);
+            setTimeout(() => messageDiv.remove(), 3000);
+        }
+
+        // --- Download Functions ---
 
         // Sales PDF Download
         downloadPdfBtn.addEventListener('click', () => {
             const startDate = downloadStartDateInput.value;
             const endDate = downloadEndDateInput.value;
             if (!startDate || !endDate) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'Please select a start and end date for the download.';
-                downloadPdfBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadPdfBtn, 'Please select a start and end date.');
                 return;
             }
-            const filteredSales = dailySales.filter(sale => {
-                return sale.date >= startDate && sale.date <= endDate;
-            });
+            const filteredSales = dailySales.filter(sale => sale.date >= startDate && sale.date <= endDate);
             if (filteredSales.length === 0) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'No sales data found for the selected date range.';
-                downloadPdfBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadPdfBtn, 'No sales data for the selected date range.');
                 return;
             }
             const { jsPDF } = window.jspdf;
@@ -1380,22 +1395,14 @@
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
             const tableColumn = ["Date", "Cash (£)", "Card (£)", "Online (£)", "Total (£)"];
             const tableRows = filteredSales.map(sale => {
-                const total = sale.cash + sale.card + sale.uber + sale.justeat + sale.deliveroo + sale.website + sale.advance + sale.toogoodtogo;
-                const onlineTotal = sale.uber + sale.justeat + sale.deliveroo + sale.website + sale.toogoodtogo;
-                return [
-                    sale.date,
-                    sale.cash.toFixed(2),
-                    sale.card.toFixed(2),
-                    onlineTotal.toFixed(2),
-                    total.toFixed(2)
-                ];
+                const onlineTotal = (sale.uber || 0) + (sale.justeat || 0) + (sale.deliveroo || 0) + (sale.website || 0) + (sale.toogoodtogo || 0);
+                const total = (sale.cash || 0) + (sale.card || 0) + onlineTotal + (sale.advance || 0);
+                return [sale.date, (sale.cash || 0).toFixed(2), (sale.card || 0).toFixed(2), onlineTotal.toFixed(2), total.toFixed(2)];
             });
             doc.autoTable({
                 head: [tableColumn],
                 body: tableRows,
-                startY: 40,
-                styles: { fontSize: 10, cellPadding: 2 },
-                headStyles: { fillColor: [243, 244, 246], textColor: [0, 0, 0] }
+                startY: 40
             });
             doc.save(`Sales_Report_${startDate}_to_${endDate}.pdf`);
         });
@@ -1405,39 +1412,20 @@
             const startDate = downloadStartDateInput.value;
             const endDate = downloadEndDateInput.value;
             if (!startDate || !endDate) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'Please select a start and end date for the download.';
-                downloadCsvBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadCsvBtn, 'Please select a start and end date.');
                 return;
             }
-            const filteredSales = dailySales.filter(sale => {
-                return sale.date >= startDate && sale.date <= endDate;
-            });
+            const filteredSales = dailySales.filter(sale => sale.date >= startDate && sale.date <= endDate);
             if (filteredSales.length === 0) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'No sales data found for the selected date range.';
-                downloadCsvBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadCsvBtn, 'No sales data for the selected date range.');
                 return;
             }
             const headers = ["Date", "Cash", "Card", "Uber Eats", "Just Eat", "Deliveroo", "Website", "Booking Advance", "Too Good To Go", "Total"];
             const rows = filteredSales.map(sale => {
-                const total = sale.cash + sale.card + sale.uber + sale.justeat + sale.deliveroo + sale.website + sale.advance + sale.toogoodtogo;
+                const total = (sale.cash || 0) + (sale.card || 0) + (sale.uber || 0) + (sale.justeat || 0) + (sale.deliveroo || 0) + (sale.website || 0) + (sale.advance || 0) + (sale.toogoodtogo || 0);
                 return [
-                    sale.date,
-                    sale.cash,
-                    sale.card,
-                    sale.uber,
-                    sale.justeat,
-                    sale.deliveroo,
-                    sale.website,
-                    sale.advance,
-                    sale.toogoodtogo,
-                    total
-                ].map(value => `"${value}"`).join(",");
+                    `"${sale.date}"`, sale.cash || 0, sale.card || 0, sale.uber || 0, sale.justeat || 0, sale.deliveroo || 0, sale.website || 0, sale.advance || 0, sale.toogoodtogo || 0, total
+                ].join(",");
             });
             const csvContent = [headers.join(","), ...rows].join("\n");
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
@@ -1445,7 +1433,6 @@
             const url = URL.createObjectURL(blob);
             link.setAttribute("href", url);
             link.setAttribute("download", `Sales_Report_${startDate}_to_${endDate}.csv`);
-            link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -1456,43 +1443,21 @@
             const startDate = downloadPurchaseStartDateInput.value;
             const endDate = downloadPurchaseEndDateInput.value;
             if (!startDate || !endDate) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'Please select a start and end date for the download.';
-                downloadPurchasePdfBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadPurchasePdfBtn, 'Please select a start and end date.');
                 return;
             }
-            const filteredPurchases = dailyPurchases.filter(purchase => {
-                return purchase.date >= startDate && purchase.date <= endDate;
-            });
+            const filteredPurchases = dailyPurchases.filter(p => p.date >= startDate && p.date <= endDate);
             if (filteredPurchases.length === 0) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'No purchase data found for the selected date range.';
-                downloadPurchasePdfBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadPurchasePdfBtn, 'No purchase data for the selected date range.');
                 return;
             }
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            doc.setFontSize(18);
-            doc.text("Daily Purchases Report", 14, 20);
-            doc.setFontSize(12);
+            doc.text("Purchases Report", 14, 20);
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
             const tableColumn = ["Date", "Item/Service", "Total Cost (£)"];
-            const tableRows = filteredPurchases.map(purchase => [
-                purchase.date,
-                purchase.item,
-                purchase.cost.toFixed(2)
-            ]);
-            doc.autoTable({
-                head: [tableColumn],
-                body: tableRows,
-                startY: 40,
-                styles: { fontSize: 10, cellPadding: 2 },
-                headStyles: { fillColor: [243, 244, 246], textColor: [0, 0, 0] }
-            });
+            const tableRows = filteredPurchases.map(p => [p.date, p.item, p.cost.toFixed(2)]);
+            doc.autoTable({ head: [tableColumn], body: tableRows, startY: 40 });
             doc.save(`Purchases_Report_${startDate}_to_${endDate}.pdf`);
         });
 
@@ -1501,37 +1466,22 @@
             const startDate = downloadPurchaseStartDateInput.value;
             const endDate = downloadPurchaseEndDateInput.value;
             if (!startDate || !endDate) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'Please select a start and end date for the download.';
-                downloadPurchaseCsvBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadPurchaseCsvBtn, 'Please select a start and end date.');
                 return;
             }
-            const filteredPurchases = dailyPurchases.filter(purchase => {
-                return purchase.date >= startDate && purchase.date <= endDate;
-            });
+            const filteredPurchases = dailyPurchases.filter(p => p.date >= startDate && p.date <= endDate);
             if (filteredPurchases.length === 0) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'No purchase data found for the selected date range.';
-                downloadPurchaseCsvBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadPurchaseCsvBtn, 'No purchase data for the selected date range.');
                 return;
             }
             const headers = ["Date", "Item/Service", "Total Cost"];
-            const rows = filteredPurchases.map(purchase => [
-                `"${purchase.date}"`,
-                `"${purchase.item}"`,
-                `"${purchase.cost}"`
-            ].join(","));
+            const rows = filteredPurchases.map(p => [`"${p.date}"`, `"${p.item.replace(/"/g, '""')}"`, p.cost].join(","));
             const csvContent = [headers.join(","), ...rows].join("\n");
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             const url = URL.createObjectURL(blob);
             link.setAttribute("href", url);
             link.setAttribute("download", `Purchases_Report_${startDate}_to_${endDate}.csv`);
-            link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
@@ -1544,55 +1494,31 @@
             const selectedEmployees = Array.from(downloadSalaryEmployeesSelect.selectedOptions).map(opt => opt.value);
             
             if (!startDate || !endDate) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'Please select a start and end date for the download.';
-                downloadSalaryPdfBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadSalaryPdfBtn, 'Please select a start and end date.');
                 return;
             }
 
-            let filteredSalary = salary.filter(payment => {
-                return payment.date >= startDate && payment.date <= endDate;
-            });
-
+            let filteredSalary = salary.filter(p => p.date >= startDate && p.date <= endDate);
             if (selectedEmployees.length > 0 && selectedEmployees[0] !== "") {
-                filteredSalary = filteredSalary.filter(payment => selectedEmployees.includes(payment.employee));
+                filteredSalary = filteredSalary.filter(p => selectedEmployees.includes(p.employee));
             }
 
             if (filteredSalary.length === 0) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'No salary data found for the selected criteria.';
-                downloadSalaryPdfBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadSalaryPdfBtn, 'No salary data for the selected criteria.');
                 return;
             }
 
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-            doc.setFontSize(18);
             doc.text("Salary Report", 14, 20);
-            doc.setFontSize(12);
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
             if (selectedEmployees.length > 0 && selectedEmployees[0] !== "") {
                 doc.text(`Employees: ${selectedEmployees.join(', ')}`, 14, 37);
             }
 
             const tableColumn = ["Date", "Employee Name", "Payment Type", "Amount (£)"];
-            const tableRows = filteredSalary.map(payment => [
-                payment.date,
-                payment.employee,
-                payment.type,
-                payment.amount.toFixed(2)
-            ]);
-            doc.autoTable({
-                head: [tableColumn],
-                body: tableRows,
-                startY: 45,
-                styles: { fontSize: 10, cellPadding: 2 },
-                headStyles: { fillColor: [243, 244, 246], textColor: [0, 0, 0] }
-            });
+            const tableRows = filteredSalary.map(p => [p.date, p.employee, p.type, p.amount.toFixed(2)]);
+            doc.autoTable({ head: [tableColumn], body: tableRows, startY: 45 });
             doc.save(`Salary_Report_${startDate}_to_${endDate}.pdf`);
         });
 
@@ -1603,45 +1529,28 @@
             const selectedEmployees = Array.from(downloadSalaryEmployeesSelect.selectedOptions).map(opt => opt.value);
             
             if (!startDate || !endDate) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'Please select a start and end date for the download.';
-                downloadSalaryCsvBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadSalaryCsvBtn, 'Please select a start and end date.');
                 return;
             }
 
-            let filteredSalary = salary.filter(payment => {
-                return payment.date >= startDate && payment.date <= endDate;
-            });
-
+            let filteredSalary = salary.filter(p => p.date >= startDate && p.date <= endDate);
             if (selectedEmployees.length > 0 && selectedEmployees[0] !== "") {
-                filteredSalary = filteredSalary.filter(payment => selectedEmployees.includes(payment.employee));
+                filteredSalary = filteredSalary.filter(p => selectedEmployees.includes(p.employee));
             }
             
             if (filteredSalary.length === 0) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                downloadMessage.textContent = 'No salary data found for the selected criteria.';
-                downloadSalaryCsvBtn.parentElement.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
+                showTemporaryMessage(downloadSalaryCsvBtn, 'No salary data for the selected criteria.');
                 return;
             }
 
             const headers = ["Date", "Employee Name", "Payment Type", "Amount"];
-            const rows = filteredSalary.map(payment => [
-                `"${payment.date}"`,
-                `"${payment.employee}"`,
-                `"${payment.type}"`,
-                `"${payment.amount}"`
-            ].join(","));
+            const rows = filteredSalary.map(p => [`"${p.date}"`, `"${p.employee.replace(/"/g, '""')}"`, `"${p.type}"`, p.amount].join(","));
             const csvContent = [headers.join(","), ...rows].join("\n");
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
             const url = URL.createObjectURL(blob);
             link.setAttribute("href", url);
             link.setAttribute("download", `Salary_Report_${startDate}_to_${endDate}.csv`);
-            link.style.visibility = 'hidden';
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
