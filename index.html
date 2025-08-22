@@ -37,11 +37,11 @@
         }
     </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
+<body class="bg-gray-100 flex items-center justify-center min-h-screen p-2 sm:p-4">
 
     <!-- Login/Password Form -->
-    <div id="login-container" class="container bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
-        <h1 class="text-4xl font-extrabold text-gray-800 text-center mb-4">Restaurant Manager</h1>
+    <div id="login-container" class="container bg-white rounded-xl shadow-2xl p-6 sm:p-8 w-full max-w-md">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800 text-center mb-4">Restaurant Manager</h1>
         <p class="text-center text-gray-500 mb-6">Enter the password to access the app.</p>
         <form id="login-form">
             <input type="password" id="password-input" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
@@ -53,81 +53,100 @@
     </div>
 
     <!-- Main Application Content -->
-    <div id="app-content" class="container bg-white rounded-xl shadow-2xl p-8 w-full hidden">
+    <div id="app-content" class="container bg-white rounded-xl shadow-2xl p-4 sm:p-6 md:p-8 w-full hidden">
         <!-- Header -->
         <div class="text-center mb-8">
-            <h1 class="text-4xl font-extrabold text-gray-800">Restaurant Manager</h1>
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-800">Restaurant Manager</h1>
             <p class="mt-2 text-lg text-gray-500">Your all-in-one tool for costing, sales, and purchases.</p>
         </div>
 
         <!-- Navigation Tabs -->
-        <div class="flex flex-wrap border-b border-gray-200 mb-6">
-            <button id="master-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
-                Master Ingredients
-            </button>
-            <button id="menu-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
-                Menu Costing
-            </button>
-            <button id="sales-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
-                Daily Sales
-            </button>
-            <button id="purchases-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
-                Purchases
-            </button>
-            <button id="salary-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
-                Salary
-            </button>
-            <button id="reports-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
-                Reports
-            </button>
-            <button id="settings-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
-                Settings
-            </button>
+        <div class="relative border-b border-gray-200 mb-6">
+            <!-- Mobile Menu Button -->
+            <div class="md:hidden flex justify-end">
+                <button id="mobile-menu-button" class="p-2 rounded-md text-gray-600 hover:bg-gray-100">
+                    <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                </button>
+            </div>
+            <!-- Desktop Tabs -->
+            <div id="desktop-tabs" class="hidden md:flex flex-wrap">
+                <button id="master-tab" class="py-3 px-4 lg:px-6 text-sm md:text-base font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
+                    Master Ingredients
+                </button>
+                <button id="menu-tab" class="py-3 px-4 lg:px-6 text-sm md:text-base font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
+                    Menu Costing
+                </button>
+                <button id="sales-tab" class="py-3 px-4 lg:px-6 text-sm md:text-base font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
+                    Daily Sales
+                </button>
+                <button id="purchases-tab" class="py-3 px-4 lg:px-6 text-sm md:text-base font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
+                    Purchases
+                </button>
+                <button id="salary-tab" class="py-3 px-4 lg:px-6 text-sm md:text-base font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
+                    Salary
+                </button>
+                <button id="reports-tab" class="py-3 px-4 lg:px-6 text-sm md:text-base font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
+                    Reports
+                </button>
+                <button id="settings-tab" class="py-3 px-4 lg:px-6 text-sm md:text-base font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
+                    Settings
+                </button>
+            </div>
+             <!-- Mobile Menu Dropdown -->
+            <div id="mobile-menu" class="hidden md:hidden absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-20">
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-tab="master">Master Ingredients</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-tab="menu">Menu Costing</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-tab="sales">Daily Sales</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-tab="purchases">Purchases</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-tab="salary">Salary</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-tab="reports">Reports</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" data-tab="settings">Settings</a>
+            </div>
         </div>
 
         <!-- Content Sections -->
 
         <!-- Master Ingredients Section -->
-        <div id="master-section" class="tab-content p-6 bg-gray-50 rounded-lg">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Master Ingredients</h2>
+        <div id="master-section" class="tab-content p-2 sm:p-6 bg-gray-50 rounded-lg">
+            <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-700">Master Ingredients</h2>
             
-            <!-- Add New Ingredient Form -->
             <div class="mb-6 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
-                <h3 class="text-xl font-semibold text-gray-600 mb-3">Add a New Ingredient</h3>
-                <div class="grid md:grid-cols-4 gap-4 items-end">
-                    <input type="text" id="ingredient-name" placeholder="Ingredient Name" class="col-span-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="text" id="ingredient-unit" placeholder="Unit (e.g., kg, gram)" class="col-span-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="ingredient-cost" placeholder="Cost per Unit" class="col-span-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <button id="add-ingredient-btn" class="col-span-1 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Add a New Ingredient</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                    <input type="text" id="ingredient-name" placeholder="Ingredient Name" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="text" id="ingredient-unit" placeholder="Unit (e.g., kg, gram)" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="ingredient-cost" placeholder="Cost per Unit" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <button id="add-ingredient-btn" class="w-full p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Add Ingredient
                     </button>
                 </div>
             </div>
 
-            <!-- Search and Scrollable Ingredients Table -->
             <div class="mb-4">
                 <input type="text" id="master-search" placeholder="Search ingredients..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
             </div>
-            <div class="overflow-y-auto max-h-96">
-                <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
-                        <tr>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Ingredient</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Unit</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Cost per Unit</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="ingredients-table-body">
-                        <!-- Ingredient rows will be dynamically inserted here -->
-                    </tbody>
-                </table>
+            <div class="overflow-x-auto">
+                <div class="overflow-y-auto max-h-96">
+                    <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+                        <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
+                            <tr>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Ingredient</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Unit</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Cost per Unit</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ingredients-table-body">
+                            <!-- Ingredient rows will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
             
-            <!-- Message container -->
             <div id="master-message" class="mt-4 p-3 text-center text-sm font-medium text-gray-600 rounded-lg"></div>
 
-            <!-- Import/Export Options -->
             <div class="mt-8 p-6 bg-white rounded-lg shadow-md border border-gray-200">
                 <div class="flex items-center justify-between cursor-pointer" id="toggle-manage-ingredients">
                     <h3 class="text-xl font-semibold text-gray-600">Manage Ingredient Data</h3>
@@ -136,7 +155,6 @@
                     </svg>
                 </div>
                 <div id="manage-ingredients-details" class="hidden mt-4">
-                    <!-- Download Records Section -->
                     <div class="mb-6">
                         <h4 class="text-lg font-medium text-gray-700 mb-2">Download All Ingredients</h4>
                         <div class="flex flex-col sm:flex-row gap-4">
@@ -149,7 +167,6 @@
                         </div>
                     </div>
 
-                    <!-- Upload Section -->
                     <div>
                         <h4 class="text-lg font-medium text-gray-700 mb-2">Upload Ingredients (CSV)</h4>
                         <p class="text-sm text-gray-500 mb-2">CSV file should have headers: "Ingredient Name", "Unit", "Cost per Unit"</p>
@@ -165,15 +182,14 @@
         </div>
 
         <!-- Menu Items & Platters Section -->
-        <div id="menu-section" class="tab-content p-6 bg-gray-50 rounded-lg hidden">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Menu Costing</h2>
+        <div id="menu-section" class="tab-content p-2 sm:p-6 bg-gray-50 rounded-lg hidden">
+            <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-700">Menu Costing</h2>
 
-            <!-- Add New Menu Item Form -->
             <div class="mb-6 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
-                <h3 class="text-xl font-semibold text-gray-600 mb-3">Add New Dish or Platter</h3>
-                <div class="grid md:grid-cols-4 gap-4 items-end">
-                    <input type="text" id="menu-item-name" placeholder="Name" class="col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <select id="item-type-select" class="col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Add New Dish or Platter</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+                    <input type="text" id="menu-item-name" placeholder="Name" class="md:col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <select id="item-type-select" class="md:col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                         <option value="dish">Dish</option>
                         <option value="platter">Platter</option>
                         <option value="starter">Starter</option>
@@ -183,15 +199,14 @@
                         <option value="drinks">Drinks</option>
                         <option value="wraps">Wraps</option>
                     </select>
-                    <input type="number" id="dine-in-price" placeholder="Dine-In Price" class="col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="take-away-price" placeholder="Take-Away Price" class="col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <button id="add-menu-item-btn" class="col-span-4 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                    <input type="number" id="dine-in-price" placeholder="Dine-In Price" class="md:col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="take-away-price" placeholder="Take-Away Price" class="md:col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <button id="add-menu-item-btn" class="md:col-span-4 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Add Item
                     </button>
                 </div>
             </div>
 
-            <!-- Search and Scrollable Menu Items List -->
             <div class="mb-4">
                 <input type="text" id="menu-search" placeholder="Search menu items..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
             </div>
@@ -201,13 +216,12 @@
         </div>
         
         <!-- Daily Sales Section -->
-        <div id="sales-section" class="tab-content p-6 bg-gray-50 rounded-lg hidden">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Daily Sales & Bookings</h2>
+        <div id="sales-section" class="tab-content p-2 sm:p-6 bg-gray-50 rounded-lg hidden">
+            <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-700">Daily Sales & Bookings</h2>
             
-            <!-- Record Sales Form -->
             <div class="mb-6 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
-                <h3 class="text-xl font-semibold text-gray-600 mb-3">Record Today's Sales</h3>
-                <div class="grid md:grid-cols-3 gap-4 items-end">
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Record Today's Sales</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                     <input type="date" id="sales-date" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="number" id="sales-cash" placeholder="Cash" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="number" id="sales-card" placeholder="Card" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
@@ -217,36 +231,36 @@
                     <input type="number" id="sales-website" placeholder="Website" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="number" id="sales-advance" placeholder="Booking Advance" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="number" id="sales-toogoodtogo" placeholder="Too Good To Go" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <button id="add-sales-btn" class="col-span-3 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                    <button id="add-sales-btn" class="md:col-span-3 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Record Sales
                     </button>
                 </div>
                 <div id="sales-message" class="mt-4 text-sm font-medium text-gray-600"></div>
             </div>
             
-            <!-- Search and Scrollable Daily Sales Summary Table -->
             <div class="mb-4">
                 <input type="text" id="sales-search" placeholder="Search sales by date..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
             </div>
-            <div class="overflow-y-auto max-h-96">
-                <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
-                        <tr>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Cash</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Card</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Online</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Total</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="sales-history-body">
-                        <!-- Sales history will be dynamically inserted here -->
-                    </tbody>
-                </table>
+            <div class="overflow-x-auto">
+                <div class="overflow-y-auto max-h-96">
+                    <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+                        <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
+                            <tr>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Cash</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Card</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Online</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Total</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="sales-history-body">
+                            <!-- Sales history will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Export Options -->
             <div class="mt-8 p-6 bg-white rounded-lg shadow-md border border-gray-200">
                 <div class="flex items-center justify-between cursor-pointer" id="toggle-download-sales">
                     <h3 class="text-xl font-semibold text-gray-600">Download Sales Data</h3>
@@ -279,13 +293,12 @@
         </div>
 
         <!-- Purchases Section -->
-        <div id="purchases-section" class="tab-content p-6 bg-gray-50 rounded-lg hidden">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Purchases & Expenses</h2>
+        <div id="purchases-section" class="tab-content p-2 sm:p-6 bg-gray-50 rounded-lg hidden">
+            <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-700">Purchases & Expenses</h2>
 
-            <!-- Record Purchase Form -->
             <div class="mb-6 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
-                <h3 class="text-xl font-semibold text-gray-600 mb-3">Record a Purchase</h3>
-                <div class="grid md:grid-cols-3 gap-4 items-end">
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Record a Purchase</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                     <input type="date" id="purchase-date" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="text" id="purchase-item" placeholder="Item/Service Name" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="number" id="purchase-cost" placeholder="Total Cost" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
@@ -299,36 +312,36 @@
                         <option value="Other">Other</option>
                     </select>
                     <input type="text" id="purchase-paid-by" placeholder="Paid By" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <button id="add-purchase-btn" class="p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                    <button id="add-purchase-btn" class="md:col-span-1 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Record Purchase
                     </button>
                 </div>
                 <div id="purchase-message" class="mt-4 text-sm font-medium text-gray-600"></div>
             </div>
 
-            <!-- Search and Scrollable Purchases History Table -->
             <div class="mb-4">
                 <input type="text" id="purchases-search" placeholder="Search purchases..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
             </div>
-            <div class="overflow-y-auto max-h-96">
-                <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
-                        <tr>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Item/Service</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Total Cost</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Method</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Paid By</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="purchases-history-body">
-                        <!-- Purchases history will be dynamically inserted here -->
-                    </tbody>
-                </table>
+            <div class="overflow-x-auto">
+                <div class="overflow-y-auto max-h-96">
+                    <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+                        <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
+                            <tr>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Item/Service</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Total Cost</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Method</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Paid By</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="purchases-history-body">
+                            <!-- Purchases history will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Export Options -->
             <div class="mt-8 p-6 bg-white rounded-lg shadow-md border border-gray-200">
                 <div class="flex items-center justify-between cursor-pointer" id="toggle-download-purchases">
                     <h3 class="text-xl font-semibold text-gray-600">Download Purchases Data</h3>
@@ -361,13 +374,12 @@
         </div>
         
         <!-- Salary Section -->
-        <div id="salary-section" class="tab-content p-6 bg-gray-50 rounded-lg hidden">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Salary</h2>
+        <div id="salary-section" class="tab-content p-2 sm:p-6 bg-gray-50 rounded-lg hidden">
+            <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-700">Salary</h2>
 
-            <!-- Record Salary Form -->
             <div class="mb-6 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
-                <h3 class="text-xl font-semibold text-gray-600 mb-3">Record Salary Payment</h3>
-                <div class="grid md:grid-cols-4 gap-4 items-end">
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Record Salary Payment</h3>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                     <input type="date" id="salary-date" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="text" id="salary-employee" placeholder="Employee Name" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <select id="salary-type" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
@@ -378,35 +390,35 @@
                         <option value="Overtime">Overtime</option>
                     </select>
                     <input type="number" id="salary-amount" placeholder="Amount" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <button id="add-salary-btn" class="col-span-4 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                    <button id="add-salary-btn" class="md:col-span-4 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Record Payment
                     </button>
                 </div>
                 <div id="salary-message" class="mt-4 text-sm font-medium text-gray-600"></div>
             </div>
 
-            <!-- Search and Scrollable Salary History Table -->
             <div class="mb-4">
                 <input type="text" id="salary-search" placeholder="Search employees..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
             </div>
-            <div class="overflow-y-auto max-h-96">
-                <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
-                        <tr>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Employee Name</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Type</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Amount</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="salary-history-body">
-                        <!-- Salary history will be dynamically inserted here -->
-                    </tbody>
-                </table>
+            <div class="overflow-x-auto">
+                <div class="overflow-y-auto max-h-96">
+                    <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
+                        <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
+                            <tr>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Employee Name</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Type</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Amount</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="salary-history-body">
+                            <!-- Salary history will be dynamically inserted here -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Export Options -->
             <div class="mt-8 p-6 bg-white rounded-lg shadow-md border border-gray-200">
                 <div class="flex items-center justify-between cursor-pointer" id="toggle-download-salary">
                     <h3 class="text-xl font-semibold text-gray-600">Download Salary Data</h3>
@@ -445,10 +457,10 @@
         </div>
 
         <!-- Reports Section -->
-        <div id="reports-section" class="tab-content p-6 bg-gray-50 rounded-lg hidden">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Profit & Loss Report</h2>
+        <div id="reports-section" class="tab-content p-2 sm:p-6 bg-gray-50 rounded-lg hidden">
+            <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-700">Profit & Loss Report</h2>
             <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
-                <div class="grid sm:grid-cols-3 gap-4 items-end">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-end">
                     <div>
                         <label for="report-start-date" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
                         <input type="date" id="report-start-date" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -468,10 +480,10 @@
         </div>
 
         <!-- Settings Section -->
-        <div id="settings-section" class="tab-content p-6 bg-gray-50 rounded-lg hidden">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Settings</h2>
+        <div id="settings-section" class="tab-content p-2 sm:p-6 bg-gray-50 rounded-lg hidden">
+            <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-700">Settings</h2>
             <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
-                <h3 class="text-xl font-semibold text-gray-600 mb-3">Currency</h3>
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Currency</h3>
                 <div class="max-w-xs">
                     <label for="currency-select" class="block text-sm font-medium text-gray-700 mb-1">Select Currency</label>
                     <select id="currency-select" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
@@ -696,6 +708,9 @@
         const generateReportBtn = document.getElementById('generate-report-btn');
         const reportOutput = document.getElementById('report-output');
 
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
 
         // Set today's date on the date pickers
         const today = new Date().toISOString().split('T')[0];
@@ -739,13 +754,28 @@
         }
 
         // Tab click handlers
-        masterTab.addEventListener('click', () => { switchTab(masterTab, masterSection); });
-        menuTab.addEventListener('click', () => { switchTab(menuTab, menuSection); });
-        salesTab.addEventListener('click', () => { switchTab(salesTab, salesSection); });
-        purchasesTab.addEventListener('click', () => { switchTab(purchasesTab, purchasesSection); });
-        salaryTab.addEventListener('click', () => { switchTab(salaryTab, salarySection); });
-        reportsTab.addEventListener('click', () => { switchTab(reportsTab, reportsSection); });
-        settingsTab.addEventListener('click', () => { switchTab(settingsTab, settingsSection); });
+        const desktopTabs = [masterTab, menuTab, salesTab, purchasesTab, salaryTab, reportsTab, settingsTab];
+        const sections = [masterSection, menuSection, salesSection, purchasesSection, salarySection, reportsSection, settingsSection];
+
+        desktopTabs.forEach((tab, index) => {
+            tab.addEventListener('click', () => switchTab(tab, sections[index]));
+        });
+
+        // Mobile Menu Logic
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const tabName = e.target.dataset.tab;
+                const tabButton = document.getElementById(`${tabName}-tab`);
+                const section = document.getElementById(`${tabName}-section`);
+                switchTab(tabButton, section);
+                mobileMenu.classList.add('hidden');
+            });
+        });
 
         // --- Master Ingredients Logic ---
         function renderIngredients(data = masterIngredients) {
