@@ -35,6 +35,35 @@
         .hidden {
             display: none;
         }
+        /* Autocomplete styles */
+        .autocomplete-suggestions {
+            border: 1px solid #ddd;
+            max-height: 150px;
+            overflow-y: auto;
+            position: absolute;
+            background-color: white;
+            z-index: 10;
+            width: 100%;
+        }
+        .autocomplete-suggestion {
+            padding: 8px;
+            cursor: pointer;
+        }
+        .autocomplete-suggestion:hover {
+            background-color: #f0f0f0;
+        }
+        /* Sorting arrows */
+        .sortable {
+            cursor: pointer;
+        }
+        .sort-arrow {
+            display: inline-block;
+            margin-left: 5px;
+            opacity: 0.5;
+        }
+        .sortable.sorted .sort-arrow {
+            opacity: 1;
+        }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-2 sm:p-4">
@@ -132,9 +161,9 @@
                     <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
                         <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
                             <tr>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Ingredient</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="name">Ingredient <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Unit</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Cost per Unit</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cost">Cost per Unit <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                             </tr>
                         </thead>
@@ -246,11 +275,11 @@
                     <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
                         <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
                             <tr>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Cash</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Card</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Online</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Total</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="date">Date <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cash">Cash <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="card">Card <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="online">Online <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="total">Total <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                             </tr>
                         </thead>
@@ -300,7 +329,9 @@
                 <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Record a Purchase</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
                     <input type="date" id="purchase-date" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="text" id="purchase-item" placeholder="Item/Service Name" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <div class="relative">
+                        <input type="text" id="purchase-item" placeholder="Item/Service Name" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    </div>
                     <input type="number" id="purchase-cost" placeholder="Total Cost" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <select id="purchase-payment-method" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                         <option value="">Payment Method</option>
@@ -311,7 +342,9 @@
                         <option value="Direct Debit">Direct Debit</option>
                         <option value="Other">Other</option>
                     </select>
-                    <input type="text" id="purchase-paid-by" placeholder="Paid By" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <div class="relative">
+                        <input type="text" id="purchase-paid-by" placeholder="Paid By" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    </div>
                     <button id="add-purchase-btn" class="md:col-span-1 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Record Purchase
                     </button>
@@ -327,9 +360,9 @@
                     <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
                         <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
                             <tr>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Item/Service</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Total Cost</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="date">Date <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="item">Item/Service <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cost">Total Cost <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Method</th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Paid By</th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
@@ -381,7 +414,9 @@
                 <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Record Salary Payment</h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                     <input type="date" id="salary-date" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="text" id="salary-employee" placeholder="Employee Name" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <div class="relative">
+                        <input type="text" id="salary-employee" placeholder="Employee Name" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    </div>
                     <select id="salary-type" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                         <option value="">Select Payment Type</option>
                         <option value="Weekly Salary">Weekly Salary</option>
@@ -405,10 +440,10 @@
                     <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
                         <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
                             <tr>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600">Employee Name</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="date">Date <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="employee">Employee Name <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Type</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Amount</th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="amount">Amount <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                             </tr>
                         </thead>
@@ -491,6 +526,23 @@
                     </select>
                 </div>
             </div>
+            <div class="mt-8 p-6 bg-white rounded-lg shadow-md border border-gray-200">
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Version History</h3>
+                <div class="text-sm text-gray-600">
+                    <p><span class="font-semibold">Version 1.3</span> (Latest)</p>
+                    <ul class="list-disc list-inside ml-4">
+                        <li>Added clickable table headers for sorting data.</li>
+                        <li>Added version history section.</li>
+                    </ul>
+                </div>
+                 <div class="text-sm text-gray-600 mt-4">
+                    <p><span class="font-semibold">Version 1.2</span></p>
+                    <ul class="list-disc list-inside ml-4">
+                        <li>Added "Enter" key navigation and autocomplete for faster data entry.</li>
+                        <li>Made UI more mobile-friendly.</li>
+                    </ul>
+                </div>
+            </div>
         </div>
         
     </div>
@@ -543,6 +595,12 @@
         let salary = [];
         let settings = { currency: '£' };
         let openMenuItems = new Set(); // Keep track of open menu items
+        let sortState = {
+            master: { key: 'name', order: 'asc' },
+            sales: { key: 'date', order: 'desc' },
+            purchases: { key: 'date', order: 'desc' },
+            salary: { key: 'date', order: 'desc' }
+        };
         
         // Initialize Firebase.
         try {
@@ -778,7 +836,15 @@
         });
 
         // --- Master Ingredients Logic ---
-        function renderIngredients(data = masterIngredients) {
+        function renderIngredients() {
+            let data = [...masterIngredients];
+            const { key, order } = sortState.master;
+            data.sort((a, b) => {
+                if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
+                if (a[key] > b[key]) return order === 'asc' ? 1 : -1;
+                return 0;
+            });
+
             ingredientsTableBody.innerHTML = '';
             if (data.length === 0) {
                 masterMessage.textContent = 'No ingredients found.';
@@ -803,6 +869,7 @@
                 ingredientsTableBody.appendChild(row);
             });
             attachIngredientEventListeners();
+            updateSortIndicator('master');
         }
 
         masterSearchInput.addEventListener('input', (e) => {
@@ -1244,14 +1311,33 @@
         }
         
         // --- Daily Sales Logic ---
-        function renderDailySales(data = dailySales) {
+        function renderDailySales() {
+            let data = [...dailySales];
+            const { key, order } = sortState.sales;
+
+            data.sort((a, b) => {
+                let valA, valB;
+                if (key === 'total') {
+                    valA = (a.cash || 0) + (a.card || 0) + (a.uber || 0) + (a.justeat || 0) + (a.deliveroo || 0) + (a.website || 0) + (a.advance || 0) + (a.toogoodtogo || 0);
+                    valB = (b.cash || 0) + (b.card || 0) + (b.uber || 0) + (b.justeat || 0) + (b.deliveroo || 0) + (b.website || 0) + (b.advance || 0) + (b.toogoodtogo || 0);
+                } else if (key === 'online') {
+                    valA = (a.uber || 0) + (a.justeat || 0) + (a.deliveroo || 0) + (a.website || 0) + (a.toogoodtogo || 0);
+                    valB = (b.uber || 0) + (b.justeat || 0) + (b.deliveroo || 0) + (b.website || 0) + (b.toogoodtogo || 0);
+                } else {
+                    valA = a[key] || 0;
+                    valB = b[key] || 0;
+                }
+                if (valA < valB) return order === 'asc' ? -1 : 1;
+                if (valA > valB) return order === 'asc' ? 1 : -1;
+                return 0;
+            });
+
             salesHistoryBody.innerHTML = '';
             if (data.length === 0) {
                 salesHistoryBody.innerHTML = `<tr><td colspan="6" class="text-center text-gray-600 py-4">No sales recorded yet.</td></tr>`;
                 return;
             }
-            data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date descending
-            data.forEach((sale, index) => {
+            data.forEach((sale) => {
                 const onlineTotal = (sale.uber || 0) + (sale.justeat || 0) + (sale.deliveroo || 0) + (sale.website || 0) + (sale.toogoodtogo || 0);
                 const total = (sale.cash || 0) + (sale.card || 0) + onlineTotal + (sale.advance || 0);
                 const row = document.createElement('tr');
@@ -1271,6 +1357,7 @@
                 salesHistoryBody.appendChild(row);
             });
             attachSalesEventListeners();
+            updateSortIndicator('sales');
         }
 
         salesSearchInput.addEventListener('input', (e) => {
@@ -1343,13 +1430,20 @@
         });
 
         // --- Purchases Logic ---
-        function renderPurchases(data = dailyPurchases) {
+        function renderPurchases() {
+            let data = [...dailyPurchases];
+            const { key, order } = sortState.purchases;
+            data.sort((a, b) => {
+                if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
+                if (a[key] > b[key]) return order === 'asc' ? 1 : -1;
+                return 0;
+            });
+
             purchasesHistoryBody.innerHTML = '';
             if (data.length === 0) {
                 purchasesHistoryBody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-600 py-4">No purchases recorded yet.</td></tr>';
                 return;
             }
-            data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date
             data.forEach((purchase, index) => {
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
@@ -1368,6 +1462,7 @@
                 purchasesHistoryBody.appendChild(row);
             });
             attachPurchasesEventListeners();
+            updateSortIndicator('purchases');
         }
 
         purchasesSearchInput.addEventListener('input', (e) => {
@@ -1413,13 +1508,20 @@
         });
         
         // --- Salary Logic ---
-        function renderSalary(data = salary) {
+        function renderSalary() {
+            let data = [...salary];
+            const { key, order } = sortState.salary;
+            data.sort((a, b) => {
+                if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
+                if (a[key] > b[key]) return order === 'asc' ? 1 : -1;
+                return 0;
+            });
+
             salaryHistoryBody.innerHTML = '';
             if (data.length === 0) {
                 salaryHistoryBody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-600 py-4">No salary payments recorded yet.</td></tr>';
                 return;
             }
-            data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date
             data.forEach((payment, index) => {
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
@@ -1438,6 +1540,7 @@
             });
             attachSalaryEventListeners();
             populateEmployeeDropdown();
+            updateSortIndicator('salary');
         }
 
         salarySearchInput.addEventListener('input', (e) => {
@@ -1762,6 +1865,7 @@
             renderPurchases();
             renderSalary();
             updatePlaceholdersAndHeaders();
+            setupAllAutocomplete();
         }
 
         function updatePlaceholdersAndHeaders() {
@@ -1824,6 +1928,112 @@
                     </div>
                 </div>
             `;
+        });
+
+        // --- Enter Key Navigation & Autocomplete Logic ---
+        function setupEnterKeyNavigation(formElements, submitButton) {
+            formElements.forEach((element, index) => {
+                element.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const nextElement = formElements[index + 1];
+                        if (nextElement) {
+                            nextElement.focus();
+                        } else {
+                            submitButton.click();
+                        }
+                    }
+                });
+            });
+        }
+
+        function setupAutocomplete(inputElement, data) {
+            let currentFocus;
+            inputElement.addEventListener("input", function(e) {
+                let a, b, i, val = this.value;
+                closeAllLists();
+                if (!val) { return false;}
+                currentFocus = -1;
+                a = document.createElement("DIV");
+                a.setAttribute("id", this.id + "autocomplete-list");
+                a.setAttribute("class", "autocomplete-suggestions");
+                this.parentNode.appendChild(a);
+                for (i = 0; i < data.length; i++) {
+                    if (data[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                        b = document.createElement("DIV");
+                        b.setAttribute("class", "autocomplete-suggestion");
+                        b.innerHTML = "<strong>" + data[i].substr(0, val.length) + "</strong>";
+                        b.innerHTML += data[i].substr(val.length);
+                        b.innerHTML += "<input type='hidden' value='" + data[i] + "'>";
+                        b.addEventListener("click", function(e) {
+                            inputElement.value = this.getElementsByTagName("input")[0].value;
+                            closeAllLists();
+                        });
+                        a.appendChild(b);
+                    }
+                }
+            });
+            function closeAllLists(elmnt) {
+                var x = document.getElementsByClassName("autocomplete-suggestions");
+                for (var i = 0; i < x.length; i++) {
+                    if (elmnt != x[i] && elmnt != inputElement) {
+                    x[i].parentNode.removeChild(x[i]);
+                    }
+                }
+            }
+            document.addEventListener("click", function (e) {
+                closeAllLists(e.target);
+            });
+        }
+
+        function setupAllAutocomplete() {
+            const purchaseItems = [...new Set(dailyPurchases.map(p => p.item))];
+            const paidByNames = [...new Set(dailyPurchases.map(p => p.paidBy).filter(Boolean))];
+            const employeeNames = [...new Set(salary.map(s => s.employee))];
+            
+            setupAutocomplete(purchaseItemInput, purchaseItems);
+            setupAutocomplete(purchasePaidByInput, paidByNames);
+            setupAutocomplete(salaryEmployeeInput, employeeNames);
+        }
+
+        setupEnterKeyNavigation([ingredientNameInput, ingredientUnitInput, ingredientCostInput], addIngredientBtn);
+        setupEnterKeyNavigation([menuItemNameInput, itemTypeSelect, dineInPriceInput, takeAwayPriceInput], addMenuItemBtn);
+        setupEnterKeyNavigation([salesDateInput, salesCashInput, salesCardInput, salesUberInput, salesJustEatInput, salesDeliverooInput, salesWebsiteInput, salesAdvanceInput, salesTooGoodToGoInput], addSalesBtn);
+        setupEnterKeyNavigation([purchaseDateInput, purchaseItemInput, purchaseCostInput, purchasePaymentMethodInput, purchasePaidByInput], addPurchaseBtn);
+        setupEnterKeyNavigation([salaryDateInput, salaryEmployeeInput, salaryTypeInput, salaryAmountInput], addSalaryBtn);
+
+        // --- Sorting Logic ---
+        function handleSort(table, key) {
+            if (sortState[table].key === key) {
+                sortState[table].order = sortState[table].order === 'asc' ? 'desc' : 'asc';
+            } else {
+                sortState[table].key = key;
+                sortState[table].order = 'asc';
+            }
+            rerenderAllTabs();
+        }
+
+        function updateSortIndicator(table) {
+            document.querySelectorAll(`#${table}-section .sortable`).forEach(header => {
+                const key = header.dataset.sort;
+                const arrow = header.querySelector('.sort-arrow');
+                header.classList.remove('sorted');
+                if(arrow) arrow.innerHTML = '';
+
+                if (sortState[table].key === key) {
+                    header.classList.add('sorted');
+                    if(arrow) arrow.innerHTML = sortState[table].order === 'asc' ? '▲' : '▼';
+                }
+            });
+        }
+
+        appContent.addEventListener('click', (e) => {
+            const header = e.target.closest('.sortable');
+            if (header) {
+                const table = header.closest('div[id$="-section"]').id.split('-')[0];
+                const key = header.dataset.sort;
+                handleSort(table, key);
+            }
         });
 
     </script>
