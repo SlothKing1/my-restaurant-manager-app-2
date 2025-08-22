@@ -459,6 +459,7 @@
         let dailySales = [];
         let dailyPurchases = [];
         let salary = [];
+        let openMenuItems = new Set(); // Keep track of open menu items
         
         // Initialize Firebase.
         try {
@@ -933,8 +934,13 @@
 
                         <!-- Online Markup Calculator -->
                         <div class="p-4 border border-indigo-200 rounded-lg bg-indigo-50 mt-4">
-                            <h4 class="text-md font-semibold text-gray-700 mb-2">Online Platform Pricing</h4>
-                            <div class="grid grid-cols-2 gap-4 items-center">
+                            <div class="flex items-center justify-between cursor-pointer toggle-online-pricing" data-index="${index}">
+                                <h4 class="text-md font-semibold text-gray-700">Online Platform Pricing</h4>
+                                <svg class="h-5 w-5 text-gray-400 transform transition-transform duration-200" id="online-chevron-${index}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </div>
+                            <div id="online-pricing-details-${index}" class="hidden mt-4 grid grid-cols-2 gap-4 items-center">
                                 <div class="flex items-center space-x-2">
                                     <label for="online-markup-${index}" class="text-sm font-medium text-gray-700">Markup:</label>
                                     <input type="number" id="online-markup-${index}" min="0" max="500" value="0" class="w-24 p-2 border border-gray-300 rounded-lg text-sm text-center">
@@ -991,6 +997,17 @@
                 `;
                 menuItemsContainer.appendChild(itemCard);
             });
+            
+            // Restore open states
+            openMenuItems.forEach(index => {
+                const details = document.getElementById(`item-details-${index}`);
+                const chevron = document.getElementById(`chevron-${index}`);
+                if (details && chevron) {
+                    details.classList.remove('hidden');
+                    chevron.classList.add('rotate-180');
+                }
+            });
+
             attachMenuEventListeners();
         }
 
@@ -1080,13 +1097,29 @@
             // Toggle collapsible sections
             document.querySelectorAll('.toggle-menu-item').forEach(header => {
                 header.addEventListener('click', (e) => {
-                    // Prevent the click from triggering if the target is a delete button
                     if (e.target.closest('.delete-item-btn')) {
                         return;
                     }
                     const index = header.dataset.index;
                     const details = document.getElementById(`item-details-${index}`);
                     const chevron = document.getElementById(`chevron-${index}`);
+                    
+                    details.classList.toggle('hidden');
+                    chevron.classList.toggle('rotate-180');
+
+                    if (details.classList.contains('hidden')) {
+                        openMenuItems.delete(index);
+                    } else {
+                        openMenuItems.add(index);
+                    }
+                });
+            });
+
+            document.querySelectorAll('.toggle-online-pricing').forEach(header => {
+                header.addEventListener('click', (e) => {
+                    const index = header.dataset.index;
+                    const details = document.getElementById(`online-pricing-details-${index}`);
+                    const chevron = document.getElementById(`online-chevron-${index}`);
                     details.classList.toggle('hidden');
                     chevron.classList.toggle('rotate-180');
                 });
