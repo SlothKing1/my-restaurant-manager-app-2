@@ -282,10 +282,20 @@
             <!-- Record Purchase Form -->
             <div class="mb-6 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
                 <h3 class="text-xl font-semibold text-gray-600 mb-3">Record a Purchase</h3>
-                <div class="grid md:grid-cols-4 gap-4 items-end">
+                <div class="grid md:grid-cols-3 gap-4 items-end">
                     <input type="date" id="purchase-date" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="text" id="purchase-item" placeholder="Item/Service Name" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="number" id="purchase-cost" placeholder="Total Cost" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <select id="purchase-payment-method" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                        <option value="">Payment Method</option>
+                        <option value="Credit">Credit</option>
+                        <option value="Cash">Cash</option>
+                        <option value="Bank Transfer">Bank Transfer</option>
+                        <option value="Card Payment">Card Payment</option>
+                        <option value="Direct Debit">Direct Debit</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="text" id="purchase-paid-by" placeholder="Paid By" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <button id="add-purchase-btn" class="p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Record Purchase
                     </button>
@@ -304,6 +314,8 @@
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Item/Service</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Total Cost</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Method</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Paid By</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                         </tr>
                     </thead>
@@ -607,6 +619,8 @@
         const purchaseDateInput = document.getElementById('purchase-date');
         const purchaseItemInput = document.getElementById('purchase-item');
         const purchaseCostInput = document.getElementById('purchase-cost');
+        const purchasePaymentMethodInput = document.getElementById('purchase-payment-method');
+        const purchasePaidByInput = document.getElementById('purchase-paid-by');
         const addPurchaseBtn = document.getElementById('add-purchase-btn');
         const purchaseMessage = document.getElementById('purchase-message');
         const purchasesHistoryBody = document.getElementById('purchases-history-body');
@@ -1266,7 +1280,7 @@
         function renderPurchases(data = dailyPurchases) {
             purchasesHistoryBody.innerHTML = '';
             if (data.length === 0) {
-                purchasesHistoryBody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-600 py-4">No purchases recorded yet.</td></tr>';
+                purchasesHistoryBody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-600 py-4">No purchases recorded yet.</td></tr>';
                 return;
             }
             data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date
@@ -1277,6 +1291,8 @@
                     <td class="py-3 px-4">${purchase.date}</td>
                     <td class="py-3 px-4">${purchase.item}</td>
                     <td class="py-3 px-4">${settings.currency}${purchase.cost.toFixed(2)}</td>
+                    <td class="py-3 px-4">${purchase.paymentMethod || ''}</td>
+                    <td class="py-3 px-4">${purchase.paidBy || ''}</td>
                     <td class="py-3 px-4">
                         <button data-id="${purchase.id}" class="delete-purchase-btn text-red-500 hover:text-red-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
@@ -1313,16 +1329,20 @@
             const date = purchaseDateInput.value;
             const item = purchaseItemInput.value.trim();
             const cost = parseFloat(purchaseCostInput.value);
+            const paymentMethod = purchasePaymentMethodInput.value;
+            const paidBy = purchasePaidByInput.value.trim();
             if (!date || !item || isNaN(cost) || cost <= 0) {
                 purchaseMessage.textContent = 'Please fill out all fields with valid data.';
                 return;
             }
             const id = `purchase_${Date.now()}`; // Unique ID for each purchase
-            dailyPurchases.push({ id, date, item, cost });
+            dailyPurchases.push({ id, date, item, cost, paymentMethod, paidBy });
             saveDataToFirestore();
             purchaseDateInput.value = today;
             purchaseItemInput.value = '';
             purchaseCostInput.value = '';
+            purchasePaymentMethodInput.value = '';
+            purchasePaidByInput.value = '';
             purchaseMessage.textContent = 'Purchase recorded successfully!';
         });
         
@@ -1525,8 +1545,8 @@
             const doc = new jsPDF();
             doc.text("Purchases Report", 14, 20);
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
-            const tableColumn = ["Date", "Item/Service", `Total Cost (${settings.currency})`];
-            const tableRows = filteredPurchases.map(p => [p.date, p.item, p.cost.toFixed(2)]);
+            const tableColumn = ["Date", "Item/Service", `Total Cost (${settings.currency})`, "Payment Method", "Paid By"];
+            const tableRows = filteredPurchases.map(p => [p.date, p.item, p.cost.toFixed(2), p.paymentMethod, p.paidBy]);
             doc.autoTable({ head: [tableColumn], body: tableRows, startY: 40 });
             doc.save(`Purchases_Report_${startDate}_to_${endDate}.pdf`);
         });
@@ -1544,8 +1564,8 @@
                 showTemporaryMessage(downloadPurchaseCsvBtn, 'No purchase data for the selected date range.');
                 return;
             }
-            const headers = ["Date", "Item/Service", "Total Cost"];
-            const rows = filteredPurchases.map(p => [`"${p.date}"`, `"${p.item.replace(/"/g, '""')}"`, p.cost].join(","));
+            const headers = ["Date", "Item/Service", "Total Cost", "Payment Method", "Paid By"];
+            const rows = filteredPurchases.map(p => [`"${p.date}"`, `"${p.item.replace(/"/g, '""')}"`, p.cost, `"${p.paymentMethod}"`, `"${p.paidBy}"`].join(","));
             const csvContent = [headers.join(","), ...rows].join("\n");
             const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const link = document.createElement("a");
