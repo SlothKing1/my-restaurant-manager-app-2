@@ -6,8 +6,6 @@
     <title>Restaurant Manager</title>
     <!-- Tailwind CSS CDN for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN for charts -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -24,78 +22,32 @@
         input[type="number"] {
             -moz-appearance: textfield;
         }
-        .logo-placeholder {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #e5e7eb;
-            color: #9ca3af;
-            font-size: 1.5rem;
-            font-weight: bold;
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen p-4">
 
-    <!-- Authentication Section (visible on load) -->
-    <div id="auth-section" class="bg-white p-8 rounded-2xl shadow-xl max-w-sm w-full">
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-6">Welcome Back</h2>
-        <div class="mb-4">
-            <label for="auth-email" class="block text-sm font-medium text-gray-700">Email</label>
-            <input type="email" id="auth-email" placeholder="email@example.com" class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        </div>
-        <div class="mb-2">
-            <label for="auth-password" class="block text-sm font-medium text-gray-700">Password</label>
-            <input type="password" id="auth-password" placeholder="Password" class="mt-1 p-3 w-full border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-        </div>
-        <div class="flex justify-end mb-6">
-            <button id="forgot-password-btn" class="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
-                Forgot Password?
+    <!-- Login/Password Form -->
+    <div id="login-container" class="container bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
+        <h1 class="text-4xl font-extrabold text-gray-800 text-center mb-4">Restaurant Manager</h1>
+        <p class="text-center text-gray-500 mb-6">Enter the password to access the app.</p>
+        <form id="login-form">
+            <input type="password" id="password-input" placeholder="Password" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+            <button type="submit" class="w-full mt-4 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                Log In
             </button>
-        </div>
-        <div class="space-y-4">
-            <button id="auth-signin-btn" class="w-full p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200">
-                Sign In
-            </button>
-            <button id="auth-signup-btn" class="w-full p-3 text-indigo-600 font-bold rounded-lg border border-indigo-600 hover:bg-indigo-50 transition-colors duration-200">
-                Create Account
-            </button>
-            <div class="flex items-center my-4">
-                <div class="flex-grow border-t border-gray-300"></div>
-                <span class="flex-shrink mx-4 text-gray-400">OR</span>
-                <div class="flex-grow border-t border-gray-300"></div>
-            </div>
-            <button id="auth-google-btn" class="w-full p-3 text-gray-800 font-bold rounded-lg bg-white border border-gray-300 hover:bg-gray-100 transition-colors duration-200 flex items-center justify-center space-x-2">
-                <svg class="h-5 w-5" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#FFC107" d="M43.611 20.083H42V20H24v8h11.303c-1.619 4.357-6.527 6.32-10.703 6.32-6.101 0-11.104-5.021-11.104-11.233 0-6.213 5.003-11.234 11.104-11.234 3.359 0 6.042 1.139 8.325 3.322l7.57-7.573c-4.646-4.511-10.934-7.247-18.195-7.247-13.375 0-24.168 10.875-24.168 24.25S10.375 48 23.75 48c12.75 0 22.952-11.17 22.952-24.25 0-1.554-.188-3.111-.462-4.629z"/>
-                    <path fill="#FF3D00" d="M6.321 14.853l7.575 7.643c.87-2.584 2.895-5.006 5.86-7.583H6.321z"/>
-                    <path fill="#4CAF50" d="M23.75 44c-5.166 0-9.945-2.29-13.24-6.002l-7.581 7.58c3.463 4.295 8.358 6.582 13.521 6.582 8.783 0 16.033-6.299 18.714-14.718l-7.572-7.571c-2.355 5.753-8.835 10.11-12.835 10.11z"/>
-                    <path fill="#1976D2" d="M43.611 20.083H42V20h-18v8h11.303a12.16 12.16 0 01-2.923 5.795l7.579 7.576A23.518 23.518 0 0023.75 4c-4.845 0-9.351 1.83-12.735 4.972l7.576 7.576c2.449-1.849 5.378-2.926 8.163-2.926 2.062 0 4.041.678 5.642 2.05z"/>
-                </svg>
-                <span>Sign in with Google</span>
-            </button>
-        </div>
-        <p id="auth-message" class="mt-4 text-center text-sm font-medium text-red-500"></p>
+        </form>
+        <div id="login-message" class="mt-4 text-center text-sm font-medium text-red-500 hidden">Incorrect password. Please try again.</div>
     </div>
 
-    <!-- Main App Content (hidden on load) -->
-    <div id="app-container" class="container bg-white rounded-xl shadow-2xl p-8 w-full hidden">
-        <!-- Header with Sign Out button -->
+    <div id="app-content" class="container bg-white rounded-xl shadow-2xl p-8 w-full hidden">
+        <!-- Title and Description -->
         <div class="flex items-center justify-between mb-8">
-            <div class="text-left">
-                <h1 id="app-title" class="text-4xl font-extrabold text-gray-800">Restaurant Manager</h1>
+            <div class="text-center">
+                <h1 class="text-4xl font-extrabold text-gray-800">Restaurant Manager</h1>
                 <p class="mt-2 text-lg text-gray-500">Your all-in-one tool for costing, sales, and purchases.</p>
-            </div>
-            <div class="flex flex-col items-end">
-                <button id="main-logout-btn" class="p-2 text-white bg-red-500 hover:bg-red-600 rounded-lg shadow transition-colors duration-200">
-                    Sign Out
-                </button>
-                <div id="user-info" class="text-xs font-mono text-gray-500 mt-2">
-                    User ID: <span id="user-id"></span>
-                </div>
             </div>
         </div>
 
@@ -115,12 +67,6 @@
             </button>
             <button id="salary-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
                 Salary
-            </button>
-            <button id="documents-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
-                Documents
-            </button>
-            <button id="reports-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
-                Reports
             </button>
         </div>
 
@@ -143,10 +89,13 @@
                 </div>
             </div>
 
-            <!-- Ingredients Table -->
-            <div class="overflow-x-auto">
+            <!-- Search and Scrollable Ingredients Table -->
+            <div class="mb-4">
+                <input type="text" id="master-search" placeholder="Search ingredients..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+            </div>
+            <div class="overflow-y-auto max-h-96">
                 <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-gray-100 border-b border-gray-200">
+                    <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
                         <tr>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Ingredient</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Unit</th>
@@ -221,8 +170,11 @@
                 </div>
             </div>
 
-            <!-- Menu Items List -->
-            <div id="menu-items-container" class="space-y-6">
+            <!-- Search and Scrollable Menu Items List -->
+            <div class="mb-4">
+                <input type="text" id="menu-search" placeholder="Search menu items..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+            </div>
+            <div id="menu-items-container" class="space-y-6 overflow-y-auto max-h-96">
                 <!-- Menu item cards will be dynamically inserted here -->
             </div>
         </div>
@@ -251,11 +203,13 @@
                 <div id="sales-message" class="mt-4 text-sm font-medium text-gray-600"></div>
             </div>
             
-            <!-- Daily Sales Summary Table -->
-            <div class="overflow-x-auto">
-                <h3 class="text-xl font-semibold mb-2 text-gray-700">Sales History</h3>
+            <!-- Search and Scrollable Daily Sales Summary Table -->
+            <div class="mb-4">
+                <input type="text" id="sales-search" placeholder="Search sales by date..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+            </div>
+            <div class="overflow-y-auto max-h-96">
                 <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-gray-100 border-b border-gray-200">
+                    <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
                         <tr>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Cash (£)</th>
@@ -318,11 +272,13 @@
                 <div id="purchase-message" class="mt-4 text-sm font-medium text-gray-600"></div>
             </div>
 
-            <!-- Purchases History Table -->
-            <div class="overflow-x-auto">
-                <h3 class="text-xl font-semibold mb-2 text-gray-700">Purchases History</h3>
+            <!-- Search and Scrollable Purchases History Table -->
+            <div class="mb-4">
+                <input type="text" id="purchases-search" placeholder="Search purchases..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+            </div>
+            <div class="overflow-y-auto max-h-96">
                 <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-gray-100 border-b border-gray-200">
+                    <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
                         <tr>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Item/Service</th>
@@ -372,37 +328,35 @@
             <!-- Record Salary Form -->
             <div class="mb-6 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
                 <h3 class="text-xl font-semibold text-gray-600 mb-3">Record Salary Payment</h3>
-                <div class="grid md:grid-cols-5 gap-4 items-end">
+                <div class="grid md:grid-cols-4 gap-4 items-end">
                     <input type="date" id="salary-date" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="text" id="salary-employee" placeholder="Employee Name" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="salary-hours" placeholder="Hours" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="salary-rate" placeholder="Hourly Rate (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <select id="salary-type" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                         <option value="">Select Payment Type</option>
-                        <option value="Daily Salary">Daily Salary</option>
                         <option value="Weekly Salary">Weekly Salary</option>
                         <option value="Monthly Salary">Monthly Salary</option>
                         <option value="Bonus">Bonus</option>
                         <option value="Overtime">Overtime</option>
                     </select>
-                    <button id="add-salary-btn" class="col-span-5 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                    <input type="number" id="salary-amount" placeholder="Amount (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <button id="add-salary-btn" class="col-span-4 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Record Payment
                     </button>
                 </div>
                 <div id="salary-message" class="mt-4 text-sm font-medium text-gray-600"></div>
             </div>
 
-            <!-- Salary History Table -->
-            <div class="overflow-x-auto">
-                <h3 class="text-xl font-semibold mb-2 text-gray-700">Salary History</h3>
+            <!-- Search and Scrollable Salary History Table -->
+            <div class="mb-4">
+                <input type="text" id="salary-search" placeholder="Search employees..." class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+            </div>
+            <div class="overflow-y-auto max-h-96">
                 <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-gray-100 border-b border-gray-200">
+                    <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
                         <tr>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Employee Name</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Type</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Hours</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Hourly Rate (£)</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Amount (£)</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                         </tr>
@@ -447,97 +401,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Documents Section (New) -->
-        <div id="documents-section" class="p-6 bg-gray-50 rounded-lg hidden transition-opacity duration-300 ease-in-out">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Documents</h2>
-            
-            <!-- Upload Document Form -->
-            <div class="mb-6 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
-                <h3 class="text-xl font-semibold text-gray-600 mb-3">Upload a Document</h3>
-                <div class="flex flex-col sm:flex-row gap-4 items-center">
-                    <input type="file" id="document-file" class="flex-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-                    <button id="upload-document-btn" class="w-full sm:w-auto p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
-                        Upload Document
-                    </button>
-                </div>
-                <div id="document-message" class="mt-4 text-sm font-medium text-gray-600"></div>
-            </div>
-
-            <!-- Documents List Table -->
-            <div class="overflow-x-auto">
-                <h3 class="text-xl font-semibold mb-2 text-gray-700">Uploaded Documents</h3>
-                <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-                    <thead class="bg-gray-100 border-b border-gray-200">
-                        <tr>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Document Name</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Type</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Size</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="documents-table-body">
-                        <!-- Document rows will be dynamically inserted here -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Reports Section (New) -->
-        <div id="reports-section" class="p-6 bg-gray-50 rounded-lg hidden transition-opacity duration-300 ease-in-out">
-            <h2 class="text-2xl font-bold mb-4 text-gray-700">Reports & Analytics</h2>
-            
-            <!-- Sales Trends Chart -->
-            <div class="mb-8 p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
-                <h3 class="text-xl font-semibold mb-4 text-gray-600">Daily Sales Trends</h3>
-                
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4 items-end">
-                    <div class="md:col-span-1">
-                        <label for="report-start-date" class="block text-sm font-medium text-gray-700 mb-1">Start Date</label>
-                        <input type="date" id="report-start-date" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    </div>
-                    <div class="md:col-span-1">
-                        <label for="report-end-date" class="block text-sm font-medium text-gray-700 mb-1">End Date</label>
-                        <input type="date" id="report-end-date" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    </div>
-                    <div class="md:col-span-1">
-                        <label for="sales-target-input" class="block text-sm font-medium text-gray-700 mb-1">Daily Sales Target (£)</label>
-                        <input type="number" id="sales-target-input" placeholder="e.g. 500" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                    </div>
-                    <div class="flex gap-4 md:col-span-1">
-                        <button id="filter-sales-btn" class="flex-1 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
-                            Apply Filter
-                        </button>
-                        <button id="download-sales-report-pdf" class="flex-1 p-3 text-white font-bold rounded-lg bg-gray-600 hover:bg-gray-700 transition-colors duration-200 shadow-md">
-                            Download PDF
-                        </button>
-                    </div>
-                </div>
-                
-                <canvas id="salesChart"></canvas>
-            </div>
-
-            <!-- Profitability Report -->
-            <div class="p-4 border border-gray-200 rounded-lg bg-white shadow-sm">
-                <h3 class="text-xl font-semibold mb-4 text-gray-600">Menu Item Profitability</h3>
-                <div class="overflow-x-auto">
-                    <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
-                        <thead class="bg-gray-100 border-b border-gray-200">
-                        <tr>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Menu Item</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">COGS (£)</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Dine-In Price (£)</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Profit (£)</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Profit Margin (%)</th>
-                        </tr>
-                        </thead>
-                        <tbody id="profit-report-body">
-                        <!-- Profit report rows will be dynamically inserted here -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
         
     </div>
     
@@ -561,73 +424,112 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
     
-    <!-- Firebase SDK Imports -->
+    <!-- Firebase SDKs -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, onAuthStateChanged, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, doc, onSnapshot, setDoc, addDoc, updateDoc, deleteDoc, query, where } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
-        // --- Firebase Configuration & Initialization ---
-        // Your Firebase configuration object.
+        // Firebase configuration provided by the user
         const firebaseConfig = {
-            apiKey: "AIzaSyAbg7QkC0I9saYVTgnlOSiWgJOoGlBIJ4k",
-            authDomain: "my-web-app-4da9b.firebaseapp.com",
-            projectId: "my-web-app-4da9b",
-            storageBucket: "my-web-app-4da9b.firebasestorage.app",
-            messagingSenderId: "981498815324",
-            appId: "1:981498815324:web:2a4dec6a183768efffd799"
+          apiKey: "AIzaSyAoWY28i0hP3DN2t8fw2A61rBDw2yoIwS0",
+          authDomain: "my-web-app2-c8dd0.firebaseapp.com",
+          projectId: "my-web-app2-c8dd0",
+          storageBucket: "my-web-app2-c8dd0.firebasestorage.app",
+          messagingSenderId: "430499672591",
+          appId: "1:430499672591:web:f11185605aece22dbee97a"
         };
         
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-
-        // Global variables for data
+        let db;
+        // The single document to store all data.
+        const mainDocId = 'restaurant-data';
+        
+        // --- Core Data Structures & Firestore Functions ---
         let masterIngredients = [];
         let menuItems = [];
         let dailySales = [];
         let dailyPurchases = [];
         let salary = [];
-        let documents = [];
-
-        let userId = null;
-        let isAuthReady = false;
-
-        // Document ID for single-document data storage
-        const DOC_ID = 'restaurant-data';
-
-        // --- DOM Elements & Event Listeners ---
-        const authSection = document.getElementById('auth-section');
-        const appContainer = document.getElementById('app-container');
-        const authEmailInput = document.getElementById('auth-email');
-        const authPasswordInput = document.getElementById('auth-password');
-        const authSigninBtn = document.getElementById('auth-signin-btn');
-        const authSignupBtn = document.getElementById('auth-signup-btn');
-        const forgotPasswordBtn = document.getElementById('forgot-password-btn');
-        const authGoogleBtn = document.getElementById('auth-google-btn');
-        const mainLogoutBtn = document.getElementById('main-logout-btn');
-        const authMessage = document.getElementById('auth-message');
-        const userIdSpan = document.getElementById('user-id');
         
-        // The rest of the DOM elements from the original code
+        // Initialize Firebase.
+        try {
+            initializeApp(firebaseConfig);
+            db = getFirestore();
+        } catch (e) {
+            console.error("Firebase initialization failed:", e);
+        }
+
+        // Firestore data saving function
+        async function saveDataToFirestore() {
+            // The path is to a "public" collection, meaning it's not tied to a specific user.
+            const dataRef = doc(db, 'public', mainDocId);
+            const data = {
+                masterIngredients,
+                menuItems,
+                dailySales,
+                dailyPurchases,
+                salary
+            };
+            try {
+                await setDoc(dataRef, data);
+            } catch (e) {
+                console.error("Error writing document: ", e);
+            }
+        }
+        
+        // Use onSnapshot to get real-time updates for all data
+        function setupFirestoreListeners() {
+            // Reference to the public document
+            const dataRef = doc(db, 'public', mainDocId);
+
+            onSnapshot(dataRef, (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    masterIngredients = data.masterIngredients || [];
+                    menuItems = data.menuItems || [];
+                    dailySales = data.dailySales || [];
+                    dailyPurchases = data.dailyPurchases || [];
+                    salary = data.salary || [];
+                } else {
+                    // Initialize with empty arrays if doc doesn't exist
+                    masterIngredients = [];
+                    menuItems = [];
+                    dailySales = [];
+                    dailyPurchases = [];
+                    salary = [];
+                }
+                // Re-render everything with the latest data
+                renderIngredients();
+                renderMenuItems();
+                renderDailySales();
+                renderPurchases();
+                renderSalary();
+            }, (error) => {
+                console.error("Error listening to data:", error);
+                // Handle error gracefully
+            });
+        }
+        
+        // --- DOM Elements & Event Listeners ---
+        const loginContainer = document.getElementById('login-container');
+        const loginForm = document.getElementById('login-form');
+        const passwordInput = document.getElementById('password-input');
+        const loginMessage = document.getElementById('login-message');
+        const appContent = document.getElementById('app-content');
+        
         const masterTab = document.getElementById('master-tab');
         const menuTab = document.getElementById('menu-tab');
         const salesTab = document.getElementById('sales-tab');
         const purchasesTab = document.getElementById('purchases-tab');
         const salaryTab = document.getElementById('salary-tab');
-        const documentsTab = document.getElementById('documents-tab');
-        const reportsTab = document.getElementById('reports-tab');
 
         const masterSection = document.getElementById('master-section');
         const menuSection = document.getElementById('menu-section');
         const salesSection = document.getElementById('sales-section');
         const purchasesSection = document.getElementById('purchases-section');
         const salarySection = document.getElementById('salary-section');
-        const documentsSection = document.getElementById('documents-section');
-        const reportsSection = document.getElementById('reports-section');
         
+        const masterSearchInput = document.getElementById('master-search');
         const ingredientsTableBody = document.getElementById('ingredients-table-body');
         const addIngredientBtn = document.getElementById('add-ingredient-btn');
         const ingredientNameInput = document.getElementById('ingredient-name');
@@ -635,13 +537,15 @@
         const ingredientCostInput = document.getElementById('ingredient-cost');
         const masterMessage = document.getElementById('master-message');
 
+        const menuSearchInput = document.getElementById('menu-search');
         const menuItemsContainer = document.getElementById('menu-items-container');
         const addMenuItemBtn = document.getElementById('add-menu-item-btn');
         const menuItemNameInput = document.getElementById('menu-item-name');
         const itemTypeSelect = document.getElementById('item-type-select');
         const dineInPriceInput = document.getElementById('dine-in-price');
         const takeAwayPriceInput = document.getElementById('take-away-price');
-
+        
+        const salesSearchInput = document.getElementById('sales-search');
         const salesDateInput = document.getElementById('sales-date');
         const salesCashInput = document.getElementById('sales-cash');
         const salesCardInput = document.getElementById('sales-card');
@@ -655,6 +559,7 @@
         const salesMessage = document.getElementById('sales-message');
         const salesHistoryBody = document.getElementById('sales-history-body');
         
+        const purchasesSearchInput = document.getElementById('purchases-search');
         const purchaseDateInput = document.getElementById('purchase-date');
         const purchaseItemInput = document.getElementById('purchase-item');
         const purchaseCostInput = document.getElementById('purchase-cost');
@@ -662,11 +567,11 @@
         const purchaseMessage = document.getElementById('purchase-message');
         const purchasesHistoryBody = document.getElementById('purchases-history-body');
         
+        const salarySearchInput = document.getElementById('salary-search');
         const salaryDateInput = document.getElementById('salary-date');
         const salaryEmployeeInput = document.getElementById('salary-employee');
-        const salaryHoursInput = document.getElementById('salary-hours');
-        const salaryRateInput = document.getElementById('salary-rate');
         const salaryTypeInput = document.getElementById('salary-type');
+        const salaryAmountInput = document.getElementById('salary-amount');
         const addSalaryBtn = document.getElementById('add-salary-btn');
         const salaryMessage = document.getElementById('salary-message');
         const salaryHistoryBody = document.getElementById('salary-history-body');
@@ -699,19 +604,6 @@
         const uploadIngredientsFile = document.getElementById('upload-ingredients-file');
         const uploadIngredientsBtn = document.getElementById('upload-ingredients-btn');
 
-        const documentFile = document.getElementById('document-file');
-        const uploadDocumentBtn = document.getElementById('upload-document-btn');
-        const documentsTableBody = document.getElementById('documents-table-body');
-        const documentMessage = document.getElementById('document-message');
-        
-        const salesChartCanvas = document.getElementById('salesChart');
-        const profitReportBody = document.getElementById('profit-report-body');
-        
-        const reportStartDateInput = document.getElementById('report-start-date');
-        const reportEndDateInput = document.getElementById('report-end-date');
-        const salesTargetInput = document.getElementById('sales-target-input');
-        const filterSalesBtn = document.getElementById('filter-sales-btn');
-        const downloadSalesReportPdfBtn = document.getElementById('download-sales-report-pdf');
 
         // Set today's date on the date pickers
         const today = new Date().toISOString().split('T')[0];
@@ -724,184 +616,33 @@
         downloadPurchaseEndDateInput.value = today;
         downloadSalaryStartDateInput.value = today;
         downloadSalaryEndDateInput.value = today;
-        
-        // Set default date range for reports (last 30 days)
-        const last30Days = new Date();
-        last30Days.setDate(last30Days.getDate() - 30);
-        reportStartDateInput.value = last30Days.toISOString().split('T')[0];
-        reportEndDateInput.value = today;
-        
-        // Set initial sales target from local storage
-        salesTargetInput.value = getSalesTarget();
 
-        // --- Authentication Logic ---
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                // User is signed in, show app content
-                userId = user.uid;
-                isAuthReady = true;
-                authSection.classList.add('hidden');
-                appContainer.classList.remove('hidden');
-                userIdSpan.textContent = userId;
-                setupDataListeners(userId);
+
+        // --- Password Logic ---
+        const correctPassword = "Summer2025";
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (passwordInput.value === correctPassword) {
+                loginContainer.classList.add('hidden');
+                appContent.classList.remove('hidden');
+                // Initial render of the content after successful login
+                // Now we initiate the Firebase listener
+                setupFirestoreListeners();
+                switchTab(masterTab, masterSection);
             } else {
-                // User is signed out, show auth form
-                isAuthReady = false;
-                userId = null;
-                authSection.classList.remove('hidden');
-                appContainer.classList.add('hidden');
-            }
-        });
-
-        authSignupBtn.addEventListener('click', async () => {
-            const email = authEmailInput.value;
-            const password = authPasswordInput.value;
-            authMessage.textContent = '';
-            if (email.trim() === '' || password.trim() === '') {
-                authMessage.textContent = 'Please enter an email and password.';
-                return;
-            }
-            try {
-                await createUserWithEmailAndPassword(auth, email, password);
-            } catch (error) {
-                authMessage.textContent = `Error: ${error.message}`;
-            }
-        });
-
-        authSigninBtn.addEventListener('click', async () => {
-            const email = authEmailInput.value;
-            const password = authPasswordInput.value;
-            authMessage.textContent = '';
-            if (email.trim() === '' || password.trim() === '') {
-                authMessage.textContent = 'Please enter an email and password.';
-                return;
-            }
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-            } catch (error) {
-                authMessage.textContent = `Error: ${error.message}`;
-            }
-        });
-
-        authGoogleBtn.addEventListener('click', async () => {
-            authMessage.textContent = '';
-            try {
-                const provider = new GoogleAuthProvider();
-                await signInWithPopup(auth, provider);
-            } catch (error) {
-                authMessage.textContent = `Error: ${error.message}`;
-            }
-        });
-        
-        // New event listener for the forgot password button
-        forgotPasswordBtn.addEventListener('click', async () => {
-            const email = authEmailInput.value;
-            authMessage.textContent = '';
-            if (email.trim() === '') {
-                authMessage.textContent = 'Please enter your email address to reset your password.';
-                return;
-            }
-            try {
-                await sendPasswordResetEmail(auth, email);
-                authMessage.textContent = 'A password reset email has been sent to your address.';
-                authMessage.classList.remove('text-red-500');
-                authMessage.classList.add('text-green-500');
-            } catch (error) {
-                authMessage.textContent = `Error: ${error.message}`;
-                authMessage.classList.remove('text-green-500');
-                authMessage.classList.add('text-red-500');
-            }
-        });
-
-        mainLogoutBtn.addEventListener('click', async () => {
-            try {
-                await signOut(auth);
-            } catch (error) {
-                console.error("Logout failed:", error);
+                loginMessage.classList.remove('hidden');
             }
         });
 
 
-        // --- Firestore Real-Time Listeners ---
-        function setupDataListeners(uid) {
-            
-            // Listeners for the combined data document
-            const dataDocRef = doc(db, `artifacts/${appId}/users/${uid}/private_data`, DOC_ID);
-            onSnapshot(dataDocRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    const data = docSnap.data();
-                    masterIngredients = data.masterIngredients || [];
-                    menuItems = data.menuItems || [];
-                    dailySales = data.dailySales || [];
-                    dailyPurchases = data.dailyPurchases || [];
-                    salary = data.salary || [];
-                    documents = data.documents || [];
-                } else {
-                    console.log("No data found for this user. Starting fresh.");
-                }
-                
-                // Re-render all sections after receiving data
-                renderAllData();
-            }, (error) => {
-                console.error("Error fetching data:", error);
-            });
-        }
-        
-        // Function to update Firestore
-        async function saveData() {
-            if (!isAuthReady) {
-                console.warn("Authentication not ready. Cannot save data.");
-                return;
-            }
-            try {
-                // Corrected path to ensure an even number of segments
-                const dataDocRef = doc(db, `artifacts/${appId}/users/${userId}/private_data`, DOC_ID);
-                await setDoc(dataDocRef, {
-                    masterIngredients,
-                    menuItems,
-                    dailySales,
-                    dailyPurchases,
-                    salary,
-                    documents
-                });
-            } catch (e) {
-                console.error("Error saving data:", e);
-                const errorMessage = `Error saving data: ${e.message}`;
-                const errorDiv = document.createElement('div');
-                errorDiv.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
-                errorDiv.textContent = errorMessage;
-                document.body.appendChild(errorDiv);
-                setTimeout(() => errorDiv.remove(), 5000);
-            }
-        }
-        
-        // --- Core Data Structures & Functions (Updated for Firestore) ---
-        // Functions now call `saveData` after manipulating the local arrays
-        function saveIngredients() { saveData(); }
-        function saveMenuItems() { saveData(); }
-        function saveDailySales() { saveData(); }
-        function saveDailyPurchases() { saveData(); }
-        function saveSalary() { saveData(); }
-        function saveDocuments() { saveData(); }
-        function saveSalesTarget(target) { 
-            // Sales target remains in local storage as it is a user-specific preference, not part of core data.
-            localStorage.setItem('salesTarget', target);
-        }
-        function getSalesTarget() { return localStorage.getItem('salesTarget') ? parseFloat(localStorage.getItem('salesTarget')) : 0; }
-        
         // Function to switch tabs
         function switchTab(activeTab, activeSection) {
-            const tabs = [masterTab, menuTab, salesTab, purchasesTab, salaryTab, documentsTab, reportsTab];
-            const sections = [masterSection, menuSection, salesSection, purchasesSection, salarySection, documentsSection, reportsSection];
+            const tabs = [masterTab, menuTab, salesTab, purchasesTab, salaryTab];
+            const sections = [masterSection, menuSection, salesSection, purchasesSection, salarySection];
             tabs.forEach(tab => tab.classList.remove('border-indigo-500', 'text-indigo-600'));
             sections.forEach(section => section.classList.add('hidden'));
             activeTab.classList.add('border-indigo-500', 'text-indigo-600');
             activeSection.classList.remove('hidden');
-            
-            // Special rendering for new sections
-            if (activeSection === reportsSection) {
-                renderReports();
-            }
         }
 
         // Tab click handlers
@@ -910,18 +651,16 @@
         salesTab.addEventListener('click', () => { switchTab(salesTab, salesSection); renderDailySales(); });
         purchasesTab.addEventListener('click', () => { switchTab(purchasesTab, purchasesSection); renderPurchases(); });
         salaryTab.addEventListener('click', () => { switchTab(salaryTab, salarySection); renderSalary(); });
-        documentsTab.addEventListener('click', () => { switchTab(documentsTab, documentsSection); renderDocuments(); });
-        reportsTab.addEventListener('click', () => { switchTab(reportsTab, reportsSection); renderReports(); });
 
         // --- Master Ingredients Logic ---
-        function renderIngredients() {
+        function renderIngredients(data = masterIngredients) {
             ingredientsTableBody.innerHTML = '';
-            if (masterIngredients.length === 0) {
-                masterMessage.textContent = 'No ingredients added yet. Please add one above.';
+            if (data.length === 0) {
+                masterMessage.textContent = 'No ingredients found.';
                 return;
             }
             masterMessage.textContent = '';
-            masterIngredients.forEach((ingredient, index) => {
+            data.forEach((ingredient, index) => {
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
                 row.innerHTML = `
@@ -941,10 +680,16 @@
             attachIngredientEventListeners();
         }
 
+        masterSearchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filteredIngredients = masterIngredients.filter(ing => ing.name.toLowerCase().includes(query));
+            renderIngredients(filteredIngredients);
+        });
+
         function attachIngredientEventListeners() {
             // Delete button
             document.querySelectorAll('#ingredients-table-body .delete-ingredient-btn').forEach(btn => {
-                btn.addEventListener('click', async (e) => {
+                btn.addEventListener('click', (e) => {
                     const index = e.target.closest('button').dataset.index;
                     pendingDeleteIndex = index;
                     pendingDeleteType = 'master-ingredient';
@@ -960,14 +705,14 @@
                     const newCost = parseFloat(e.target.value);
                     if (!isNaN(newCost) && newCost >= 0) {
                         masterIngredients[index].cost = newCost;
-                        saveIngredients();
+                        saveDataToFirestore();
                         renderMenuItems(); // Recalculate all COGS
                     }
                 });
             });
         }
         
-        addIngredientBtn.addEventListener('click', async () => {
+        addIngredientBtn.addEventListener('click', () => {
             const name = ingredientNameInput.value.trim();
             const unit = ingredientUnitInput.value.trim();
             const cost = parseFloat(ingredientCostInput.value);
@@ -976,7 +721,7 @@
                 return;
             }
             masterIngredients.push({ name, unit, cost });
-            await saveData();
+            saveDataToFirestore();
             ingredientNameInput.value = '';
             ingredientUnitInput.value = '';
             ingredientCostInput.value = '';
@@ -996,7 +741,7 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFontSize(18);
-            doc.text(`Restaurant Manager - Master Ingredients List`, 14, 20);
+            doc.text("Master Ingredients List", 14, 20);
             const tableColumn = ["Ingredient Name", "Unit", "Cost per Unit (£)"];
             const tableRows = masterIngredients.map(ing => [ing.name, ing.unit, ing.cost.toFixed(2)]);
             doc.autoTable({
@@ -1037,7 +782,7 @@
         });
 
         // Master Ingredients Upload
-        uploadIngredientsBtn.addEventListener('click', async () => {
+        uploadIngredientsBtn.addEventListener('click', () => {
             const file = uploadIngredientsFile.files[0];
             if (!file) {
                 masterMessage.textContent = 'Please select a CSV file to upload.';
@@ -1045,7 +790,7 @@
             }
 
             const reader = new FileReader();
-            reader.onload = async (e) => {
+            reader.onload = (e) => {
                 const content = e.target.result;
                 const lines = content.split('\n');
                 const newIngredients = [];
@@ -1067,7 +812,9 @@
                     }
                 }
                 masterIngredients = newIngredients;
-                await saveData();
+                saveDataToFirestore();
+                renderIngredients();
+                renderMenuItems();
                 masterMessage.textContent = `Successfully uploaded ${newIngredients.length} ingredients!`;
             };
             reader.readAsText(file);
@@ -1119,13 +866,13 @@
             `;
         }
 
-        function renderMenuItems() {
+        function renderMenuItems(data = menuItems) {
             menuItemsContainer.innerHTML = '';
-            if (menuItems.length === 0) {
-                menuItemsContainer.innerHTML = '<div class="text-center text-gray-600">No menu items added yet.</div>';
+            if (data.length === 0) {
+                menuItemsContainer.innerHTML = '<div class="text-center text-gray-600">No menu items found.</div>';
                 return;
             }
-            menuItems.forEach((item, index) => {
+            data.forEach((item, index) => {
                 item.cogs = calculateCogs(item.ingredients);
                 const dineInVat = item.dineInPrice ? item.dineInPrice * 0.20 : 0;
                 const takeAwayVat = item.takeAwayPrice ? item.takeAwayPrice * 0.20 : 0;
@@ -1136,10 +883,6 @@
                 const dineInCogsWithVat = item.cogs + dineInVat;
                 const takeAwayCogsWithVat = item.cogs + takeAwayVat;
 
-                // Calculate profit and profit margin for the menu item
-                const profit = item.dineInPrice - item.cogs;
-                const profitMargin = (profit / item.dineInPrice) * 100;
-                
                 const itemCard = document.createElement('div');
                 itemCard.className = 'p-6 bg-white rounded-lg shadow-md border border-gray-200';
                 itemCard.innerHTML = `
@@ -1208,22 +951,6 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- New Profit Margin Display -->
-                        <div class="p-4 border border-green-200 rounded-lg bg-green-50 mt-4">
-                            <h4 class="text-md font-semibold text-gray-700 mb-2">Profitability Analysis</h4>
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <span class="block text-gray-500 text-sm">Profit (Dine-In):</span>
-                                    <span class="block text-green-700 font-bold text-lg">£${item.dineInPrice > 0 ? profit.toFixed(2) : 'N/A'}</span>
-                                </div>
-                                <div>
-                                    <span class="block text-gray-500 text-sm">Profit Margin:</span>
-                                    <span class="block text-green-700 font-bold text-lg">${item.dineInPrice > 0 ? profitMargin.toFixed(2) : 'N/A'}%</span>
-                                </div>
-                            </div>
-                        </div>
-
 
                         <div class="overflow-x-auto mt-4">
                             <table class="min-w-full bg-white border border-gray-200 rounded-lg">
@@ -1272,6 +999,12 @@
             attachMenuEventListeners();
         }
 
+        menuSearchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filteredMenu = menuItems.filter(item => item.name.toLowerCase().includes(query));
+            renderMenuItems(filteredMenu);
+        });
+
         function calculateComponentCost(component) {
             if (component.type === 'ingredient') {
                 const ing = masterIngredients.find(i => i.name === component.name);
@@ -1283,14 +1016,14 @@
             return 0;
         }
 
-        addMenuItemBtn.addEventListener('click', async () => {
+        addMenuItemBtn.addEventListener('click', () => {
             const name = menuItemNameInput.value.trim();
             const type = itemTypeSelect.value;
             const dineInPrice = parseFloat(dineInPriceInput.value);
             const takeAwayPrice = parseFloat(takeAwayPriceInput.value);
             if (!name) { return; }
             menuItems.push({ name, type, ingredients: [], cogs: 0, dineInPrice, takeAwayPrice });
-            await saveData();
+            saveDataToFirestore();
             menuItemNameInput.value = '';
             dineInPriceInput.value = '';
             takeAwayPriceInput.value = '';
@@ -1298,8 +1031,9 @@
 
         function attachMenuEventListeners() {
             document.querySelectorAll('.add-component-btn').forEach(btn => {
-                btn.addEventListener('click', async () => {
-                    const itemIndex = btn.dataset.item-index;
+                btn.addEventListener('click', () => {
+                    // Fix: Use correct camelCase for dataset properties
+                    const itemIndex = btn.dataset.itemIndex;
                     const item = menuItems[itemIndex];
                     const card = btn.closest('.p-6');
                     const select = card.querySelector('.component-select');
@@ -1311,7 +1045,7 @@
                     if (!name || isNaN(quantity) || quantity <= 0) { return; }
                     
                     item.ingredients.push({ name, quantity, type });
-                    await saveData();
+                    saveDataToFirestore();
                     
                     card.querySelector('.component-select').value = '';
                     card.querySelector('.component-quantity').value = '';
@@ -1329,11 +1063,12 @@
             });
             
             document.querySelectorAll('.remove-component-btn').forEach(btn => {
-                btn.addEventListener('click', async (e) => {
+                btn.addEventListener('click', (e) => {
+                    // Fix: Use correct camelCase for dataset properties
                     const itemIndex = e.target.closest('button').dataset.itemIndex;
                     const componentIndex = e.target.closest('button').dataset.componentIndex;
                     menuItems[itemIndex].ingredients.splice(componentIndex, 1);
-                    await saveData();
+                    saveDataToFirestore();
                 });
             });
             
@@ -1364,13 +1099,13 @@
         }
         
         // --- Daily Sales Logic ---
-        function renderDailySales() {
+        function renderDailySales(data = dailySales) {
             salesHistoryBody.innerHTML = '';
-            if (dailySales.length === 0) {
+            if (data.length === 0) {
                 salesHistoryBody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-600 py-4">No sales recorded yet.</td></tr>';
                 return;
             }
-            dailySales.forEach((sale, index) => {
+            data.forEach((sale, index) => {
                 const total = sale.cash + sale.card + sale.uber + sale.justeat + sale.deliveroo + sale.website + sale.advance + sale.toogoodtogo;
                 const onlineTotal = sale.uber + sale.justeat + sale.deliveroo + sale.website + sale.toogoodtogo;
                 const row = document.createElement('tr');
@@ -1392,6 +1127,12 @@
             attachSalesEventListeners();
         }
 
+        salesSearchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filteredSales = dailySales.filter(sale => sale.date.includes(query));
+            renderDailySales(filteredSales);
+        });
+
         function attachSalesEventListeners() {
             document.querySelectorAll('.delete-sales-record-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -1404,7 +1145,7 @@
             });
         }
 
-        addSalesBtn.addEventListener('click', async () => {
+        addSalesBtn.addEventListener('click', () => {
             const date = salesDateInput.value;
             const cash = parseFloat(salesCashInput.value) || 0;
             const card = parseFloat(salesCardInput.value) || 0;
@@ -1421,7 +1162,7 @@
             }
             
             dailySales.push({ date, cash, card, uber, justeat, deliveroo, website, advance, toogoodtogo });
-            await saveData();
+            saveDataToFirestore();
             salesMessage.textContent = 'Sales recorded successfully!';
             
             // Clear input fields
@@ -1437,13 +1178,13 @@
         });
 
         // --- Purchases Logic ---
-        function renderPurchases() {
+        function renderPurchases(data = dailyPurchases) {
             purchasesHistoryBody.innerHTML = '';
-            if (dailyPurchases.length === 0) {
+            if (data.length === 0) {
                 purchasesHistoryBody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-600 py-4">No purchases recorded yet.</td></tr>';
                 return;
             }
-            dailyPurchases.forEach((purchase, index) => {
+            data.forEach((purchase, index) => {
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
                 row.innerHTML = `
@@ -1460,6 +1201,12 @@
             });
             attachPurchasesEventListeners();
         }
+
+        purchasesSearchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filteredPurchases = dailyPurchases.filter(purchase => purchase.item.toLowerCase().includes(query));
+            renderPurchases(filteredPurchases);
+        });
         
         function attachPurchasesEventListeners() {
             document.querySelectorAll('.delete-purchase-btn').forEach(btn => {
@@ -1473,7 +1220,7 @@
             });
         }
         
-        addPurchaseBtn.addEventListener('click', async () => {
+        addPurchaseBtn.addEventListener('click', () => {
             const date = purchaseDateInput.value;
             const item = purchaseItemInput.value.trim();
             const cost = parseFloat(purchaseCostInput.value);
@@ -1482,7 +1229,7 @@
                 return;
             }
             dailyPurchases.push({ date, item, cost });
-            await saveData();
+            saveDataToFirestore();
             purchaseDateInput.value = today;
             purchaseItemInput.value = '';
             purchaseCostInput.value = '';
@@ -1490,21 +1237,19 @@
         });
         
         // --- Salary Logic ---
-        function renderSalary() {
+        function renderSalary(data = salary) {
             salaryHistoryBody.innerHTML = '';
-            if (salary.length === 0) {
-                salaryHistoryBody.innerHTML = '<tr><td colspan="7" class="text-center text-gray-600 py-4">No salary payments recorded yet.</td></tr>';
+            if (data.length === 0) {
+                salaryHistoryBody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-600 py-4">No salary payments recorded yet.</td></tr>';
                 return;
             }
-            salary.forEach((payment, index) => {
+            data.forEach((payment, index) => {
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
                 row.innerHTML = `
                     <td class="py-3 px-4">${payment.date}</td>
                     <td class="py-3 px-4">${payment.employee}</td>
                     <td class="py-3 px-4">${payment.type}</td>
-                    <td class="py-3 px-4">${payment.hours ? payment.hours.toFixed(2) : '-'}</td>
-                    <td class="py-3 px-4">£${payment.rate ? payment.rate.toFixed(2) : '-'}</td>
                     <td class="py-3 px-4">£${payment.amount.toFixed(2)}</td>
                     <td class="py-3 px-4">
                         <button data-index="${index}" class="delete-salary-btn text-red-500 hover:text-red-700">
@@ -1517,6 +1262,12 @@
             attachSalaryEventListeners();
             populateEmployeeDropdown();
         }
+
+        salarySearchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filteredSalary = salary.filter(payment => payment.employee.toLowerCase().includes(query));
+            renderSalary(filteredSalary);
+        });
         
         function populateEmployeeDropdown() {
             const uniqueEmployees = [...new Set(salary.map(p => p.employee))].sort();
@@ -1541,277 +1292,50 @@
             });
         }
 
-        addSalaryBtn.addEventListener('click', async () => {
+        addSalaryBtn.addEventListener('click', () => {
             const date = salaryDateInput.value;
             const employee = salaryEmployeeInput.value.trim();
             const type = salaryTypeInput.value;
-            const hours = parseFloat(salaryHoursInput.value);
-            const rate = parseFloat(salaryRateInput.value);
-            
-            if (!date || !employee || isNaN(hours) || hours <= 0 || isNaN(rate) || rate <= 0) {
+            const amount = parseFloat(salaryAmountInput.value);
+            if (!date || !employee || !type || isNaN(amount) || amount <= 0) {
                 salaryMessage.textContent = 'Please fill out all fields with valid data.';
                 return;
             }
-            
-            const amount = hours * rate;
-
-            salary.push({ date, employee, type, hours, rate, amount });
-            await saveData();
+            salary.push({ date, employee, type, amount });
+            saveDataToFirestore();
             salaryDateInput.value = today;
             salaryEmployeeInput.value = '';
-            salaryHoursInput.value = '';
-            salaryRateInput.value = '';
             salaryTypeInput.value = '';
+            salaryAmountInput.value = '';
             salaryMessage.textContent = 'Salary payment recorded successfully!';
         });
 
-        // --- Documents Logic ---
-        function renderDocuments() {
-            documentsTableBody.innerHTML = '';
-            if (documents.length === 0) {
-                documentsTableBody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-600 py-4">No documents uploaded yet.</td></tr>';
-                return;
-            }
-            documents.forEach((doc, index) => {
-                const row = document.createElement('tr');
-                row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
-                row.innerHTML = `
-                    <td class="py-3 px-4 text-gray-800">${doc.name}</td>
-                    <td class="py-3 px-4 text-gray-800">${doc.type}</td>
-                    <td class="py-3 px-4 text-gray-800">${(doc.size / 1024).toFixed(2)} KB</td>
-                    <td class="py-3 px-4 flex gap-2">
-                        <button data-index="${index}" class="download-document-btn text-indigo-600 hover:text-indigo-800 transition-colors duration-200">
-                            Download
-                        </button>
-                        <button data-index="${index}" class="delete-document-btn text-red-500 hover:text-red-700 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                        </button>
-                    </td>
-                `;
-                documentsTableBody.appendChild(row);
-            });
-            attachDocumentEventListeners();
-        }
-
-        function attachDocumentEventListeners() {
-            // Download button
-            document.querySelectorAll('.download-document-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const index = e.target.closest('button').dataset.index;
-                    const doc = documents[index];
-                    if (doc.data) {
-                        const link = document.createElement('a');
-                        link.href = doc.data;
-                        link.download = doc.name;
-                        document.body.appendChild(link);
-                        link.click();
-                        document.body.removeChild(link);
-                    }
-                });
-            });
-
-            // Delete button
-            document.querySelectorAll('.delete-document-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const index = e.target.closest('button').dataset.index;
-                    pendingDeleteIndex = index;
-                    pendingDeleteType = 'documents';
-                    confirmModal.classList.remove('hidden');
-                    confirmMessage.textContent = `Are you sure you want to delete the document "${documents[index].name}"?`;
-                });
-            });
-        }
-
-        uploadDocumentBtn.addEventListener('click', async () => {
-            const file = documentFile.files[0];
-            if (!file) {
-                documentMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
-                documentMessage.textContent = 'Please select a file to upload.';
-                setTimeout(() => documentMessage.textContent = '', 3000);
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = async (e) => {
-                documents.push({
-                    name: file.name,
-                    type: file.type,
-                    size: file.size,
-                    data: e.target.result
-                });
-                await saveData();
-                documentFile.value = '';
-                documentMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-green-500 rounded-lg bg-green-100';
-                documentMessage.textContent = 'Document uploaded successfully!';
-                setTimeout(() => documentMessage.textContent = '', 3000);
-            };
-            reader.readAsDataURL(file);
-        });
-
-        // --- Reports Logic (New) ---
-        function renderReports(startDate = null, endDate = null) {
-            renderSalesChart(startDate, endDate);
-            renderProfitReport();
-        }
-
-        function renderSalesChart(startDate = null, endDate = null) {
-            // Use a default date range if none is provided
-            if (!startDate || !endDate) {
-                const today = new Date();
-                const defaultStartDate = new Date();
-                defaultStartDate.setDate(today.getDate() - 30);
-                startDate = defaultStartDate.toISOString().split('T')[0];
-                endDate = today.toISOString().split('T')[0];
-                reportStartDateInput.value = startDate;
-                reportEndDateInput.value = endDate;
-            }
-
-            const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-            const salesByDate = {};
-            
-            // Filter sales data by date range
-            const filteredSales = dailySales.filter(sale => sale.date >= startDate && sale.date <= endDate);
-
-            filteredSales.forEach(sale => {
-                const totalSales = sale.cash + sale.card + sale.uber + sale.justeat + sale.deliveroo + sale.website + sale.advance + sale.toogoodtogo;
-                if (salesByDate[sale.date]) {
-                    salesByDate[sale.date] += totalSales;
-                } else {
-                    salesByDate[sale.date] = totalSales;
-                }
-            });
-
-            const sortedDates = Object.keys(salesByDate).sort();
-            const salesData = sortedDates.map(date => salesByDate[date]);
-            const labels = sortedDates.map(dateStr => {
-                const date = new Date(dateStr);
-                return `${daysOfWeek[date.getDay()]} (${date.getDate()})`;
-            });
-
-            // Get sales target and determine point colors
-            const salesTarget = getSalesTarget();
-            const pointColors = salesData.map(sale => {
-                if (salesTarget > 0) {
-                    if (sale >= salesTarget) {
-                        return '#10b981'; // green
-                    } else if (sale >= salesTarget * 0.9) {
-                        return '#f59e0b'; // amber
-                    } else {
-                        return '#ef4444'; // red
-                    }
-                }
-                return '#4f46e5'; // default indigo
-            });
-
-            // If a chart instance already exists, destroy it before creating a new one
-            if (window.salesChartInstance) {
-                window.salesChartInstance.destroy();
-            }
-
-            window.salesChartInstance = new Chart(salesChartCanvas, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                        label: 'Daily Total Sales (£)',
-                        data: salesData,
-                        borderColor: '#4f46e5',
-                        backgroundColor: 'rgba(79, 70, 229, 0.2)',
-                        pointBackgroundColor: pointColors, // Set point colors based on target
-                        pointRadius: 5,
-                        pointHoverRadius: 8,
-                        tension: 0.1,
-                        fill: true
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: false,
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            title: {
-                                display: true,
-                                text: 'Total Sales (£)'
-                            }
-                        },
-                        x: {
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function renderProfitReport() {
-            profitReportBody.innerHTML = '';
-            if (menuItems.length === 0) {
-                profitReportBody.innerHTML = '<tr><td colspan="5" class="text-center text-gray-600 py-4">No menu items to analyze.</td></tr>';
-                return;
-            }
-
-            menuItems.forEach(item => {
-                // Ensure COGS is calculated for the report
-                item.cogs = calculateCogs(item.ingredients);
-                const profit = item.dineInPrice - item.cogs;
-                const profitMargin = item.dineInPrice > 0 ? (profit / item.dineInPrice) * 100 : 0;
-                
-                const row = document.createElement('tr');
-                row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
-                row.innerHTML = `
-                    <td class="py-3 px-4 text-gray-800">${item.name}</td>
-                    <td class="py-3 px-4 text-gray-800">£${item.cogs.toFixed(2)}</td>
-                    <td class="py-3 px-4 text-gray-800">£${item.dineInPrice ? item.dineInPrice.toFixed(2) : 'N/A'}</td>
-                    <td class="py-3 px-4 text-green-600 font-semibold">£${item.dineInPrice > 0 ? profit.toFixed(2) : 'N/A'}</td>
-                    <td class="py-3 px-4 text-green-600 font-semibold">${item.dineInPrice > 0 ? profitMargin.toFixed(2) : 'N/A'}%</td>
-                `;
-                profitReportBody.appendChild(row);
-            });
-        }
-        
         // --- Global Data Management (Confirmation & Downloads) ---
-        confirmDeleteBtn.addEventListener('click', async () => {
+        confirmDeleteBtn.addEventListener('click', () => {
             if (pendingDeleteType === 'master-ingredient') {
                 if (pendingDeleteIndex !== -1) {
                     masterIngredients.splice(pendingDeleteIndex, 1);
-                    await saveData();
-                    renderMenuItems(); // Recalculate COGS
+                    saveDataToFirestore();
                 }
             } else if (pendingDeleteType === 'menu-item') {
                 if (pendingDeleteIndex !== -1) {
                     menuItems.splice(pendingDeleteIndex, 1);
-                    await saveData();
+                    saveDataToFirestore();
                 }
             } else if (pendingDeleteType === 'sales') {
                 if (pendingDeleteIndex !== -1) {
                     dailySales.splice(pendingDeleteIndex, 1);
-                    await saveData();
-                    renderReports(); // Update reports
+                    saveDataToFirestore();
                 }
             } else if (pendingDeleteType === 'purchases') {
                 if (pendingDeleteIndex !== -1) {
                     dailyPurchases.splice(pendingDeleteIndex, 1);
-                    await saveData();
+                    saveDataToFirestore();
                 }
             } else if (pendingDeleteType === 'salary') {
                 if (pendingDeleteIndex !== -1) {
                     salary.splice(pendingDeleteIndex, 1);
-                    await saveData();
-                }
-            } else if (pendingDeleteType === 'documents') {
-                if (pendingDeleteIndex !== -1) {
-                    documents.splice(pendingDeleteIndex, 1);
-                    await saveData();
+                    saveDataToFirestore();
                 }
             }
             pendingDeleteIndex = -1;
@@ -1830,11 +1354,10 @@
             const startDate = downloadStartDateInput.value;
             const endDate = downloadEndDateInput.value;
             if (!startDate || !endDate) {
-                // Using a custom message box instead of alert()
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
                 downloadMessage.textContent = 'Please select a start and end date for the download.';
-                document.body.appendChild(downloadMessage);
+                downloadPdfBtn.parentElement.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1843,16 +1366,16 @@
             });
             if (filteredSales.length === 0) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
                 downloadMessage.textContent = 'No sales data found for the selected date range.';
-                document.body.appendChild(downloadMessage);
+                downloadPdfBtn.parentElement.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFontSize(18);
-            doc.text(`Restaurant Manager - Daily Sales Report`, 14, 20);
+            doc.text("Daily Sales Report", 14, 20);
             doc.setFontSize(12);
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
             const tableColumn = ["Date", "Cash (£)", "Card (£)", "Online (£)", "Total (£)"];
@@ -1883,9 +1406,9 @@
             const endDate = downloadEndDateInput.value;
             if (!startDate || !endDate) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
                 downloadMessage.textContent = 'Please select a start and end date for the download.';
-                document.body.appendChild(downloadMessage);
+                downloadCsvBtn.parentElement.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1894,9 +1417,9 @@
             });
             if (filteredSales.length === 0) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
                 downloadMessage.textContent = 'No sales data found for the selected date range.';
-                document.body.appendChild(downloadMessage);
+                downloadCsvBtn.parentElement.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1934,9 +1457,9 @@
             const endDate = downloadPurchaseEndDateInput.value;
             if (!startDate || !endDate) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
                 downloadMessage.textContent = 'Please select a start and end date for the download.';
-                document.body.appendChild(downloadMessage);
+                downloadPurchasePdfBtn.parentElement.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1945,16 +1468,16 @@
             });
             if (filteredPurchases.length === 0) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
                 downloadMessage.textContent = 'No purchase data found for the selected date range.';
-                document.body.appendChild(downloadMessage);
+                downloadPurchasePdfBtn.parentElement.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFontSize(18);
-            doc.text(`Restaurant Manager - Daily Purchases Report`, 14, 20);
+            doc.text("Daily Purchases Report", 14, 20);
             doc.setFontSize(12);
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
             const tableColumn = ["Date", "Item/Service", "Total Cost (£)"];
@@ -1979,9 +1502,9 @@
             const endDate = downloadPurchaseEndDateInput.value;
             if (!startDate || !endDate) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
                 downloadMessage.textContent = 'Please select a start and end date for the download.';
-                document.body.appendChild(downloadMessage);
+                downloadPurchaseCsvBtn.parentElement.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -1990,9 +1513,9 @@
             });
             if (filteredPurchases.length === 0) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
                 downloadMessage.textContent = 'No purchase data found for the selected date range.';
-                document.body.appendChild(downloadMessage);
+                downloadPurchaseCsvBtn.parentElement.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -2022,9 +1545,9 @@
             
             if (!startDate || !endDate) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
                 downloadMessage.textContent = 'Please select a start and end date for the download.';
-                document.body.appendChild(downloadMessage);
+                downloadSalaryPdfBtn.parentElement.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -2039,9 +1562,9 @@
 
             if (filteredSalary.length === 0) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
                 downloadMessage.textContent = 'No salary data found for the selected criteria.';
-                document.body.appendChild(downloadMessage);
+                downloadSalaryPdfBtn.parentElement.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -2049,20 +1572,18 @@
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFontSize(18);
-            doc.text(`Restaurant Manager - Salary Report`, 14, 20);
+            doc.text("Salary Report", 14, 20);
             doc.setFontSize(12);
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
             if (selectedEmployees.length > 0 && selectedEmployees[0] !== "") {
                 doc.text(`Employees: ${selectedEmployees.join(', ')}`, 14, 37);
             }
 
-            const tableColumn = ["Date", "Employee Name", "Payment Type", "Hours", "Hourly Rate (£)", "Amount (£)"];
+            const tableColumn = ["Date", "Employee Name", "Payment Type", "Amount (£)"];
             const tableRows = filteredSalary.map(payment => [
                 payment.date,
                 payment.employee,
                 payment.type,
-                payment.hours.toFixed(2),
-                payment.rate.toFixed(2),
                 payment.amount.toFixed(2)
             ]);
             doc.autoTable({
@@ -2079,11 +1600,13 @@
         downloadSalaryCsvBtn.addEventListener('click', () => {
             const startDate = downloadSalaryStartDateInput.value;
             const endDate = downloadSalaryEndDateInput.value;
+            const selectedEmployees = Array.from(downloadSalaryEmployeesSelect.selectedOptions).map(opt => opt.value);
+            
             if (!startDate || !endDate) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
                 downloadMessage.textContent = 'Please select a start and end date for the download.';
-                document.body.appendChild(downloadMessage);
+                downloadSalaryCsvBtn.parentElement.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
@@ -2098,20 +1621,18 @@
             
             if (filteredSalary.length === 0) {
                 const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
+                downloadMessage.className = 'mt-4 p-3 text-center text-sm font-medium text-red-500 rounded-lg bg-red-100';
                 downloadMessage.textContent = 'No salary data found for the selected criteria.';
-                document.body.appendChild(downloadMessage);
+                downloadSalaryCsvBtn.parentElement.appendChild(downloadMessage);
                 setTimeout(() => downloadMessage.remove(), 3000);
                 return;
             }
 
-            const headers = ["Date", "Employee Name", "Payment Type", "Hours", "Hourly Rate", "Amount"];
+            const headers = ["Date", "Employee Name", "Payment Type", "Amount"];
             const rows = filteredSalary.map(payment => [
                 `"${payment.date}"`,
                 `"${payment.employee}"`,
                 `"${payment.type}"`,
-                `"${payment.hours}"`,
-                `"${payment.rate}"`,
                 `"${payment.amount}"`
             ].join(","));
             const csvContent = [headers.join(","), ...rows].join("\n");
@@ -2126,100 +1647,6 @@
             document.body.removeChild(link);
         });
         
-        // --- Initial setup function
-        function renderAllData() {
-            renderIngredients();
-            renderMenuItems();
-            renderDailySales();
-            renderPurchases();
-            renderSalary();
-            renderDocuments();
-            renderReports(); 
-        }
-
-        // Event listeners for the new report features
-        filterSalesBtn.addEventListener('click', () => {
-            const startDate = reportStartDateInput.value;
-            const endDate = reportEndDateInput.value;
-            const salesTarget = parseFloat(salesTargetInput.value);
-            if (!isNaN(salesTarget) && salesTarget > 0) {
-                saveSalesTarget(salesTarget);
-            }
-            renderSalesChart(startDate, endDate);
-        });
-
-        downloadSalesReportPdfBtn.addEventListener('click', () => {
-            const startDate = reportStartDateInput.value;
-            const endDate = reportEndDateInput.value;
-            const salesTarget = getSalesTarget();
-
-            if (!startDate || !endDate) {
-                // Using a custom message box instead of alert()
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
-                downloadMessage.textContent = 'Please select a valid date range.';
-                document.body.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
-                return;
-            }
-
-            const filteredSales = dailySales.filter(sale => {
-                return sale.date >= startDate && sale.date <= endDate;
-            });
-
-            if (filteredSales.length === 0) {
-                const downloadMessage = document.createElement('div');
-                downloadMessage.className = 'fixed top-4 right-4 bg-red-500 text-white px-4 py-2 rounded-lg shadow-lg';
-                downloadMessage.textContent = 'No sales data found for the selected date range.';
-                document.body.appendChild(downloadMessage);
-                setTimeout(() => downloadMessage.remove(), 3000);
-                return;
-            }
-
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            doc.setFontSize(18);
-            doc.text(`Restaurant Manager - Daily Sales Report`, 14, 20);
-            doc.setFontSize(12);
-            doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
-            if (salesTarget > 0) {
-                doc.text(`Daily Sales Target: £${salesTarget.toFixed(2)}`, 14, 37);
-            }
-
-            const tableColumn = ["Date", "Day of Week", "Total Sales (£)", "Status"];
-            const tableRows = filteredSales.map(sale => {
-                const total = sale.cash + sale.card + sale.uber + sale.justeat + sale.deliveroo + sale.website + sale.advance + sale.toogoodtogo;
-                const date = new Date(sale.date);
-                const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][date.getDay()];
-                
-                let status = 'N/A';
-                if (salesTarget > 0) {
-                    if (total >= salesTarget) {
-                        status = 'Target Met';
-                    } else if (total >= salesTarget * 0.9) {
-                        status = '10% Below Target';
-                    } else {
-                        status = 'Below Target';
-                    }
-                }
-                
-                return [
-                    sale.date,
-                    dayOfWeek,
-                    total.toFixed(2),
-                    status
-                ];
-            });
-            doc.autoTable({
-                head: [tableColumn],
-                body: tableRows,
-                startY: salesTarget > 0 ? 45 : 40,
-                styles: { fontSize: 10, cellPadding: 2 },
-                headStyles: { fillColor: [243, 244, 246], textColor: [0, 0, 0] }
-            });
-            doc.save(`Sales_Report_${startDate}_to_${endDate}.pdf`);
-        });
-
     </script>
 </body>
 </html>
