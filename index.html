@@ -77,6 +77,9 @@
             <button id="salary-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
                 Salary
             </button>
+            <button id="settings-tab" class="py-3 px-6 text-base md:text-xl font-medium text-center text-gray-600 border-b-4 border-transparent hover:text-indigo-600 hover:border-indigo-500 transition-colors duration-200">
+                Settings
+            </button>
         </div>
 
         <!-- Content Sections -->
@@ -91,7 +94,7 @@
                 <div class="grid md:grid-cols-4 gap-4 items-end">
                     <input type="text" id="ingredient-name" placeholder="Ingredient Name" class="col-span-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="text" id="ingredient-unit" placeholder="Unit (e.g., kg, gram)" class="col-span-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="ingredient-cost" placeholder="Cost per Unit (£)" class="col-span-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="ingredient-cost" placeholder="Cost per Unit" class="col-span-1 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <button id="add-ingredient-btn" class="col-span-1 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Add Ingredient
                     </button>
@@ -108,7 +111,7 @@
                         <tr>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Ingredient</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Unit</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Cost per Unit</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Cost per Unit</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                         </tr>
                     </thead>
@@ -177,8 +180,8 @@
                         <option value="drinks">Drinks</option>
                         <option value="wraps">Wraps</option>
                     </select>
-                    <input type="number" id="dine-in-price" placeholder="Dine-In Price (£)" class="col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="take-away-price" placeholder="Take-Away Price (£)" class="col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="dine-in-price" placeholder="Dine-In Price" class="col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="take-away-price" placeholder="Take-Away Price" class="col-span-2 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <button id="add-menu-item-btn" class="col-span-4 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Add Item
                     </button>
@@ -203,14 +206,14 @@
                 <h3 class="text-xl font-semibold text-gray-600 mb-3">Record Today's Sales</h3>
                 <div class="grid md:grid-cols-3 gap-4 items-end">
                     <input type="date" id="sales-date" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="sales-cash" placeholder="Cash (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="sales-card" placeholder="Card (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="sales-uber" placeholder="Uber Eats (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="sales-justeat" placeholder="Just Eat (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="sales-deliveroo" placeholder="Deliveroo (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="sales-website" placeholder="Website (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="sales-advance" placeholder="Booking Advance (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="sales-toogoodtogo" placeholder="Too Good To Go (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="sales-cash" placeholder="Cash" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="sales-card" placeholder="Card" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="sales-uber" placeholder="Uber Eats" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="sales-justeat" placeholder="Just Eat" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="sales-deliveroo" placeholder="Deliveroo" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="sales-website" placeholder="Website" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="sales-advance" placeholder="Booking Advance" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="sales-toogoodtogo" placeholder="Too Good To Go" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <button id="add-sales-btn" class="col-span-3 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Record Sales
                     </button>
@@ -227,10 +230,10 @@
                     <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
                         <tr>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Cash (£)</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Card (£)</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Online (£)</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Total (£)</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Cash</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Card</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Online</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Total</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                         </tr>
                     </thead>
@@ -282,7 +285,7 @@
                 <div class="grid md:grid-cols-4 gap-4 items-end">
                     <input type="date" id="purchase-date" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="text" id="purchase-item" placeholder="Item/Service Name" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="number" id="purchase-cost" placeholder="Total Cost (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="purchase-cost" placeholder="Total Cost" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <button id="add-purchase-btn" class="p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Record Purchase
                     </button>
@@ -300,7 +303,7 @@
                         <tr>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Item/Service</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Total Cost (£)</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Total Cost</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                         </tr>
                     </thead>
@@ -359,7 +362,7 @@
                         <option value="Bonus">Bonus</option>
                         <option value="Overtime">Overtime</option>
                     </select>
-                    <input type="number" id="salary-amount" placeholder="Amount (£)" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="number" id="salary-amount" placeholder="Amount" class="p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <button id="add-salary-btn" class="col-span-4 p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Record Payment
                     </button>
@@ -378,7 +381,7 @@
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Date</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Employee Name</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Type</th>
-                            <th class="py-3 px-4 text-left font-semibold text-gray-600">Amount (£)</th>
+                            <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header">Amount</th>
                             <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                         </tr>
                     </thead>
@@ -422,6 +425,20 @@
                             Download as Google Sheet (CSV)
                         </button>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Section -->
+        <div id="settings-section" class="tab-content p-6 bg-gray-50 rounded-lg hidden">
+            <h2 class="text-2xl font-bold mb-4 text-gray-700">Settings</h2>
+            <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
+                <h3 class="text-xl font-semibold text-gray-600 mb-3">Currency</h3>
+                <div class="max-w-xs">
+                    <label for="currency-select" class="block text-sm font-medium text-gray-700 mb-1">Select Currency</label>
+                    <select id="currency-select" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                        <!-- Currency options will be populated here by JavaScript -->
+                    </select>
                 </div>
             </div>
         </div>
@@ -474,6 +491,7 @@
         let dailySales = [];
         let dailyPurchases = [];
         let salary = [];
+        let settings = { currency: '£' };
         let openMenuItems = new Set(); // Keep track of open menu items
         
         // Initialize Firebase.
@@ -493,7 +511,8 @@
                 menuItems,
                 dailySales,
                 dailyPurchases,
-                salary
+                salary,
+                settings
             };
             try {
                 await setDoc(dataRef, data, { merge: true });
@@ -515,6 +534,7 @@
                     dailySales = data.dailySales || [];
                     dailyPurchases = data.dailyPurchases || [];
                     salary = data.salary || [];
+                    settings = data.settings || { currency: '£' };
                 } else {
                     // Initialize with empty arrays if doc doesn't exist
                     masterIngredients = [];
@@ -522,13 +542,11 @@
                     dailySales = [];
                     dailyPurchases = [];
                     salary = [];
+                    settings = { currency: '£' };
                 }
                 // Re-render everything with the latest data
-                renderIngredients();
-                renderMenuItems();
-                renderDailySales();
-                renderPurchases();
-                renderSalary();
+                rerenderAllTabs();
+                document.getElementById('currency-select').value = settings.currency;
             }, (error) => {
                 console.error("Error listening to data:", error);
             });
@@ -546,12 +564,14 @@
         const salesTab = document.getElementById('sales-tab');
         const purchasesTab = document.getElementById('purchases-tab');
         const salaryTab = document.getElementById('salary-tab');
+        const settingsTab = document.getElementById('settings-tab');
 
         const masterSection = document.getElementById('master-section');
         const menuSection = document.getElementById('menu-section');
         const salesSection = document.getElementById('sales-section');
         const purchasesSection = document.getElementById('purchases-section');
         const salarySection = document.getElementById('salary-section');
+        const settingsSection = document.getElementById('settings-section');
         
         const masterSearchInput = document.getElementById('master-search');
         const ingredientsTableBody = document.getElementById('ingredients-table-body');
@@ -627,6 +647,7 @@
         const downloadIngredientsCsvBtn = document.getElementById('download-ingredients-csv-btn');
         const uploadIngredientsFile = document.getElementById('upload-ingredients-file');
         const uploadIngredientsBtn = document.getElementById('upload-ingredients-btn');
+        const currencySelect = document.getElementById('currency-select');
 
 
         // Set today's date on the date pickers
@@ -660,8 +681,8 @@
 
         // Function to switch tabs
         function switchTab(activeTab, activeSection) {
-            const tabs = [masterTab, menuTab, salesTab, purchasesTab, salaryTab];
-            const sections = [masterSection, menuSection, salesSection, purchasesSection, salarySection];
+            const tabs = [masterTab, menuTab, salesTab, purchasesTab, salaryTab, settingsTab];
+            const sections = [masterSection, menuSection, salesSection, purchasesSection, salarySection, settingsSection];
             tabs.forEach(tab => tab.classList.remove('border-indigo-500', 'text-indigo-600'));
             sections.forEach(section => section.classList.add('hidden'));
             activeTab.classList.add('border-indigo-500', 'text-indigo-600');
@@ -669,11 +690,12 @@
         }
 
         // Tab click handlers
-        masterTab.addEventListener('click', () => { switchTab(masterTab, masterSection); renderIngredients(); });
-        menuTab.addEventListener('click', () => { switchTab(menuTab, menuSection); renderMenuItems(); });
-        salesTab.addEventListener('click', () => { switchTab(salesTab, salesSection); renderDailySales(); });
-        purchasesTab.addEventListener('click', () => { switchTab(purchasesTab, purchasesSection); renderPurchases(); });
-        salaryTab.addEventListener('click', () => { switchTab(salaryTab, salarySection); renderSalary(); });
+        masterTab.addEventListener('click', () => { switchTab(masterTab, masterSection); });
+        menuTab.addEventListener('click', () => { switchTab(menuTab, menuSection); });
+        salesTab.addEventListener('click', () => { switchTab(salesTab, salesSection); });
+        purchasesTab.addEventListener('click', () => { switchTab(purchasesTab, purchasesSection); });
+        salaryTab.addEventListener('click', () => { switchTab(salaryTab, salarySection); });
+        settingsTab.addEventListener('click', () => { switchTab(settingsTab, settingsSection); });
 
         // --- Master Ingredients Logic ---
         function renderIngredients(data = masterIngredients) {
@@ -690,7 +712,7 @@
                     <td class="py-3 px-4 text-gray-800">${ingredient.name}</td>
                     <td class="py-3 px-4 text-gray-800">${ingredient.unit}</td>
                     <td class="py-3 px-4 text-gray-800">
-                        <input type="number" value="${ingredient.cost.toFixed(2)}" class="w-24 p-1 border rounded text-right" data-index="${index}">
+                        ${settings.currency}<input type="number" value="${ingredient.cost.toFixed(2)}" class="w-24 p-1 border rounded text-right" data-index="${index}">
                     </td>
                     <td class="py-3 px-4">
                         <button data-index="${index}" class="delete-ingredient-btn text-red-500 hover:text-red-700 transition-colors duration-200">
@@ -761,7 +783,7 @@
             const doc = new jsPDF();
             doc.setFontSize(18);
             doc.text("Master Ingredients List", 14, 20);
-            const tableColumn = ["Ingredient Name", "Unit", "Cost per Unit (£)"];
+            const tableColumn = ["Ingredient Name", "Unit", `Cost per Unit (${settings.currency})`];
             const tableRows = masterIngredients.map(ing => [ing.name, ing.unit, ing.cost.toFixed(2)]);
             doc.autoTable({
                 head: [tableColumn],
@@ -901,7 +923,7 @@
                         <h3 class="text-xl font-bold text-gray-800">${item.name} (${item.type.charAt(0).toUpperCase() + item.type.slice(1)})</h3>
                         <div class="flex items-center space-x-4">
                             <span class="text-lg font-semibold text-gray-600">COGS:</span>
-                            <span class="text-2xl font-extrabold text-indigo-600">£${cogs.toFixed(2)}</span>
+                            <span class="text-2xl font-extrabold text-indigo-600">${settings.currency}${cogs.toFixed(2)}</span>
                             <button class="delete-item-btn text-red-500 hover:text-red-700" data-index="${index}">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                             </button>
@@ -915,11 +937,11 @@
                         <div class="grid md:grid-cols-3 gap-4">
                             <div class="p-2 border rounded-lg">
                                 <span class="block text-gray-500 text-sm">Dine-In Price</span>
-                                <span class="block text-gray-800 font-bold text-lg">£${item.dineInPrice ? item.dineInPrice.toFixed(2) : 'N/A'}</span>
+                                <span class="block text-gray-800 font-bold text-lg">${settings.currency}${item.dineInPrice ? item.dineInPrice.toFixed(2) : 'N/A'}</span>
                             </div>
                             <div class="p-2 border rounded-lg">
                                 <span class="block text-gray-500 text-sm">Dine-In VAT (20%)</span>
-                                <span class="block text-gray-800 font-bold text-lg">£${dineInVat.toFixed(2)}</span>
+                                <span class="block text-gray-800 font-bold text-lg">${settings.currency}${dineInVat.toFixed(2)}</span>
                             </div>
                             <div class="p-2 border rounded-lg">
                                 <span class="block text-gray-500 text-sm">Dine-In COGS%</span>
@@ -927,11 +949,11 @@
                             </div>
                             <div class="p-2 border rounded-lg">
                                 <span class="block text-gray-500 text-sm">Take-Away Price</span>
-                                <span class="block text-gray-800 font-bold text-lg">£${item.takeAwayPrice ? item.takeAwayPrice.toFixed(2) : 'N/A'}</span>
+                                <span class="block text-gray-800 font-bold text-lg">${settings.currency}${item.takeAwayPrice ? item.takeAwayPrice.toFixed(2) : 'N/A'}</span>
                             </div>
                             <div class="p-2 border rounded-lg">
                                 <span class="block text-gray-500 text-sm">Take-Away VAT (20%)</span>
-                                <span class="block text-gray-800 font-bold text-lg">£${takeAwayVat.toFixed(2)}</span>
+                                <span class="block text-gray-800 font-bold text-lg">${settings.currency}${takeAwayVat.toFixed(2)}</span>
                             </div>
                             <div class="p-2 border rounded-lg">
                                 <span class="block text-gray-500 text-sm">Take-Away COGS%</span>
@@ -939,11 +961,11 @@
                             </div>
                             <div class="p-2 border rounded-lg col-span-3">
                                 <span class="block text-gray-500 text-sm">Dine-In COGS + VAT</span>
-                                <span class="block text-gray-800 font-bold text-lg">£${dineInCogsWithVat.toFixed(2)}</span>
+                                <span class="block text-gray-800 font-bold text-lg">${settings.currency}${dineInCogsWithVat.toFixed(2)}</span>
                             </div>
                             <div class="p-2 border rounded-lg col-span-3">
                                 <span class="block text-gray-500 text-sm">Take-Away COGS + VAT</span>
-                                <span class="block text-gray-800 font-bold text-lg">£${takeAwayCogsWithVat.toFixed(2)}</span>
+                                <span class="block text-gray-800 font-bold text-lg">${settings.currency}${takeAwayCogsWithVat.toFixed(2)}</span>
                             </div>
                         </div>
 
@@ -963,7 +985,7 @@
                                 </div>
                                 <div>
                                     <span class="block text-gray-500 text-sm">Online Selling Price:</span>
-                                    <span class="block text-gray-800 font-bold text-lg" id="online-price-display-${index}">£${item.dineInPrice ? item.dineInPrice.toFixed(2) : '0.00'}</span>
+                                    <span class="block text-gray-800 font-bold text-lg" id="online-price-display-${index}">${settings.currency}${item.dineInPrice ? item.dineInPrice.toFixed(2) : '0.00'}</span>
                                 </div>
                             </div>
                         </div>
@@ -985,7 +1007,7 @@
                                             <td class="py-2 px-3 text-gray-700">${ing.name}</td>
                                             <td class="py-2 px-3 text-gray-700">${ing.quantity}</td>
                                             <td class="py-2 px-3 text-gray-700">${ing.type}</td>
-                                            <td class="py-2 px-3 text-gray-700">£${calculateComponentCost(ing).toFixed(2)}</td>
+                                            <td class="py-2 px-3 text-gray-700">${settings.currency}${calculateComponentCost(ing).toFixed(2)}</td>
                                             <td class="py-2 px-3">
                                                 <button class="remove-component-btn text-red-500 hover:text-red-700" data-item-index="${index}" data-component-index="${i}">Remove</button>
                                             </td>
@@ -1105,7 +1127,7 @@
                     const markup = parseFloat(e.target.value) || 0;
                     const dineInPrice = menuItems[index].dineInPrice;
                     const onlinePrice = dineInPrice + (dineInPrice * (markup / 100));
-                    document.getElementById(`online-price-display-${index}`).textContent = `£${onlinePrice.toFixed(2)}`;
+                    document.getElementById(`online-price-display-${index}`).textContent = `${settings.currency}${onlinePrice.toFixed(2)}`;
                 });
             });
 
@@ -1145,7 +1167,7 @@
         function renderDailySales(data = dailySales) {
             salesHistoryBody.innerHTML = '';
             if (data.length === 0) {
-                salesHistoryBody.innerHTML = '<tr><td colspan="6" class="text-center text-gray-600 py-4">No sales recorded yet.</td></tr>';
+                salesHistoryBody.innerHTML = `<tr><td colspan="6" class="text-center text-gray-600 py-4">No sales recorded yet.</td></tr>`;
                 return;
             }
             data.sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date descending
@@ -1156,10 +1178,10 @@
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
                 row.innerHTML = `
                     <td class="py-3 px-4">${sale.date}</td>
-                    <td class="py-3 px-4">£${(sale.cash || 0).toFixed(2)}</td>
-                    <td class="py-3 px-4">£${(sale.card || 0).toFixed(2)}</td>
-                    <td class="py-3 px-4">£${onlineTotal.toFixed(2)}</td>
-                    <td class="py-3 px-4 font-bold">£${total.toFixed(2)}</td>
+                    <td class="py-3 px-4">${settings.currency}${(sale.cash || 0).toFixed(2)}</td>
+                    <td class="py-3 px-4">${settings.currency}${(sale.card || 0).toFixed(2)}</td>
+                    <td class="py-3 px-4">${settings.currency}${onlineTotal.toFixed(2)}</td>
+                    <td class="py-3 px-4 font-bold">${settings.currency}${total.toFixed(2)}</td>
                     <td class="py-3 px-4">
                         <button data-date="${sale.date}" class="delete-sales-record-btn text-red-500 hover:text-red-700 transition-colors duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
@@ -1254,7 +1276,7 @@
                 row.innerHTML = `
                     <td class="py-3 px-4">${purchase.date}</td>
                     <td class="py-3 px-4">${purchase.item}</td>
-                    <td class="py-3 px-4">£${purchase.cost.toFixed(2)}</td>
+                    <td class="py-3 px-4">${settings.currency}${purchase.cost.toFixed(2)}</td>
                     <td class="py-3 px-4">
                         <button data-id="${purchase.id}" class="delete-purchase-btn text-red-500 hover:text-red-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
@@ -1319,7 +1341,7 @@
                     <td class="py-3 px-4">${payment.date}</td>
                     <td class="py-3 px-4">${payment.employee}</td>
                     <td class="py-3 px-4">${payment.type}</td>
-                    <td class="py-3 px-4">£${payment.amount.toFixed(2)}</td>
+                    <td class="py-3 px-4">${settings.currency}${payment.amount.toFixed(2)}</td>
                     <td class="py-3 px-4">
                         <button data-id="${payment.id}" class="delete-salary-btn text-red-500 hover:text-red-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
@@ -1441,7 +1463,7 @@
             doc.text("Daily Sales Report", 14, 20);
             doc.setFontSize(12);
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
-            const tableColumn = ["Date", "Cash (£)", "Card (£)", "Online (£)", "Total (£)"];
+            const tableColumn = ["Date", `Cash (${settings.currency})`, `Card (${settings.currency})`, `Online (${settings.currency})`, `Total (${settings.currency})`];
             const tableRows = filteredSales.map(sale => {
                 const onlineTotal = (sale.uber || 0) + (sale.justeat || 0) + (sale.deliveroo || 0) + (sale.website || 0) + (sale.toogoodtogo || 0);
                 const total = (sale.cash || 0) + (sale.card || 0) + onlineTotal + (sale.advance || 0);
@@ -1503,7 +1525,7 @@
             const doc = new jsPDF();
             doc.text("Purchases Report", 14, 20);
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
-            const tableColumn = ["Date", "Item/Service", "Total Cost (£)"];
+            const tableColumn = ["Date", "Item/Service", `Total Cost (${settings.currency})`];
             const tableRows = filteredPurchases.map(p => [p.date, p.item, p.cost.toFixed(2)]);
             doc.autoTable({ head: [tableColumn], body: tableRows, startY: 40 });
             doc.save(`Purchases_Report_${startDate}_to_${endDate}.pdf`);
@@ -1564,7 +1586,7 @@
                 doc.text(`Employees: ${selectedEmployees.join(', ')}`, 14, 37);
             }
 
-            const tableColumn = ["Date", "Employee Name", "Payment Type", "Amount (£)"];
+            const tableColumn = ["Date", "Employee Name", "Payment Type", `Amount (${settings.currency})`];
             const tableRows = filteredSalary.map(p => [p.date, p.employee, p.type, p.amount.toFixed(2)]);
             doc.autoTable({ head: [tableColumn], body: tableRows, startY: 45 });
             doc.save(`Salary_Report_${startDate}_to_${endDate}.pdf`);
@@ -1621,6 +1643,61 @@
             document.getElementById('download-salary-details').classList.toggle('hidden');
             document.getElementById('chevron-download-salary').classList.toggle('rotate-180');
         });
+
+        // --- Settings Logic ---
+        const currencies = {
+            "EUR": "€",
+            "GBP": "£",
+            "PLN": "zł",
+            "USD": "$",
+            "BDT": "৳"
+        };
+
+        function populateCurrencyDropdown() {
+            for (const code in currencies) {
+                const option = document.createElement('option');
+                option.value = currencies[code];
+                option.textContent = `${code} (${currencies[code]})`;
+                currencySelect.appendChild(option);
+            }
+        }
+        populateCurrencyDropdown();
+
+        currencySelect.addEventListener('change', (e) => {
+            settings.currency = e.target.value;
+            saveDataToFirestore();
+            rerenderAllTabs();
+        });
+
+        function rerenderAllTabs() {
+            renderIngredients();
+            renderMenuItems();
+            renderDailySales();
+            renderPurchases();
+            renderSalary();
+            updatePlaceholdersAndHeaders();
+        }
+
+        function updatePlaceholdersAndHeaders() {
+            const currency = settings.currency;
+            document.getElementById('ingredient-cost').placeholder = `Cost per Unit (${currency})`;
+            document.getElementById('dine-in-price').placeholder = `Dine-In Price (${currency})`;
+            document.getElementById('take-away-price').placeholder = `Take-Away Price (${currency})`;
+            document.getElementById('sales-cash').placeholder = `Cash (${currency})`;
+            document.getElementById('sales-card').placeholder = `Card (${currency})`;
+            document.getElementById('sales-uber').placeholder = `Uber Eats (${currency})`;
+            document.getElementById('sales-justeat').placeholder = `Just Eat (${currency})`;
+            document.getElementById('sales-deliveroo').placeholder = `Deliveroo (${currency})`;
+            document.getElementById('sales-website').placeholder = `Website (${currency})`;
+            document.getElementById('sales-advance').placeholder = `Booking Advance (${currency})`;
+            document.getElementById('sales-toogoodtogo').placeholder = `Too Good To Go (${currency})`;
+            document.getElementById('purchase-cost').placeholder = `Total Cost (${currency})`;
+            document.getElementById('salary-amount').placeholder = `Amount (${currency})`;
+            
+            document.querySelectorAll('.currency-header').forEach(header => {
+                header.textContent = `${header.textContent.split('(')[0]} (${currency})`;
+            });
+        }
 
     </script>
 </body>
