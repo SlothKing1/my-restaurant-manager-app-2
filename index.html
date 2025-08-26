@@ -165,7 +165,7 @@
                             <tr>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="name">Ingredient <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Unit</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cost">Cost per Unit <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cost" data-base-text="Cost per Unit">Cost per Unit <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                             </tr>
                         </thead>
@@ -279,10 +279,10 @@
                             <tr>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600"></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="date">Date <span class="sort-arrow"></span></th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cash">Cash <span class="sort-arrow"></span></th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="card">Card <span class="sort-arrow"></span></th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="online">Online <span class="sort-arrow"></span></th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="total">Total <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cash" data-base-text="Cash">Cash <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="card" data-base-text="Card">Card <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="online" data-base-text="Online">Online <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="total" data-base-text="Total">Total <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                             </tr>
                         </thead>
@@ -365,7 +365,7 @@
                             <tr>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="date">Date <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="item">Item/Service <span class="sort-arrow"></span></th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cost">Total Cost <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cost" data-base-text="Total Cost">Total Cost <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Method</th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Paid By</th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
@@ -446,7 +446,7 @@
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="date">Date <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="employee">Employee Name <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Type</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="amount">Amount <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="amount" data-base-text="Amount">Amount <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                             </tr>
                         </thead>
@@ -586,41 +586,26 @@
                 <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Version History</h3>
                 <div class="text-sm text-gray-600 space-y-4 max-h-48 overflow-y-auto">
                     <div>
-                        <p class="font-semibold">Version 1.7 (Latest)</p>
+                        <p class="font-semibold">Version 1.7.2 (Latest)</p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Fixed critical bug preventing menu item cost calculation.</li>
+                            <li>Fixed search functionality across all sections.</li>
+                            <li>Improved reliability of sales record deletion.</li>
+                            <li>Autocomplete suggestions now update in real-time.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Version 1.7.1</p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Fixed data corruption bug when deleting/editing sorted or filtered items.</li>
+                            <li>Fixed currency symbol duplication bug in table headers.</li>
+                            <li>Fixed case-sensitive autocomplete and updated to modern JS.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Version 1.7</p>
                         <ul class="list-disc list-inside ml-4">
                             <li>Added "How to Use" guide in Settings.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p class="font-semibold">Version 1.6</p>
-                        <ul class="list-disc list-inside ml-4">
-                            <li>Added smart unit conversion to Menu Costing.</li>
-                            <li>Added expandable sales breakdown view in Daily Sales.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p class="font-semibold">Version 1.5</p>
-                        <ul class="list-disc list-inside ml-4">
-                            <li>Removed Suppliers section to simplify data entry.</li>
-                            <li>Removed Sales Trend chart from Reports (to be revisited).</li>
-                            <li>Added version numbers to all downloaded filenames.</li>
-                            <li>Improved layout for version history display.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p class="font-semibold">Version 1.4</p>
-                        <ul class="list-disc list-inside ml-4">
-                            <li>Added Suppliers tab for contact management.</li>
-                            <li>Integrated suppliers into the Purchases section.</li>
-                            <li>Added visual charts to the Reports tab.</li>
-                            <li>Added full data backup and restore functionality in Settings.</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <p class="font-semibold">Version 1.3</p>
-                        <ul class="list-disc list-inside ml-4">
-                            <li>Added clickable table headers for sorting data.</li>
-                            <li>Added version history section.</li>
                         </ul>
                     </div>
                 </div>
@@ -656,7 +641,7 @@
         import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         // --- App Version ---
-        const APP_VERSION = '1.7';
+        const APP_VERSION = '1.7.2';
 
         // Firebase configuration 
         const firebaseConfig = {
@@ -938,7 +923,9 @@
 
         // --- Master Ingredients Logic ---
         function renderIngredients() {
-            let data = [...masterIngredients];
+            const query = masterSearchInput.value.toLowerCase();
+            let data = masterIngredients.filter(ing => ing.name.toLowerCase().includes(query));
+            
             const { key, order } = sortState.master;
             data.sort((a, b) => {
                 if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
@@ -952,17 +939,17 @@
                 return;
             }
             masterMessage.textContent = '';
-            data.forEach((ingredient, index) => {
+            data.forEach((ingredient) => {
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
                 row.innerHTML = `
                     <td class="py-3 px-4 text-gray-800">${ingredient.name}</td>
                     <td class="py-3 px-4 text-gray-800">${ingredient.unit}</td>
                     <td class="py-3 px-4 text-gray-800">
-                        ${settings.currency}<input type="number" value="${ingredient.cost.toFixed(2)}" class="w-24 p-1 border rounded text-right" data-index="${index}">
+                        ${settings.currency}<input type="number" value="${ingredient.cost.toFixed(2)}" class="w-24 p-1 border rounded text-right" data-id="${ingredient.id}">
                     </td>
                     <td class="py-3 px-4">
-                        <button data-index="${index}" class="delete-ingredient-btn text-red-500 hover:text-red-700 transition-colors duration-200">
+                        <button data-id="${ingredient.id}" class="delete-ingredient-btn text-red-500 hover:text-red-700 transition-colors duration-200">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                         </button>
                     </td>
@@ -973,21 +960,20 @@
             updateSortIndicator('master');
         }
 
-        masterSearchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const filteredIngredients = masterIngredients.filter(ing => ing.name.toLowerCase().includes(query));
-            renderIngredients(filteredIngredients);
-        });
+        masterSearchInput.addEventListener('input', renderIngredients);
 
         function attachIngredientEventListeners() {
             // Delete button
             document.querySelectorAll('#ingredients-table-body .delete-ingredient-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const index = e.currentTarget.dataset.index;
+                    const id = e.currentTarget.dataset.id;
+                    const ingredient = masterIngredients.find(ing => ing.id === id);
+                    if (!ingredient) return;
+                    
                     confirmTitle.textContent = 'Confirm Deletion';
-                    confirmMessage.textContent = `Are you sure you want to delete the ingredient "${masterIngredients[index].name}"? This will affect any menu items that use it.`;
+                    confirmMessage.textContent = `Are you sure you want to delete the ingredient "${ingredient.name}"? This will affect any menu items that use it.`;
                     pendingAction = () => {
-                        masterIngredients.splice(index, 1);
+                        masterIngredients = masterIngredients.filter(ing => ing.id !== id);
                         saveDataToFirestore();
                     };
                     confirmModal.classList.remove('hidden');
@@ -997,10 +983,12 @@
             // Editable cost input
             document.querySelectorAll('#ingredients-table-body input[type="number"]').forEach(input => {
                 input.addEventListener('change', (e) => { // Use 'change' to save only when focus is lost
-                    const index = e.target.dataset.index;
+                    const id = e.target.dataset.id;
                     const newCost = parseFloat(e.target.value);
-                    if (!isNaN(newCost) && newCost >= 0) {
-                        masterIngredients[index].cost = newCost;
+                    const ingredient = masterIngredients.find(ing => ing.id === id);
+
+                    if (ingredient && !isNaN(newCost) && newCost >= 0) {
+                        ingredient.cost = newCost;
                         saveDataToFirestore();
                         renderMenuItems(); // Recalculate all COGS
                     }
@@ -1016,7 +1004,13 @@
                 masterMessage.textContent = 'Please fill out all fields with valid data.';
                 return;
             }
-            masterIngredients.push({ name, unit, cost });
+            const newIngredient = { 
+                id: `ing_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                name, 
+                unit, 
+                cost 
+            };
+            masterIngredients.push(newIngredient);
             saveDataToFirestore();
             ingredientNameInput.value = '';
             ingredientUnitInput.value = '';
@@ -1095,14 +1089,17 @@
                         const unit = parts[1];
                         const cost = parseFloat(parts[2]);
                         if (name && unit && !isNaN(cost) && cost > 0) {
-                            newIngredients.push({ name, unit, cost });
+                            newIngredients.push({ 
+                                id: `ing_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                                name, 
+                                unit, 
+                                cost 
+                            });
                         }
                     }
                 }
                 masterIngredients = newIngredients;
                 saveDataToFirestore();
-                renderIngredients();
-                renderMenuItems();
                 masterMessage.textContent = `Successfully uploaded ${newIngredients.length} ingredients!`;
             };
             reader.readAsText(file);
@@ -1111,7 +1108,6 @@
 
         // --- Unit Conversion Logic ---
         function convertUnits(quantity, unit, masterIngredient) {
-            // If the master ingredient, its unit, or the target unit are missing, we can't calculate.
             if (!masterIngredient || !masterIngredient.unit || !unit) {
                 console.warn(`Could not perform unit conversion due to missing data.`, { quantity, unit, masterIngredient });
                 return 0;
@@ -1119,28 +1115,21 @@
             const baseUnit = masterIngredient.unit.toLowerCase();
             const targetUnit = unit.toLowerCase();
 
-            // If units are the same, no conversion needed
             if (baseUnit === targetUnit) {
                 return masterIngredient.cost * quantity;
             }
-
-            // Weight conversions
             if (baseUnit === 'kg' && targetUnit === 'g') {
                 return masterIngredient.cost * (quantity / 1000);
             }
             if (baseUnit === 'g' && targetUnit === 'kg') {
                 return masterIngredient.cost * (quantity * 1000);
             }
-
-            // Volume conversions
             if (baseUnit === 'l' && targetUnit === 'ml') {
                 return masterIngredient.cost * (quantity / 1000);
             }
             if (baseUnit === 'ml' && targetUnit === 'l') {
                 return masterIngredient.cost * (quantity * 1000);
             }
-
-            // If no conversion rule found, assume 1:1 (e.g., 'each')
             return masterIngredient.cost * quantity;
         }
 
@@ -1159,24 +1148,18 @@
             if (component.type === 'ingredient') {
                 const masterIng = masterIngredients.find(i => i.name === component.name);
                 return convertUnits(component.quantity, component.unit, masterIng);
-            } else { // It's a dish/platter etc.
+            } else { 
                 const dish = menuItems.find(i => i.name === component.name);
                 return dish ? calculateCogs(dish.ingredients) * component.quantity : 0;
             }
         }
         
-        // Helper function to get the COGS star icon based on percentage
         function getCogsStar(percent) {
             let colorClass = 'text-gray-400';
-            if (percent > 0 && percent <= 30) {
-                colorClass = 'text-yellow-400';
-            } else if (percent > 30 && percent <= 35) {
-                colorClass = 'text-green-500';
-            } else if (percent > 35 && percent <= 40) {
-                colorClass = 'text-amber-500';
-            } else if (percent > 40) {
-                colorClass = 'text-red-500';
-            }
+            if (percent > 0 && percent <= 30) colorClass = 'text-yellow-400';
+            else if (percent > 30 && percent <= 35) colorClass = 'text-green-500';
+            else if (percent > 35 && percent <= 40) colorClass = 'text-amber-500';
+            else if (percent > 40) colorClass = 'text-red-500';
             
             return `
                 <div class="flex items-center space-x-1">
@@ -1188,136 +1171,93 @@
             `;
         }
 
-        function renderMenuItems(data = menuItems) {
+        function renderMenuItems() {
+            const query = menuSearchInput.value.toLowerCase();
+            const data = menuItems.filter(item => item.name.toLowerCase().includes(query));
+
             menuItemsContainer.innerHTML = '';
             if (data.length === 0) {
                 menuItemsContainer.innerHTML = '<div class="text-center text-gray-600">No menu items found.</div>';
                 return;
             }
-            data.forEach((item, index) => {
+            data.forEach((item) => {
                 const cogs = calculateCogs(item.ingredients);
                 const dineInVat = item.dineInPrice ? item.dineInPrice * 0.20 : 0;
                 const takeAwayVat = item.takeAwayPrice ? item.takeAwayPrice * 0.20 : 0;
-                
                 const dineInCogsPercent = item.dineInPrice > 0 ? (cogs / item.dineInPrice) * 100 : 0;
                 const takeAwayCogsPercent = item.takeAwayPrice > 0 ? (cogs / item.takeAwayPrice) * 100 : 0;
-                
                 const dineInCogsWithVat = cogs + dineInVat;
                 const takeAwayCogsWithVat = cogs + takeAwayVat;
 
                 const itemCard = document.createElement('div');
                 itemCard.className = 'p-6 bg-white rounded-lg shadow-md border border-gray-200';
                 itemCard.innerHTML = `
-                    <div class="flex items-center justify-between mb-4 cursor-pointer toggle-menu-item" data-index="${index}">
+                    <div class="flex items-center justify-between mb-4 cursor-pointer toggle-menu-item" data-id="${item.id}">
                         <h3 class="text-xl font-bold text-gray-800">${item.name} (${item.type.charAt(0).toUpperCase() + item.type.slice(1)})</h3>
                         <div class="flex items-center space-x-4">
                             <span class="text-lg font-semibold text-gray-600">COGS:</span>
                             <span class="text-2xl font-extrabold text-indigo-600">${settings.currency}${cogs.toFixed(2)}</span>
-                            <button class="delete-item-btn text-red-500 hover:text-red-700" data-index="${index}">
+                            <button class="delete-item-btn text-red-500 hover:text-red-700" data-id="${item.id}">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
                             </button>
-                            <svg class="h-6 w-6 text-gray-400 transform transition-transform duration-200" id="chevron-${index}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <svg class="h-6 w-6 text-gray-400 transform transition-transform duration-200" id="chevron-${item.id}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                             </svg>
                         </div>
                     </div>
                     
-                    <div id="item-details-${index}" class="space-y-4 hidden">
+                    <div id="item-details-${item.id}" class="space-y-4 hidden">
                         <div class="grid md:grid-cols-3 gap-4">
-                            <div class="p-2 border rounded-lg">
-                                <span class="block text-gray-500 text-sm">Dine-In Price</span>
-                                <span class="block text-gray-800 font-bold text-lg">${settings.currency}${item.dineInPrice ? item.dineInPrice.toFixed(2) : 'N/A'}</span>
-                            </div>
-                            <div class="p-2 border rounded-lg">
-                                <span class="block text-gray-500 text-sm">Dine-In VAT (20%)</span>
-                                <span class="block text-gray-800 font-bold text-lg">${settings.currency}${dineInVat.toFixed(2)}</span>
-                            </div>
-                            <div class="p-2 border rounded-lg">
-                                <span class="block text-gray-500 text-sm">Dine-In COGS%</span>
-                                ${item.dineInPrice > 0 ? getCogsStar(dineInCogsPercent) : `<span class="text-gray-400">-</span>`}
-                            </div>
-                            <div class="p-2 border rounded-lg">
-                                <span class="block text-gray-500 text-sm">Take-Away Price</span>
-                                <span class="block text-gray-800 font-bold text-lg">${settings.currency}${item.takeAwayPrice ? item.takeAwayPrice.toFixed(2) : 'N/A'}</span>
-                            </div>
-                            <div class="p-2 border rounded-lg">
-                                <span class="block text-gray-500 text-sm">Take-Away VAT (20%)</span>
-                                <span class="block text-gray-800 font-bold text-lg">${settings.currency}${takeAwayVat.toFixed(2)}</span>
-                            </div>
-                            <div class="p-2 border rounded-lg">
-                                <span class="block text-gray-500 text-sm">Take-Away COGS%</span>
-                                ${item.takeAwayPrice > 0 ? getCogsStar(takeAwayCogsPercent) : `<span class="text-gray-400">-</span>`}
-                            </div>
-                            <div class="p-2 border rounded-lg col-span-3">
-                                <span class="block text-gray-500 text-sm">Dine-In COGS + VAT</span>
-                                <span class="block text-gray-800 font-bold text-lg">${settings.currency}${dineInCogsWithVat.toFixed(2)}</span>
-                            </div>
-                            <div class="p-2 border rounded-lg col-span-3">
-                                <span class="block text-gray-500 text-sm">Take-Away COGS + VAT</span>
-                                <span class="block text-gray-800 font-bold text-lg">${settings.currency}${takeAwayCogsWithVat.toFixed(2)}</span>
-                            </div>
+                            <div class="p-2 border rounded-lg"><span class="block text-gray-500 text-sm">Dine-In Price</span><span class="block text-gray-800 font-bold text-lg">${settings.currency}${item.dineInPrice ? item.dineInPrice.toFixed(2) : 'N/A'}</span></div>
+                            <div class="p-2 border rounded-lg"><span class="block text-gray-500 text-sm">Dine-In VAT (20%)</span><span class="block text-gray-800 font-bold text-lg">${settings.currency}${dineInVat.toFixed(2)}</span></div>
+                            <div class="p-2 border rounded-lg"><span class="block text-gray-500 text-sm">Dine-In COGS%</span>${item.dineInPrice > 0 ? getCogsStar(dineInCogsPercent) : `<span class="text-gray-400">-</span>`}</div>
+                            <div class="p-2 border rounded-lg"><span class="block text-gray-500 text-sm">Take-Away Price</span><span class="block text-gray-800 font-bold text-lg">${settings.currency}${item.takeAwayPrice ? item.takeAwayPrice.toFixed(2) : 'N/A'}</span></div>
+                            <div class="p-2 border rounded-lg"><span class="block text-gray-500 text-sm">Take-Away VAT (20%)</span><span class="block text-gray-800 font-bold text-lg">${settings.currency}${takeAwayVat.toFixed(2)}</span></div>
+                            <div class="p-2 border rounded-lg"><span class="block text-gray-500 text-sm">Take-Away COGS%</span>${item.takeAwayPrice > 0 ? getCogsStar(takeAwayCogsPercent) : `<span class="text-gray-400">-</span>`}</div>
+                            <div class="p-2 border rounded-lg col-span-3"><span class="block text-gray-500 text-sm">Dine-In COGS + VAT</span><span class="block text-gray-800 font-bold text-lg">${settings.currency}${dineInCogsWithVat.toFixed(2)}</span></div>
+                            <div class="p-2 border rounded-lg col-span-3"><span class="block text-gray-500 text-sm">Take-Away COGS + VAT</span><span class="block text-gray-800 font-bold text-lg">${settings.currency}${takeAwayCogsWithVat.toFixed(2)}</span></div>
                         </div>
-
-                        <!-- Online Markup Calculator -->
                         <div class="p-4 border border-indigo-200 rounded-lg bg-indigo-50 mt-4">
-                            <div class="flex items-center justify-between cursor-pointer toggle-online-pricing" data-index="${index}">
+                            <div class="flex items-center justify-between cursor-pointer toggle-online-pricing" data-id="${item.id}">
                                 <h4 class="text-md font-semibold text-gray-700">Online Platform Pricing</h4>
-                                <svg class="h-5 w-5 text-gray-400 transform transition-transform duration-200" id="online-chevron-${index}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                                </svg>
+                                <svg class="h-5 w-5 text-gray-400 transform transition-transform duration-200" id="online-chevron-${item.id}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                             </div>
-                            <div id="online-pricing-details-${index}" class="hidden mt-4 grid grid-cols-2 gap-4 items-center">
+                            <div id="online-pricing-details-${item.id}" class="hidden mt-4 grid grid-cols-2 gap-4 items-center">
                                 <div class="flex items-center space-x-2">
-                                    <label for="online-markup-${index}" class="text-sm font-medium text-gray-700">Markup:</label>
-                                    <input type="number" id="online-markup-${index}" min="0" max="500" value="0" class="w-24 p-2 border border-gray-300 rounded-lg text-sm text-center">
+                                    <label for="online-markup-${item.id}" class="text-sm font-medium text-gray-700">Markup:</label>
+                                    <input type="number" id="online-markup-${item.id}" min="0" max="500" value="0" class="w-24 p-2 border border-gray-300 rounded-lg text-sm text-center">
                                     <span class="text-lg font-bold text-gray-600">%</span>
                                 </div>
-                                <div>
-                                    <span class="block text-gray-500 text-sm">Online Selling Price:</span>
-                                    <span class="block text-gray-800 font-bold text-lg" id="online-price-display-${index}">${settings.currency}${item.dineInPrice ? item.dineInPrice.toFixed(2) : '0.00'}</span>
-                                </div>
+                                <div><span class="block text-gray-500 text-sm">Online Selling Price:</span><span class="block text-gray-800 font-bold text-lg" id="online-price-display-${item.id}">${settings.currency}${item.dineInPrice ? item.dineInPrice.toFixed(2) : '0.00'}</span></div>
                             </div>
                         </div>
-
                         <div class="overflow-x-auto mt-4">
                             <table class="min-w-full bg-white border border-gray-200 rounded-lg">
                                 <thead class="bg-gray-100">
                                     <tr>
-                                        <th class="py-2 px-3 text-left font-semibold text-gray-600">Component</th>
-                                        <th class="py-2 px-3 text-left font-semibold text-gray-600">Quantity</th>
-                                        <th class="py-2 px-3 text-left font-semibold text-gray-600">Unit</th>
-                                        <th class="py-2 px-3 text-left font-semibold text-gray-600">Cost</th>
-                                        <th class="py-2 px-3 text-left font-semibold text-gray-600">Actions</th>
+                                        <th class="py-2 px-3 text-left font-semibold text-gray-600">Component</th><th class="py-2 px-3 text-left font-semibold text-gray-600">Quantity</th><th class="py-2 px-3 text-left font-semibold text-gray-600">Unit</th><th class="py-2 px-3 text-left font-semibold text-gray-600">Cost</th><th class="py-2 px-3 text-left font-semibold text-gray-600">Actions</th>
                                     </tr>
                                 </thead>
-                                <tbody id="recipe-table-body-${index}">
+                                <tbody id="recipe-table-body-${item.id}">
                                     ${(item.ingredients || []).map((ing, i) => `
                                         <tr class="border-b border-gray-200 last:border-b-0">
-                                            <td class="py-2 px-3 text-gray-700">${ing.name}</td>
-                                            <td class="py-2 px-3 text-gray-700">${ing.quantity}</td>
-                                            <td class="py-2 px-3 text-gray-700">${ing.unit}</td>
-                                            <td class="py-2 px-3 text-gray-700">${settings.currency}${calculateComponentCost(ing).toFixed(2)}</td>
-                                            <td class="py-2 px-3">
-                                                <button class="remove-component-btn text-red-500 hover:text-red-700" data-item-index="${index}" data-component-index="${i}">Remove</button>
-                                            </td>
-                                        </tr>
-                                    `).join('')}
+                                            <td class="py-2 px-3 text-gray-700">${ing.name}</td><td class="py-2 px-3 text-gray-700">${ing.quantity}</td><td class="py-2 px-3 text-gray-700">${ing.unit}</td><td class="py-2 px-3 text-gray-700">${settings.currency}${calculateComponentCost(ing).toFixed(2)}</td>
+                                            <td class="py-2 px-3"><button class="remove-component-btn text-red-500 hover:text-red-700" data-item-id="${item.id}" data-component-index="${i}">Remove</button></td>
+                                        </tr>`).join('')}
                                 </tbody>
                             </table>
                         </div>
                         <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
                             <h4 class="text-md font-semibold text-gray-700 mb-2">Add Component to Recipe</h4>
                             <div class="grid grid-cols-4 gap-2">
-                                <select class="component-select p-2 border border-gray-300 rounded-lg col-span-2" data-item-index="${index}">
+                                <select class="component-select p-2 border border-gray-300 rounded-lg col-span-2" data-item-id="${item.id}">
                                     <option value="">Select...</option>
-                                    <optgroup label="Ingredients">
-                                        ${masterIngredients.map(ing => `<option value="${ing.name}" data-type="ingredient">${ing.name}</option>`).join('')}
-                                    </optgroup>
+                                    <optgroup label="Ingredients">${masterIngredients.map(ing => `<option value="${ing.name}" data-type="ingredient">${ing.name}</option>`).join('')}</optgroup>
                                     ${item.type === 'platter' ? `<optgroup label="Dishes">${menuItems.filter(m => m.type !== 'platter' && m.name !== item.name).map(d => `<option value="${d.name}" data-type="dish">${d.name}</option>`).join('')}</optgroup>` : ''}
                                 </select>
                                 <input type="number" placeholder="Qty" class="component-quantity p-2 border border-gray-300 rounded-lg">
                                 <input type="text" placeholder="Unit" class="component-unit p-2 border border-gray-300 rounded-lg">
-                                <button class="add-component-btn p-2 text-white font-bold rounded-lg bg-indigo-500 hover:bg-indigo-600 transition-colors col-span-4 mt-2" data-item-index="${index}">Add</button>
+                                <button class="add-component-btn p-2 text-white font-bold rounded-lg bg-indigo-500 hover:bg-indigo-600 transition-colors col-span-4 mt-2" data-item-id="${item.id}">Add</button>
                             </div>
                         </div>
                     </div>
@@ -1325,24 +1265,18 @@
                 menuItemsContainer.appendChild(itemCard);
             });
             
-            // Restore open states
-            openMenuItems.forEach(index => {
-                const details = document.getElementById(`item-details-${index}`);
-                const chevron = document.getElementById(`chevron-${index}`);
+            openMenuItems.forEach(id => {
+                const details = document.getElementById(`item-details-${id}`);
+                const chevron = document.getElementById(`chevron-${id}`);
                 if (details && chevron) {
                     details.classList.remove('hidden');
                     chevron.classList.add('rotate-180');
                 }
             });
-
             attachMenuEventListeners();
         }
 
-        menuSearchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const filteredMenu = menuItems.filter(item => item.name.toLowerCase().includes(query));
-            renderMenuItems(filteredMenu);
-        });
+        menuSearchInput.addEventListener('input', renderMenuItems);
 
         addMenuItemBtn.addEventListener('click', () => {
             const name = menuItemNameInput.value.trim();
@@ -1350,7 +1284,11 @@
             const dineInPrice = parseFloat(dineInPriceInput.value) || 0;
             const takeAwayPrice = parseFloat(takeAwayPriceInput.value) || 0;
             if (!name) { return; }
-            menuItems.push({ name, type, ingredients: [], dineInPrice, takeAwayPrice });
+            const newItem = { 
+                id: `menu_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                name, type, ingredients: [], dineInPrice, takeAwayPrice 
+            };
+            menuItems.push(newItem);
             saveDataToFirestore();
             menuItemNameInput.value = '';
             dineInPriceInput.value = '';
@@ -1360,11 +1298,11 @@
         function attachMenuEventListeners() {
             document.querySelectorAll('.add-component-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    const itemIndex = btn.dataset.itemIndex;
-                    const item = menuItems[itemIndex];
-                    if (!item.ingredients) {
-                        item.ingredients = [];
-                    }
+                    const itemId = btn.dataset.itemId;
+                    const item = menuItems.find(m => m.id === itemId);
+                    if (!item) return;
+                    if (!item.ingredients) item.ingredients = [];
+                    
                     const card = btn.closest('.p-4');
                     const select = card.querySelector('.component-select');
                     const quantity = parseFloat(card.querySelector('.component-quantity').value);
@@ -1373,7 +1311,7 @@
                     const name = selectedOption.value;
                     const type = selectedOption.dataset.type;
 
-                    if (!name || isNaN(quantity) || quantity <= 0 || !unit) { return; }
+                    if (!name || isNaN(quantity) || quantity <= 0 || !unit) return;
                     
                     item.ingredients.push({ name, quantity, unit, type });
                     saveDataToFirestore();
@@ -1386,11 +1324,14 @@
 
             document.querySelectorAll('.delete-item-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const index = e.currentTarget.dataset.index;
+                    const id = e.currentTarget.dataset.id;
+                    const item = menuItems.find(m => m.id === id);
+                    if (!item) return;
+
                     confirmTitle.textContent = 'Confirm Deletion';
-                    confirmMessage.textContent = `Are you sure you want to delete the menu item "${menuItems[index].name}"?`;
+                    confirmMessage.textContent = `Are you sure you want to delete the menu item "${item.name}"?`;
                     pendingAction = () => {
-                        menuItems.splice(index, 1);
+                        menuItems = menuItems.filter(m => m.id !== id);
                         saveDataToFirestore();
                     };
                     confirmModal.classList.remove('hidden');
@@ -1399,49 +1340,49 @@
             
             document.querySelectorAll('.remove-component-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
-                    const itemIndex = e.currentTarget.dataset.itemIndex;
+                    const itemId = e.currentTarget.dataset.itemId;
                     const componentIndex = e.currentTarget.dataset.componentIndex;
-                    menuItems[itemIndex].ingredients.splice(componentIndex, 1);
-                    saveDataToFirestore();
+                    const item = menuItems.find(m => m.id === itemId);
+                    if (item && item.ingredients) {
+                        item.ingredients.splice(componentIndex, 1);
+                        saveDataToFirestore();
+                    }
                 });
             });
             
             document.querySelectorAll('[id^="online-markup-"]').forEach(input => {
                 input.addEventListener('input', (e) => {
-                    const index = e.target.id.split('-')[2];
+                    const id = e.target.id.split('-')[2];
+                    const item = menuItems.find(m => m.id === id);
+                    if (!item) return;
+
                     const markup = parseFloat(e.target.value) || 0;
-                    const dineInPrice = menuItems[index].dineInPrice;
+                    const dineInPrice = item.dineInPrice;
                     const onlinePrice = dineInPrice + (dineInPrice * (markup / 100));
-                    document.getElementById(`online-price-display-${index}`).textContent = `${settings.currency}${onlinePrice.toFixed(2)}`;
+                    document.getElementById(`online-price-display-${id}`).textContent = `${settings.currency}${onlinePrice.toFixed(2)}`;
                 });
             });
 
-            // Toggle collapsible sections
             document.querySelectorAll('.toggle-menu-item').forEach(header => {
                 header.addEventListener('click', (e) => {
-                    if (e.target.closest('.delete-item-btn')) {
-                        return;
-                    }
-                    const index = header.dataset.index;
-                    const details = document.getElementById(`item-details-${index}`);
-                    const chevron = document.getElementById(`chevron-${index}`);
+                    if (e.target.closest('.delete-item-btn')) return;
+                    const id = header.dataset.id;
+                    const details = document.getElementById(`item-details-${id}`);
+                    const chevron = document.getElementById(`chevron-${id}`);
                     
                     details.classList.toggle('hidden');
                     chevron.classList.toggle('rotate-180');
 
-                    if (details.classList.contains('hidden')) {
-                        openMenuItems.delete(index);
-                    } else {
-                        openMenuItems.add(index);
-                    }
+                    if (details.classList.contains('hidden')) openMenuItems.delete(id);
+                    else openMenuItems.add(id);
                 });
             });
 
             document.querySelectorAll('.toggle-online-pricing').forEach(header => {
                 header.addEventListener('click', (e) => {
-                    const index = header.dataset.index;
-                    const details = document.getElementById(`online-pricing-details-${index}`);
-                    const chevron = document.getElementById(`online-chevron-${index}`);
+                    const id = header.dataset.id;
+                    const details = document.getElementById(`online-pricing-details-${id}`);
+                    const chevron = document.getElementById(`online-chevron-${id}`);
                     details.classList.toggle('hidden');
                     chevron.classList.toggle('rotate-180');
                 });
@@ -1450,9 +1391,10 @@
         
         // --- Daily Sales Logic ---
         function renderDailySales() {
-            let data = [...dailySales];
-            const { key, order } = sortState.sales;
+            const query = salesSearchInput.value.toLowerCase();
+            let data = dailySales.filter(sale => sale.date.includes(query));
 
+            const { key, order } = sortState.sales;
             data.sort((a, b) => {
                 let valA, valB;
                 if (key === 'total') {
@@ -1481,40 +1423,16 @@
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
                 row.innerHTML = `
-                    <td class="py-3 px-4">
-                        <button class="toggle-sales-details" data-index="${index}">
-                            <svg class="h-5 w-5 text-gray-500 transform transition-transform duration-200" id="sales-chevron-${index}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                            </svg>
-                        </button>
-                    </td>
-                    <td class="py-3 px-4">${sale.date}</td>
-                    <td class="py-3 px-4">${settings.currency}${(sale.cash || 0).toFixed(2)}</td>
-                    <td class="py-3 px-4">${settings.currency}${(sale.card || 0).toFixed(2)}</td>
-                    <td class="py-3 px-4">${settings.currency}${onlineTotal.toFixed(2)}</td>
-                    <td class="py-3 px-4 font-bold">${settings.currency}${total.toFixed(2)}</td>
-                    <td class="py-3 px-4">
-                        <button data-date="${sale.date}" class="delete-sales-record-btn text-red-500 hover:text-red-700 transition-colors duration-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                        </button>
-                    </td>
+                    <td class="py-3 px-4"><button class="toggle-sales-details" data-index="${index}"><svg class="h-5 w-5 text-gray-500 transform transition-transform duration-200" id="sales-chevron-${index}" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg></button></td>
+                    <td class="py-3 px-4">${sale.date}</td><td class="py-3 px-4">${settings.currency}${(sale.cash || 0).toFixed(2)}</td><td class="py-3 px-4">${settings.currency}${(sale.card || 0).toFixed(2)}</td>
+                    <td class="py-3 px-4">${settings.currency}${onlineTotal.toFixed(2)}</td><td class="py-3 px-4 font-bold">${settings.currency}${total.toFixed(2)}</td>
+                    <td class="py-3 px-4"><button data-date="${sale.date}" class="delete-sales-record-btn text-red-500 hover:text-red-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button></td>
                 `;
                 
                 const detailsRow = document.createElement('tr');
                 detailsRow.id = `sales-details-${index}`;
                 detailsRow.className = 'hidden';
-                detailsRow.innerHTML = `
-                    <td colspan="7" class="p-4 bg-gray-50">
-                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 text-sm">
-                            <div><span class="font-semibold">Uber Eats:</span> ${settings.currency}${(sale.uber || 0).toFixed(2)}</div>
-                            <div><span class="font-semibold">Just Eat:</span> ${settings.currency}${(sale.justeat || 0).toFixed(2)}</div>
-                            <div><span class="font-semibold">Deliveroo:</span> ${settings.currency}${(sale.deliveroo || 0).toFixed(2)}</div>
-                            <div><span class="font-semibold">Website:</span> ${settings.currency}${(sale.website || 0).toFixed(2)}</div>
-                            <div><span class="font-semibold">Booking Advance:</span> ${settings.currency}${(sale.advance || 0).toFixed(2)}</div>
-                            <div><span class="font-semibold">Too Good To Go:</span> ${settings.currency}${(sale.toogoodtogo || 0).toFixed(2)}</div>
-                        </div>
-                    </td>
-                `;
+                detailsRow.innerHTML = `<td colspan="7" class="p-4 bg-gray-50"><div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 text-sm"><div><span class="font-semibold">Uber Eats:</span> ${settings.currency}${(sale.uber || 0).toFixed(2)}</div><div><span class="font-semibold">Just Eat:</span> ${settings.currency}${(sale.justeat || 0).toFixed(2)}</div><div><span class="font-semibold">Deliveroo:</span> ${settings.currency}${(sale.deliveroo || 0).toFixed(2)}</div><div><span class="font-semibold">Website:</span> ${settings.currency}${(sale.website || 0).toFixed(2)}</div><div><span class="font-semibold">Booking Advance:</span> ${settings.currency}${(sale.advance || 0).toFixed(2)}</div><div><span class="font-semibold">Too Good To Go:</span> ${settings.currency}${(sale.toogoodtogo || 0).toFixed(2)}</div></div></td>`;
 
                 salesHistoryBody.appendChild(row);
                 salesHistoryBody.appendChild(detailsRow);
@@ -1533,22 +1451,18 @@
             updateSortIndicator('sales');
         }
 
-        salesSearchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const filteredSales = dailySales.filter(sale => sale.date.includes(query));
-            renderDailySales(filteredSales);
-        });
+        salesSearchInput.addEventListener('input', renderDailySales);
 
         function attachSalesEventListeners() {
             document.querySelectorAll('.delete-sales-record-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const date = e.currentTarget.dataset.date;
-                    const index = dailySales.findIndex(s => s.date === date);
-                    if (index > -1) {
+                    const saleToDelete = dailySales.find(s => s.date === date);
+                    if (saleToDelete) {
                         confirmTitle.textContent = 'Confirm Deletion';
-                        confirmMessage.textContent = `Are you sure you want to delete the sales record for ${dailySales[index].date}?`;
+                        confirmMessage.textContent = `Are you sure you want to delete the sales record for ${saleToDelete.date}?`;
                         pendingAction = () => {
-                            dailySales.splice(index, 1);
+                            dailySales = dailySales.filter(s => s.date !== date);
                             saveDataToFirestore();
                         };
                         confirmModal.classList.remove('hidden');
@@ -1565,66 +1479,56 @@
                     details.classList.toggle('hidden');
                     chevron.classList.toggle('rotate-90');
 
-                    if (details.classList.contains('hidden')) {
-                        openSalesRows.delete(index);
-                    } else {
-                        openSalesRows.add(index);
-                    }
+                    if (details.classList.contains('hidden')) openSalesRows.delete(index);
+                    else openSalesRows.add(index);
                 });
             });
         }
 
         addSalesBtn.addEventListener('click', () => {
             const date = salesDateInput.value;
-            const cash = parseFloat(salesCashInput.value) || 0;
-            const card = parseFloat(salesCardInput.value) || 0;
-            const uber = parseFloat(salesUberInput.value) || 0;
-            const justeat = parseFloat(salesJustEatInput.value) || 0;
-            const deliveroo = parseFloat(salesDeliverooInput.value) || 0;
-            const website = parseFloat(salesWebsiteInput.value) || 0;
-            const advance = parseFloat(salesAdvanceInput.value) || 0;
-            const toogoodtogo = parseFloat(salesTooGoodToGoInput.value) || 0;
-
             if (!date) { 
                 salesMessage.textContent = 'Please select a date.'; 
                 return; 
             }
+            const salesData = {
+                date,
+                cash: parseFloat(salesCashInput.value) || 0,
+                card: parseFloat(salesCardInput.value) || 0,
+                uber: parseFloat(salesUberInput.value) || 0,
+                justeat: parseFloat(salesJustEatInput.value) || 0,
+                deliveroo: parseFloat(salesDeliverooInput.value) || 0,
+                website: parseFloat(salesWebsiteInput.value) || 0,
+                advance: parseFloat(salesAdvanceInput.value) || 0,
+                toogoodtogo: parseFloat(salesTooGoodToGoInput.value) || 0
+            };
             
-            const totalSales = cash + card + uber + justeat + deliveroo + website + advance + toogoodtogo;
+            const totalSales = Object.values(salesData).slice(1).reduce((acc, val) => acc + val, 0);
             if (totalSales === 0) {
                 salesMessage.textContent = 'Please enter a value for at least one sales category.';
                 return;
             }
 
-            // Check if a record for this date already exists
             const existingSaleIndex = dailySales.findIndex(sale => sale.date === date);
             if (existingSaleIndex > -1) {
-                // Update existing record
-                dailySales[existingSaleIndex] = { date, cash, card, uber, justeat, deliveroo, website, advance, toogoodtogo };
+                dailySales[existingSaleIndex] = salesData;
                 salesMessage.textContent = 'Sales record updated successfully!';
             } else {
-                // Add new record
-                dailySales.push({ date, cash, card, uber, justeat, deliveroo, website, advance, toogoodtogo });
+                dailySales.push(salesData);
                 salesMessage.textContent = 'Sales recorded successfully!';
             }
             
             saveDataToFirestore();
             
-            // Clear input fields
-            salesCashInput.value = '';
-            salesCardInput.value = '';
-            salesUberInput.value = '';
-            salesJustEatInput.value = '';
-            salesDeliverooInput.value = '';
-            salesWebsiteInput.value = '';
-            salesAdvanceInput.value = '';
-            salesTooGoodToGoInput.value = '';
+            [salesCashInput, salesCardInput, salesUberInput, salesJustEatInput, salesDeliverooInput, salesWebsiteInput, salesAdvanceInput, salesTooGoodToGoInput].forEach(input => input.value = '');
             salesDateInput.value = new Date().toISOString().split('T')[0];
         });
 
         // --- Purchases Logic ---
         function renderPurchases() {
-            let data = [...dailyPurchases];
+            const query = purchasesSearchInput.value.toLowerCase();
+            let data = dailyPurchases.filter(p => p.item.toLowerCase().includes(query));
+
             const { key, order } = sortState.purchases;
             data.sort((a, b) => {
                 const valA = a[key] || '';
@@ -1643,16 +1547,9 @@
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
                 row.innerHTML = `
-                    <td class="py-3 px-4">${purchase.date}</td>
-                    <td class="py-3 px-4">${purchase.item}</td>
-                    <td class="py-3 px-4">${settings.currency}${purchase.cost.toFixed(2)}</td>
-                    <td class="py-3 px-4">${purchase.paymentMethod || ''}</td>
-                    <td class="py-3 px-4">${purchase.paidBy || ''}</td>
-                    <td class="py-3 px-4">
-                        <button data-id="${purchase.id}" class="delete-purchase-btn text-red-500 hover:text-red-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                        </button>
-                    </td>
+                    <td class="py-3 px-4">${purchase.date}</td><td class="py-3 px-4">${purchase.item}</td><td class="py-3 px-4">${settings.currency}${purchase.cost.toFixed(2)}</td>
+                    <td class="py-3 px-4">${purchase.paymentMethod || ''}</td><td class="py-3 px-4">${purchase.paidBy || ''}</td>
+                    <td class="py-3 px-4"><button data-id="${purchase.id}" class="delete-purchase-btn text-red-500 hover:text-red-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button></td>
                 `;
                 purchasesHistoryBody.appendChild(row);
             });
@@ -1660,22 +1557,18 @@
             updateSortIndicator('purchases');
         }
 
-        purchasesSearchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const filteredPurchases = dailyPurchases.filter(p => p.item.toLowerCase().includes(query));
-            renderPurchases(filteredPurchases);
-        });
+        purchasesSearchInput.addEventListener('input', renderPurchases);
         
         function attachPurchasesEventListeners() {
             document.querySelectorAll('.delete-purchase-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const id = e.currentTarget.dataset.id;
-                    const index = dailyPurchases.findIndex(p => p.id === id);
-                    if (index > -1) {
+                    const purchase = dailyPurchases.find(p => p.id === id);
+                    if (purchase) {
                         confirmTitle.textContent = 'Confirm Deletion';
-                        confirmMessage.textContent = `Are you sure you want to delete the purchase record for "${dailyPurchases[index].item}" on ${dailyPurchases[index].date}?`;
+                        confirmMessage.textContent = `Are you sure you want to delete the purchase record for "${purchase.item}" on ${purchase.date}?`;
                         pendingAction = () => {
-                            dailyPurchases.splice(index, 1);
+                            dailyPurchases = dailyPurchases.filter(p => p.id !== id);
                             saveDataToFirestore();
                         };
                         confirmModal.classList.remove('hidden');
@@ -1694,20 +1587,22 @@
                 purchaseMessage.textContent = 'Please fill out all fields with valid data.';
                 return;
             }
-            const id = `purchase_${Date.now()}`; // Unique ID for each purchase
-            dailyPurchases.push({ id, date, item, cost, paymentMethod, paidBy });
+            const newPurchase = { 
+                id: `purchase_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`, 
+                date, item, cost, paymentMethod, paidBy 
+            };
+            dailyPurchases.push(newPurchase);
             saveDataToFirestore();
+            [purchaseItemInput, purchaseCostInput, purchasePaymentMethodInput, purchasePaidByInput].forEach(input => input.value = '');
             purchaseDateInput.value = today;
-            purchaseItemInput.value = '';
-            purchaseCostInput.value = '';
-            purchasePaymentMethodInput.value = '';
-            purchasePaidByInput.value = '';
             purchaseMessage.textContent = 'Purchase recorded successfully!';
         });
         
         // --- Salary Logic ---
         function renderSalary() {
-            let data = [...salary];
+            const query = salarySearchInput.value.toLowerCase();
+            let data = salary.filter(payment => payment.employee.toLowerCase().includes(query));
+
             const { key, order } = sortState.salary;
             data.sort((a, b) => {
                 if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
@@ -1724,15 +1619,9 @@
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
                 row.innerHTML = `
-                    <td class="py-3 px-4">${payment.date}</td>
-                    <td class="py-3 px-4">${payment.employee}</td>
-                    <td class="py-3 px-4">${payment.type}</td>
+                    <td class="py-3 px-4">${payment.date}</td><td class="py-3 px-4">${payment.employee}</td><td class="py-3 px-4">${payment.type}</td>
                     <td class="py-3 px-4">${settings.currency}${payment.amount.toFixed(2)}</td>
-                    <td class="py-3 px-4">
-                        <button data-id="${payment.id}" class="delete-salary-btn text-red-500 hover:text-red-700">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                        </button>
-                    </td>
+                    <td class="py-3 px-4"><button data-id="${payment.id}" class="delete-salary-btn text-red-500 hover:text-red-700"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button></td>
                 `;
                 salaryHistoryBody.appendChild(row);
             });
@@ -1741,11 +1630,7 @@
             updateSortIndicator('salary');
         }
 
-        salarySearchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const filteredSalary = salary.filter(payment => payment.employee.toLowerCase().includes(query));
-            renderSalary(filteredSalary);
-        });
+        salarySearchInput.addEventListener('input', renderSalary);
         
         function populateEmployeeDropdown() {
             const uniqueEmployees = [...new Set(salary.map(p => p.employee))].sort();
@@ -1762,12 +1647,12 @@
             document.querySelectorAll('.delete-salary-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const id = e.currentTarget.dataset.id;
-                    const index = salary.findIndex(p => p.id === id);
-                    if (index > -1) {
+                    const payment = salary.find(p => p.id === id);
+                    if (payment) {
                         confirmTitle.textContent = 'Confirm Deletion';
-                        confirmMessage.textContent = `Are you sure you want to delete the salary payment for "${salary[index].employee}" on ${salary[index].date}?`;
+                        confirmMessage.textContent = `Are you sure you want to delete the salary payment for "${payment.employee}" on ${payment.date}?`;
                         pendingAction = () => {
-                            salary.splice(index, 1);
+                            salary = salary.filter(p => p.id !== id);
                             saveDataToFirestore();
                         };
                         confirmModal.classList.remove('hidden');
@@ -1785,21 +1670,20 @@
                 salaryMessage.textContent = 'Please fill out all fields with valid data.';
                 return;
             }
-            const id = `salary_${Date.now()}`; // Unique ID
-            salary.push({ id, date, employee, type, amount });
+            const newPayment = { 
+                id: `salary_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`, 
+                date, employee, type, amount 
+            };
+            salary.push(newPayment);
             saveDataToFirestore();
+            [salaryEmployeeInput, salaryTypeInput, salaryAmountInput].forEach(input => input.value = '');
             salaryDateInput.value = today;
-            salaryEmployeeInput.value = '';
-            salaryTypeInput.value = '';
-            salaryAmountInput.value = '';
             salaryMessage.textContent = 'Salary payment recorded successfully!';
         });
 
         // --- Global Data Management (Confirmation & Downloads) ---
         confirmDeleteBtn.addEventListener('click', () => {
-            if (pendingAction) {
-                pendingAction();
-            }
+            if (pendingAction) pendingAction();
             pendingAction = null;
             confirmModal.classList.add('hidden');
         });
@@ -1809,200 +1693,54 @@
             confirmModal.classList.add('hidden');
         });
         
-        // --- Helper function for temporary messages ---
         function showTemporaryMessage(element, message, isError = true) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `mt-2 text-sm font-medium ${isError ? 'text-red-500' : 'text-green-500'}`;
             messageDiv.textContent = message;
-            // Insert after the button's container
             element.closest('div').insertAdjacentElement('afterend', messageDiv);
             setTimeout(() => messageDiv.remove(), 3000);
         }
 
         // --- Download Functions ---
-
-        // Sales PDF Download
-        downloadPdfBtn.addEventListener('click', () => {
-            const startDate = downloadStartDateInput.value;
-            const endDate = downloadEndDateInput.value;
-            if (!startDate || !endDate) {
-                showTemporaryMessage(downloadPdfBtn, 'Please select a start and end date.');
-                return;
-            }
-            const filteredSales = dailySales.filter(sale => sale.date >= startDate && sale.date <= endDate);
-            if (filteredSales.length === 0) {
-                showTemporaryMessage(downloadPdfBtn, 'No sales data for the selected date range.');
-                return;
-            }
+        function downloadData(type, filteredData, startDate, endDate) {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
             doc.setFontSize(18);
-            doc.text("Daily Sales Report", 14, 20);
+            doc.text(`${type} Report`, 14, 20);
             doc.setFontSize(12);
             doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
-            const tableColumn = ["Date", `Cash (${settings.currency})`, `Card (${settings.currency})`, `Online (${settings.currency})`, `Total (${settings.currency})`];
-            const tableRows = filteredSales.map(sale => {
-                const onlineTotal = (sale.uber || 0) + (sale.justeat || 0) + (sale.deliveroo || 0) + (sale.website || 0) + (sale.toogoodtogo || 0);
-                const total = (sale.cash || 0) + (sale.card || 0) + onlineTotal + (sale.advance || 0);
-                return [sale.date, (sale.cash || 0).toFixed(2), (sale.card || 0).toFixed(2), onlineTotal.toFixed(2), total.toFixed(2)];
-            });
-            doc.autoTable({
-                head: [tableColumn],
-                body: tableRows,
-                startY: 40
-            });
-            doc.save(`Sales_Report_v${APP_VERSION}_${startDate}_to_${endDate}.pdf`);
-        });
+            
+            let tableColumn, tableRows;
+            if (type === 'Sales') {
+                tableColumn = ["Date", `Cash (${settings.currency})`, `Card (${settings.currency})`, `Online (${settings.currency})`, `Total (${settings.currency})`];
+                tableRows = filteredData.map(sale => {
+                    const onlineTotal = (sale.uber || 0) + (sale.justeat || 0) + (sale.deliveroo || 0) + (sale.website || 0) + (sale.toogoodtogo || 0);
+                    const total = (sale.cash || 0) + (sale.card || 0) + onlineTotal + (sale.advance || 0);
+                    return [sale.date, (sale.cash || 0).toFixed(2), (sale.card || 0).toFixed(2), onlineTotal.toFixed(2), total.toFixed(2)];
+                });
+            } else if (type === 'Purchases') {
+                tableColumn = ["Date", "Item/Service", `Total Cost (${settings.currency})`, "Payment Method", "Paid By"];
+                tableRows = filteredData.map(p => [p.date, p.item, p.cost.toFixed(2), p.paymentMethod, p.paidBy]);
+            } else if (type === 'Salary') {
+                tableColumn = ["Date", "Employee Name", "Payment Type", `Amount (${settings.currency})`];
+                tableRows = filteredData.map(p => [p.date, p.employee, p.type, p.amount.toFixed(2)]);
+            }
 
-        // Sales CSV Download
-        downloadCsvBtn.addEventListener('click', () => {
-            const startDate = downloadStartDateInput.value;
-            const endDate = downloadEndDateInput.value;
-            if (!startDate || !endDate) {
-                showTemporaryMessage(downloadCsvBtn, 'Please select a start and end date.');
-                return;
-            }
-            const filteredSales = dailySales.filter(sale => sale.date >= startDate && sale.date <= endDate);
-            if (filteredSales.length === 0) {
-                showTemporaryMessage(downloadCsvBtn, 'No sales data for the selected date range.');
-                return;
-            }
-            const headers = ["Date", "Cash", "Card", "Uber Eats", "Just Eat", "Deliveroo", "Website", "Booking Advance", "Too Good To Go", "Total"];
-            const rows = filteredSales.map(sale => {
-                const total = (sale.cash || 0) + (sale.card || 0) + (sale.uber || 0) + (sale.justeat || 0) + (sale.deliveroo || 0) + (sale.website || 0) + (sale.advance || 0) + (sale.toogoodtogo || 0);
-                return [
-                    `"${sale.date}"`, sale.cash || 0, sale.card || 0, sale.uber || 0, sale.justeat || 0, sale.deliveroo || 0, sale.website || 0, sale.advance || 0, sale.toogoodtogo || 0, total
-                ].join(",");
-            });
-            const csvContent = [headers.join(","), ...rows].join("\n");
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", `Sales_Report_v${APP_VERSION}_${startDate}_to_${endDate}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-        
-        // Purchases PDF Download
-        downloadPurchasePdfBtn.addEventListener('click', () => {
-            const startDate = downloadPurchaseStartDateInput.value;
-            const endDate = downloadPurchaseEndDateInput.value;
-            if (!startDate || !endDate) {
-                showTemporaryMessage(downloadPurchasePdfBtn, 'Please select a start and end date.');
-                return;
-            }
-            const filteredPurchases = dailyPurchases.filter(p => p.date >= startDate && p.date <= endDate);
-            if (filteredPurchases.length === 0) {
-                showTemporaryMessage(downloadPurchasePdfBtn, 'No purchase data for the selected date range.');
-                return;
-            }
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            doc.text("Purchases Report", 14, 20);
-            doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
-            const tableColumn = ["Date", "Item/Service", `Total Cost (${settings.currency})`, "Payment Method", "Paid By"];
-            const tableRows = filteredPurchases.map(p => [p.date, p.item, p.cost.toFixed(2), p.paymentMethod, p.paidBy]);
             doc.autoTable({ head: [tableColumn], body: tableRows, startY: 40 });
-            doc.save(`Purchases_Report_v${APP_VERSION}_${startDate}_to_${endDate}.pdf`);
-        });
-
-        // Purchases CSV Download
-        downloadPurchaseCsvBtn.addEventListener('click', () => {
-            const startDate = downloadPurchaseStartDateInput.value;
-            const endDate = downloadPurchaseEndDateInput.value;
-            if (!startDate || !endDate) {
-                showTemporaryMessage(downloadPurchaseCsvBtn, 'Please select a start and end date.');
-                return;
-            }
-            const filteredPurchases = dailyPurchases.filter(p => p.date >= startDate && p.date <= endDate);
-            if (filteredPurchases.length === 0) {
-                showTemporaryMessage(downloadPurchaseCsvBtn, 'No purchase data for the selected date range.');
-                return;
-            }
-            const headers = ["Date", "Item/Service", "Total Cost", "Payment Method", "Paid By"];
-            const rows = filteredPurchases.map(p => [`"${p.date}"`, `"${p.item.replace(/"/g, '""')}"`, p.cost, `"${p.paymentMethod}"`, `"${p.paidBy}"`].join(","));
-            const csvContent = [headers.join(","), ...rows].join("\n");
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", `Purchases_Report_v${APP_VERSION}_${startDate}_to_${endDate}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
-
-        // Salary PDF Download
-        downloadSalaryPdfBtn.addEventListener('click', () => {
-            const startDate = downloadSalaryStartDateInput.value;
-            const endDate = downloadSalaryEndDateInput.value;
-            const selectedEmployees = Array.from(downloadSalaryEmployeesSelect.selectedOptions).map(opt => opt.value);
-            
-            if (!startDate || !endDate) {
-                showTemporaryMessage(downloadSalaryPdfBtn, 'Please select a start and end date.');
-                return;
-            }
-
-            let filteredSalary = salary.filter(p => p.date >= startDate && p.date <= endDate);
-            if (selectedEmployees.length > 0 && selectedEmployees[0] !== "") {
-                filteredSalary = filteredSalary.filter(p => selectedEmployees.includes(p.employee));
-            }
-
-            if (filteredSalary.length === 0) {
-                showTemporaryMessage(downloadSalaryPdfBtn, 'No salary data for the selected criteria.');
-                return;
-            }
-
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            doc.text("Salary Report", 14, 20);
-            doc.text(`Date Range: ${startDate} to ${endDate}`, 14, 30);
-            if (selectedEmployees.length > 0 && selectedEmployees[0] !== "") {
-                doc.text(`Employees: ${selectedEmployees.join(', ')}`, 14, 37);
-            }
-
-            const tableColumn = ["Date", "Employee Name", "Payment Type", `Amount (${settings.currency})`];
-            const tableRows = filteredSalary.map(p => [p.date, p.employee, p.type, p.amount.toFixed(2)]);
-            doc.autoTable({ head: [tableColumn], body: tableRows, startY: 45 });
-            doc.save(`Salary_Report_v${APP_VERSION}_${startDate}_to_${endDate}.pdf`);
-        });
-
-        // Salary CSV Download
-        downloadSalaryCsvBtn.addEventListener('click', () => {
-            const startDate = downloadSalaryStartDateInput.value;
-            const endDate = downloadSalaryEndDateInput.value;
-            const selectedEmployees = Array.from(downloadSalaryEmployeesSelect.selectedOptions).map(opt => opt.value);
-            
-            if (!startDate || !endDate) {
-                showTemporaryMessage(downloadSalaryCsvBtn, 'Please select a start and end date.');
-                return;
-            }
-
-            let filteredSalary = salary.filter(p => p.date >= startDate && p.date <= endDate);
-            if (selectedEmployees.length > 0 && selectedEmployees[0] !== "") {
-                filteredSalary = filteredSalary.filter(p => selectedEmployees.includes(p.employee));
-            }
-            
-            if (filteredSalary.length === 0) {
-                showTemporaryMessage(downloadSalaryCsvBtn, 'No salary data for the selected criteria.');
-                return;
-            }
-
-            const headers = ["Date", "Employee Name", "Payment Type", "Amount"];
-            const rows = filteredSalary.map(p => [`"${p.date}"`, `"${p.employee.replace(/"/g, '""')}"`, `"${p.type}"`, p.amount].join(","));
-            const csvContent = [headers.join(","), ...rows].join("\n");
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-            const link = document.createElement("a");
-            const url = URL.createObjectURL(blob);
-            link.setAttribute("href", url);
-            link.setAttribute("download", `Salary_Report_v${APP_VERSION}_${startDate}_to_${endDate}.csv`);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        });
+            doc.save(`${type}_Report_v${APP_VERSION}_${startDate}_to_${endDate}.pdf`);
+        }
         
+        downloadPdfBtn.addEventListener('click', () => downloadData('Sales', dailySales.filter(s => s.date >= downloadStartDateInput.value && s.date <= downloadEndDateInput.value), downloadStartDateInput.value, downloadEndDateInput.value));
+        downloadPurchasePdfBtn.addEventListener('click', () => downloadData('Purchases', dailyPurchases.filter(p => p.date >= downloadPurchaseStartDateInput.value && p.date <= downloadPurchaseEndDateInput.value), downloadPurchaseStartDateInput.value, downloadPurchaseEndDateInput.value));
+        downloadSalaryPdfBtn.addEventListener('click', () => {
+            const selectedEmployees = Array.from(downloadSalaryEmployeesSelect.selectedOptions).map(opt => opt.value);
+            let filtered = salary.filter(p => p.date >= downloadSalaryStartDateInput.value && p.date <= downloadSalaryEndDateInput.value);
+            if (selectedEmployees.length > 0 && selectedEmployees[0] !== "") {
+                filtered = filtered.filter(p => selectedEmployees.includes(p.employee));
+            }
+            downloadData('Salary', filtered, downloadSalaryStartDateInput.value, downloadSalaryEndDateInput.value);
+        });
+
         // --- Collapsible Sections Logic ---
         document.getElementById('toggle-manage-ingredients').addEventListener('click', () => {
             document.getElementById('manage-ingredients-details').classList.toggle('hidden');
@@ -2022,14 +1760,7 @@
         });
 
         // --- Settings Logic ---
-        const currencies = {
-            "EUR": "€",
-            "GBP": "£",
-            "PLN": "zł",
-            "USD": "$",
-            "BDT": "৳"
-        };
-
+        const currencies = {"EUR": "€", "GBP": "£", "PLN": "zł", "USD": "$", "BDT": "৳"};
         function populateCurrencyDropdown() {
             for (const code in currencies) {
                 const option = document.createElement('option');
@@ -2039,11 +1770,9 @@
             }
         }
         populateCurrencyDropdown();
-
         currencySelect.addEventListener('change', (e) => {
             settings.currency = e.target.value;
             saveDataToFirestore();
-            rerenderAllTabs();
         });
 
         function rerenderAllTabs() {
@@ -2073,7 +1802,11 @@
             document.getElementById('salary-amount').placeholder = `Amount (${currency})`;
             
             document.querySelectorAll('.currency-header').forEach(header => {
-                header.textContent = `${header.textContent.split('(')[0]} (${currency})`;
+                const baseText = header.dataset.baseText || header.textContent.split('(')[0].trim();
+                const sortArrow = header.querySelector('.sort-arrow');
+                header.innerHTML = '';
+                header.appendChild(document.createTextNode(`${baseText} (${settings.currency}) `));
+                if (sortArrow) header.appendChild(sortArrow);
             });
         }
 
@@ -2081,20 +1814,16 @@
         generateReportBtn.addEventListener('click', () => {
             const startDate = reportStartDateInput.value;
             const endDate = reportEndDateInput.value;
-
             if (!startDate || !endDate) {
                 reportOutput.innerHTML = `<p class="text-red-500">Please select a start and end date.</p>`;
                 return;
             }
 
-            const filteredSales = dailySales.filter(sale => sale.date >= startDate && sale.date <= endDate);
+            const filteredSales = dailySales.filter(s => s.date >= startDate && s.date <= endDate);
             const filteredPurchases = dailyPurchases.filter(p => p.date >= startDate && p.date <= endDate);
             const filteredSalary = salary.filter(s => s.date >= startDate && s.date <= endDate);
 
-            const totalSales = filteredSales.reduce((acc, sale) => {
-                return acc + (sale.cash || 0) + (sale.card || 0) + (sale.uber || 0) + (sale.justeat || 0) + (sale.deliveroo || 0) + (sale.website || 0) + (sale.advance || 0) + (sale.toogoodtogo || 0);
-            }, 0);
-
+            const totalSales = filteredSales.reduce((acc, sale) => acc + Object.values(sale).slice(1).reduce((s, v) => s + v, 0), 0);
             const totalPurchases = filteredPurchases.reduce((acc, p) => acc + p.cost, 0);
             const totalSalary = filteredSalary.reduce((acc, s) => acc + s.amount, 0);
             const totalExpenses = totalPurchases + totalSalary;
@@ -2102,53 +1831,28 @@
 
             reportOutput.innerHTML = `
                 <div class="space-y-2">
-                    <div class="flex justify-between items-center p-3 bg-green-100 rounded-lg">
-                        <span class="font-semibold text-green-800">Total Sales:</span>
-                        <span class="font-bold text-green-800">${settings.currency}${totalSales.toFixed(2)}</span>
-                    </div>
-                    <div class="flex justify-between items-center p-3 bg-red-100 rounded-lg">
-                        <span class="font-semibold text-red-800">Total Expenses:</span>
-                        <span class="font-bold text-red-800">${settings.currency}${totalExpenses.toFixed(2)}</span>
-                    </div>
-                    <div class="flex justify-between items-center p-3 bg-blue-100 rounded-lg">
-                        <span class="font-semibold text-blue-800">Net Profit:</span>
-                        <span class="font-bold text-blue-800">${settings.currency}${netProfit.toFixed(2)}</span>
-                    </div>
-                </div>
-            `;
-
+                    <div class="flex justify-between items-center p-3 bg-green-100 rounded-lg"><span class="font-semibold text-green-800">Total Sales:</span><span class="font-bold text-green-800">${settings.currency}${totalSales.toFixed(2)}</span></div>
+                    <div class="flex justify-between items-center p-3 bg-red-100 rounded-lg"><span class="font-semibold text-red-800">Total Expenses:</span><span class="font-bold text-red-800">${settings.currency}${totalExpenses.toFixed(2)}</span></div>
+                    <div class="flex justify-between items-center p-3 bg-blue-100 rounded-lg"><span class="font-semibold text-blue-800">Net Profit:</span><span class="font-bold text-blue-800">${settings.currency}${netProfit.toFixed(2)}</span></div>
+                </div>`;
             renderReportCharts(totalPurchases, totalSalary);
         });
 
         function renderReportCharts(purchaseTotal, salaryTotal) {
             if (expensesChart) expensesChart.destroy();
-
-            // Expenses Breakdown Chart (Doughnut)
             const expensesCtx = document.getElementById('expenses-chart').getContext('2d');
             expensesChart = new Chart(expensesCtx, {
                 type: 'doughnut',
                 data: {
                     labels: ['Purchases', 'Salary'],
-                    datasets: [{
-                        label: 'Expenses',
-                        data: [purchaseTotal, salaryTotal],
-                        backgroundColor: ['rgb(220, 38, 38)', 'rgb(219, 39, 119)'],
-                        hoverOffset: 4
-                    }]
+                    datasets: [{ label: 'Expenses', data: [purchaseTotal, salaryTotal], backgroundColor: ['rgb(220, 38, 38)', 'rgb(219, 39, 119)'], hoverOffset: 4 }]
                 }
             });
         }
 
         // --- Data Backup & Restore ---
         backupDataBtn.addEventListener('click', () => {
-            const allData = {
-                masterIngredients,
-                menuItems,
-                dailySales,
-                dailyPurchases,
-                salary,
-                settings
-            };
+            const allData = { masterIngredients, menuItems, dailySales, dailyPurchases, salary, settings };
             const dataStr = JSON.stringify(allData, null, 2);
             const blob = new Blob([dataStr], {type: "application/json"});
             const url = URL.createObjectURL(blob);
@@ -2167,13 +1871,12 @@
                 showTemporaryMessage(restoreDataBtn, 'Please select a backup file to restore.');
                 return;
             }
-
             const reader = new FileReader();
             reader.onload = (e) => {
                 try {
                     const data = JSON.parse(e.target.result);
                     confirmTitle.textContent = 'Confirm Restore';
-                    confirmMessage.textContent = 'Are you sure you want to restore from this backup? This will overwrite all current data in the application.';
+                    confirmMessage.textContent = 'This will overwrite all current data. Are you sure?';
                     pendingAction = () => {
                         masterIngredients = data.masterIngredients || [];
                         menuItems = data.menuItems || [];
@@ -2187,48 +1890,42 @@
                     confirmModal.classList.remove('hidden');
                 } catch (error) {
                     showTemporaryMessage(restoreDataBtn, 'Error: Invalid backup file format.');
-                    console.error("Error parsing backup file:", error);
                 }
             };
             reader.readAsText(file);
         });
 
-
-        // --- Enter Key Navigation & Autocomplete Logic ---
+        // --- Enter Key & Autocomplete Logic ---
         function setupEnterKeyNavigation(formElements, submitButton) {
             formElements.forEach((element, index) => {
                 element.addEventListener('keydown', (e) => {
                     if (e.key === 'Enter') {
                         e.preventDefault();
                         const nextElement = formElements[index + 1];
-                        if (nextElement) {
-                            nextElement.focus();
-                        } else {
-                            submitButton.click();
-                        }
+                        if (nextElement) nextElement.focus();
+                        else submitButton.click();
                     }
                 });
             });
         }
 
-        function setupAutocomplete(inputElement, data) {
+        function setupAutocomplete(inputElement, dataProvider) {
             let currentFocus;
             inputElement.addEventListener("input", function(e) {
+                const data = dataProvider();
                 let a, b, i, val = this.value;
                 closeAllLists();
-                if (!val) { return false;}
+                if (!val) return false;
                 currentFocus = -1;
                 a = document.createElement("DIV");
                 a.setAttribute("id", this.id + "autocomplete-list");
                 a.setAttribute("class", "autocomplete-suggestions");
                 this.parentNode.appendChild(a);
                 for (i = 0; i < data.length; i++) {
-                    if (data[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+                    if (data[i].toLowerCase().startsWith(val.toLowerCase())) {
                         b = document.createElement("DIV");
                         b.setAttribute("class", "autocomplete-suggestion");
-                        b.innerHTML = "<strong>" + data[i].substr(0, val.length) + "</strong>";
-                        b.innerHTML += data[i].substr(val.length);
-                        b.innerHTML += "<input type='hidden' value='" + data[i] + "'>";
+                        b.innerHTML = `<strong>${data[i].substr(0, val.length)}</strong>${data[i].substr(val.length)}<input type='hidden' value="${data[i]}">`;
                         b.addEventListener("click", function(e) {
                             inputElement.value = this.getElementsByTagName("input")[0].value;
                             closeAllLists();
@@ -2240,24 +1937,16 @@
             function closeAllLists(elmnt) {
                 var x = document.getElementsByClassName("autocomplete-suggestions");
                 for (var i = 0; i < x.length; i++) {
-                    if (elmnt != x[i] && elmnt != inputElement) {
-                    x[i].parentNode.removeChild(x[i]);
-                    }
+                    if (elmnt != x[i] && elmnt != inputElement) x[i].parentNode.removeChild(x[i]);
                 }
             }
-            document.addEventListener("click", function (e) {
-                closeAllLists(e.target);
-            });
+            document.addEventListener("click", (e) => closeAllLists(e.target));
         }
 
         function setupAllAutocomplete() {
-            const purchaseItems = [...new Set(dailyPurchases.map(p => p.item))];
-            const paidByNames = [...new Set(dailyPurchases.map(p => p.paidBy).filter(Boolean))];
-            const employeeNames = [...new Set(salary.map(s => s.employee))];
-            
-            setupAutocomplete(purchaseItemInput, purchaseItems);
-            setupAutocomplete(purchasePaidByInput, paidByNames);
-            setupAutocomplete(salaryEmployeeInput, employeeNames);
+            setupAutocomplete(purchaseItemInput, () => [...new Set(dailyPurchases.map(p => p.item))]);
+            setupAutocomplete(purchasePaidByInput, () => [...new Set(dailyPurchases.map(p => p.paidBy).filter(Boolean))]);
+            setupAutocomplete(salaryEmployeeInput, () => [...new Set(salary.map(s => s.employee))]);
         }
 
         setupEnterKeyNavigation([ingredientNameInput, ingredientUnitInput, ingredientCostInput], addIngredientBtn);
@@ -2283,7 +1972,6 @@
                 const arrow = header.querySelector('.sort-arrow');
                 header.classList.remove('sorted');
                 if(arrow) arrow.innerHTML = '';
-
                 if (sortState[table].key === key) {
                     header.classList.add('sorted');
                     if(arrow) arrow.innerHTML = sortState[table].order === 'asc' ? '▲' : '▼';
