@@ -147,7 +147,7 @@
                 <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Add a New Ingredient</h3>
                 <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
                     <input type="text" id="ingredient-name" placeholder="Ingredient Name" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
-                    <input type="text" id="ingredient-unit" placeholder="Unit (e.g., kg, gram)" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
+                    <input type="text" id="ingredient-unit" placeholder="Unit (e.g., kg, L, each)" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <input type="number" id="ingredient-cost" placeholder="Cost per Unit" class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-shadow">
                     <button id="add-ingredient-btn" class="w-full p-3 text-white font-bold rounded-lg bg-indigo-600 hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Add Ingredient
@@ -277,6 +277,7 @@
                     <table class="min-w-full bg-white rounded-lg shadow-md overflow-hidden">
                         <thead class="bg-gray-100 border-b border-gray-200 sticky top-0">
                             <tr>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600"></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="date">Date <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cash">Cash <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="card">Card <span class="sort-arrow"></span></th>
@@ -525,7 +526,30 @@
         <!-- Settings Section -->
         <div id="settings-section" class="tab-content p-2 sm:p-6 bg-gray-50 rounded-lg hidden">
             <h2 class="text-xl sm:text-2xl font-bold mb-4 text-gray-700">Settings</h2>
+            
             <div class="p-6 bg-white rounded-lg shadow-md border border-gray-200">
+                <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">How to Use This App</h3>
+                <div class="space-y-4 text-sm text-gray-700">
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Master Ingredients</h4>
+                        <p>This is the foundation of your costing. Add every raw ingredient you purchase here. Be precise with the 'Unit' (e.g., kg, L, each) and 'Cost per Unit', as this is what all calculations are based on.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Menu Costing & Unit Conversion</h4>
+                        <p>Create your dishes and add components from your Master Ingredients list. The app automatically handles unit conversions like **kg to g** and **L to ml**. For items priced per piece, use **'each'** as the unit in both the master list and the recipe.</p>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Daily Sales</h4>
+                        <p>Record your daily takings from all sources. You can click the arrow next to any record in the sales history to see a detailed breakdown of that day's sales.</p>
+                    </div>
+                     <div>
+                        <h4 class="font-semibold text-gray-800">Data Management</h4>
+                        <p>Use the **Backup** feature regularly to save a complete copy of your data to your computer. If anything goes wrong, you can use the **Restore** button to load your data back into the app.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-white rounded-lg shadow-md border border-gray-200">
                 <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Currency</h3>
                 <div class="max-w-xs">
                     <label for="currency-select" class="block text-sm font-medium text-gray-700 mb-1">Select Currency</label>
@@ -562,7 +586,20 @@
                 <h3 class="text-lg sm:text-xl font-semibold text-gray-600 mb-3">Version History</h3>
                 <div class="text-sm text-gray-600 space-y-4 max-h-48 overflow-y-auto">
                     <div>
-                        <p class="font-semibold">Version 1.5 (Latest)</p>
+                        <p class="font-semibold">Version 1.7 (Latest)</p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Added "How to Use" guide in Settings.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Version 1.6</p>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Added smart unit conversion to Menu Costing.</li>
+                            <li>Added expandable sales breakdown view in Daily Sales.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-semibold">Version 1.5</p>
                         <ul class="list-disc list-inside ml-4">
                             <li>Removed Suppliers section to simplify data entry.</li>
                             <li>Removed Sales Trend chart from Reports (to be revisited).</li>
@@ -619,7 +656,7 @@
         import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         // --- App Version ---
-        const APP_VERSION = '1.5';
+        const APP_VERSION = '1.7';
 
         // Firebase configuration 
         const firebaseConfig = {
@@ -643,6 +680,7 @@
         let salary = [];
         let settings = { currency: '£' };
         let openMenuItems = new Set(); // Keep track of open menu items
+        let openSalesRows = new Set(); // Keep track of open sales rows
         let sortState = {
             master: { key: 'name', order: 'asc' },
             sales: { key: 'date', order: 'desc' },
@@ -1061,22 +1099,60 @@
         });
 
 
+        // --- Unit Conversion Logic ---
+        function convertUnits(quantity, unit, masterIngredient) {
+            // If the master ingredient, its unit, or the target unit are missing, we can't calculate.
+            if (!masterIngredient || !masterIngredient.unit || !unit) {
+                console.warn(`Could not perform unit conversion due to missing data.`, { quantity, unit, masterIngredient });
+                return 0;
+            }
+            const baseUnit = masterIngredient.unit.toLowerCase();
+            const targetUnit = unit.toLowerCase();
+
+            // If units are the same, no conversion needed
+            if (baseUnit === targetUnit) {
+                return masterIngredient.cost * quantity;
+            }
+
+            // Weight conversions
+            if (baseUnit === 'kg' && targetUnit === 'g') {
+                return masterIngredient.cost * (quantity / 1000);
+            }
+            if (baseUnit === 'g' && targetUnit === 'kg') {
+                return masterIngredient.cost * (quantity * 1000);
+            }
+
+            // Volume conversions
+            if (baseUnit === 'l' && targetUnit === 'ml') {
+                return masterIngredient.cost * (quantity / 1000);
+            }
+            if (baseUnit === 'ml' && targetUnit === 'l') {
+                return masterIngredient.cost * (quantity * 1000);
+            }
+
+            // If no conversion rule found, assume 1:1 (e.g., 'each')
+            return masterIngredient.cost * quantity;
+        }
+
+
         // --- Menu Items & Platters Logic ---
         function calculateCogs(ingredients) {
             let totalCogs = 0;
             if (!ingredients) return 0;
             ingredients.forEach(item => {
-                let cost = 0;
-                if (item.type === 'ingredient') {
-                    const masterIng = masterIngredients.find(ing => ing.name === item.name);
-                    cost = masterIng ? masterIng.cost * item.quantity : 0;
-                } else { // It's a dish/platter etc.
-                    const dish = menuItems.find(menuItem => menuItem.name === item.name);
-                    cost = dish ? calculateCogs(dish.ingredients) * item.quantity : 0; // Recursive calculation
-                }
-                totalCogs += cost;
+                totalCogs += calculateComponentCost(item);
             });
             return totalCogs;
+        }
+
+        function calculateComponentCost(component) {
+            if (component.type === 'ingredient') {
+                const masterIng = masterIngredients.find(i => i.name === component.name);
+                return convertUnits(component.quantity, component.unit, masterIng);
+            } else { // It's a dish/platter etc.
+                const dish = menuItems.find(i => i.name === component.name);
+                return dish ? calculateCogs(dish.ingredients) * component.quantity : 0;
+            }
         }
         
         // Helper function to get the COGS star icon based on percentage
@@ -1199,7 +1275,7 @@
                                     <tr>
                                         <th class="py-2 px-3 text-left font-semibold text-gray-600">Component</th>
                                         <th class="py-2 px-3 text-left font-semibold text-gray-600">Quantity</th>
-                                        <th class="py-2 px-3 text-left font-semibold text-gray-600">Unit/Type</th>
+                                        <th class="py-2 px-3 text-left font-semibold text-gray-600">Unit</th>
                                         <th class="py-2 px-3 text-left font-semibold text-gray-600">Cost</th>
                                         <th class="py-2 px-3 text-left font-semibold text-gray-600">Actions</th>
                                     </tr>
@@ -1209,7 +1285,7 @@
                                         <tr class="border-b border-gray-200 last:border-b-0">
                                             <td class="py-2 px-3 text-gray-700">${ing.name}</td>
                                             <td class="py-2 px-3 text-gray-700">${ing.quantity}</td>
-                                            <td class="py-2 px-3 text-gray-700">${ing.type}</td>
+                                            <td class="py-2 px-3 text-gray-700">${ing.unit}</td>
                                             <td class="py-2 px-3 text-gray-700">${settings.currency}${calculateComponentCost(ing).toFixed(2)}</td>
                                             <td class="py-2 px-3">
                                                 <button class="remove-component-btn text-red-500 hover:text-red-700" data-item-index="${index}" data-component-index="${i}">Remove</button>
@@ -1221,16 +1297,17 @@
                         </div>
                         <div class="p-4 border border-gray-200 rounded-lg bg-gray-50">
                             <h4 class="text-md font-semibold text-gray-700 mb-2">Add Component to Recipe</h4>
-                            <div class="grid grid-cols-3 gap-2">
-                                <select class="component-select p-2 border border-gray-300 rounded-lg" data-item-index="${index}">
+                            <div class="grid grid-cols-4 gap-2">
+                                <select class="component-select p-2 border border-gray-300 rounded-lg col-span-2" data-item-index="${index}">
                                     <option value="">Select...</option>
                                     <optgroup label="Ingredients">
                                         ${masterIngredients.map(ing => `<option value="${ing.name}" data-type="ingredient">${ing.name}</option>`).join('')}
                                     </optgroup>
                                     ${item.type === 'platter' ? `<optgroup label="Dishes">${menuItems.filter(m => m.type !== 'platter' && m.name !== item.name).map(d => `<option value="${d.name}" data-type="dish">${d.name}</option>`).join('')}</optgroup>` : ''}
                                 </select>
-                                <input type="number" placeholder="Quantity" class="component-quantity p-2 border border-gray-300 rounded-lg">
-                                <button class="add-component-btn p-2 text-white font-bold rounded-lg bg-indigo-500 hover:bg-indigo-600 transition-colors" data-item-index="${index}">Add</button>
+                                <input type="number" placeholder="Qty" class="component-quantity p-2 border border-gray-300 rounded-lg">
+                                <input type="text" placeholder="Unit" class="component-unit p-2 border border-gray-300 rounded-lg">
+                                <button class="add-component-btn p-2 text-white font-bold rounded-lg bg-indigo-500 hover:bg-indigo-600 transition-colors col-span-4 mt-2" data-item-index="${index}">Add</button>
                             </div>
                         </div>
                     </div>
@@ -1257,16 +1334,6 @@
             renderMenuItems(filteredMenu);
         });
 
-        function calculateComponentCost(component) {
-            if (component.type === 'ingredient') {
-                const ing = masterIngredients.find(i => i.name === component.name);
-                return ing ? ing.cost * component.quantity : 0;
-            } else { // It's a dish/platter etc.
-                const dish = menuItems.find(i => i.name === component.name);
-                return dish ? calculateCogs(dish.ingredients) * component.quantity : 0;
-            }
-        }
-
         addMenuItemBtn.addEventListener('click', () => {
             const name = menuItemNameInput.value.trim();
             const type = itemTypeSelect.value;
@@ -1288,20 +1355,22 @@
                     if (!item.ingredients) {
                         item.ingredients = [];
                     }
-                    const card = btn.closest('.p-6');
+                    const card = btn.closest('.p-4');
                     const select = card.querySelector('.component-select');
                     const quantity = parseFloat(card.querySelector('.component-quantity').value);
+                    const unit = card.querySelector('.component-unit').value.trim();
                     const selectedOption = select.options[select.selectedIndex];
                     const name = selectedOption.value;
                     const type = selectedOption.dataset.type;
 
-                    if (!name || isNaN(quantity) || quantity <= 0) { return; }
+                    if (!name || isNaN(quantity) || quantity <= 0 || !unit) { return; }
                     
-                    item.ingredients.push({ name, quantity, type });
+                    item.ingredients.push({ name, quantity, unit, type });
                     saveDataToFirestore();
                     
                     card.querySelector('.component-select').value = '';
                     card.querySelector('.component-quantity').value = '';
+                    card.querySelector('.component-unit').value = '';
                 });
             });
 
@@ -1393,15 +1462,22 @@
 
             salesHistoryBody.innerHTML = '';
             if (data.length === 0) {
-                salesHistoryBody.innerHTML = `<tr><td colspan="6" class="text-center text-gray-600 py-4">No sales recorded yet.</td></tr>`;
+                salesHistoryBody.innerHTML = `<tr><td colspan="7" class="text-center text-gray-600 py-4">No sales recorded yet.</td></tr>`;
                 return;
             }
-            data.forEach((sale) => {
+            data.forEach((sale, index) => {
                 const onlineTotal = (sale.uber || 0) + (sale.justeat || 0) + (sale.deliveroo || 0) + (sale.website || 0) + (sale.toogoodtogo || 0);
                 const total = (sale.cash || 0) + (sale.card || 0) + onlineTotal + (sale.advance || 0);
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
                 row.innerHTML = `
+                    <td class="py-3 px-4">
+                        <button class="toggle-sales-details" data-index="${index}">
+                            <svg class="h-5 w-5 text-gray-500 transform transition-transform duration-200" id="sales-chevron-${index}" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                            </svg>
+                        </button>
+                    </td>
                     <td class="py-3 px-4">${sale.date}</td>
                     <td class="py-3 px-4">${settings.currency}${(sale.cash || 0).toFixed(2)}</td>
                     <td class="py-3 px-4">${settings.currency}${(sale.card || 0).toFixed(2)}</td>
@@ -1413,8 +1489,36 @@
                         </button>
                     </td>
                 `;
+                
+                const detailsRow = document.createElement('tr');
+                detailsRow.id = `sales-details-${index}`;
+                detailsRow.className = 'hidden';
+                detailsRow.innerHTML = `
+                    <td colspan="7" class="p-4 bg-gray-50">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 text-sm">
+                            <div><span class="font-semibold">Uber Eats:</span> ${settings.currency}${(sale.uber || 0).toFixed(2)}</div>
+                            <div><span class="font-semibold">Just Eat:</span> ${settings.currency}${(sale.justeat || 0).toFixed(2)}</div>
+                            <div><span class="font-semibold">Deliveroo:</span> ${settings.currency}${(sale.deliveroo || 0).toFixed(2)}</div>
+                            <div><span class="font-semibold">Website:</span> ${settings.currency}${(sale.website || 0).toFixed(2)}</div>
+                            <div><span class="font-semibold">Booking Advance:</span> ${settings.currency}${(sale.advance || 0).toFixed(2)}</div>
+                            <div><span class="font-semibold">Too Good To Go:</span> ${settings.currency}${(sale.toogoodtogo || 0).toFixed(2)}</div>
+                        </div>
+                    </td>
+                `;
+
                 salesHistoryBody.appendChild(row);
+                salesHistoryBody.appendChild(detailsRow);
             });
+
+            openSalesRows.forEach(index => {
+                const details = document.getElementById(`sales-details-${index}`);
+                const chevron = document.getElementById(`sales-chevron-${index}`);
+                if (details && chevron) {
+                    details.classList.remove('hidden');
+                    chevron.classList.add('rotate-90');
+                }
+            });
+
             attachSalesEventListeners();
             updateSortIndicator('sales');
         }
@@ -1438,6 +1542,23 @@
                             saveDataToFirestore();
                         };
                         confirmModal.classList.remove('hidden');
+                    }
+                });
+            });
+
+            document.querySelectorAll('.toggle-sales-details').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const index = e.currentTarget.dataset.index;
+                    const details = document.getElementById(`sales-details-${index}`);
+                    const chevron = document.getElementById(`sales-chevron-${index}`);
+                    
+                    details.classList.toggle('hidden');
+                    chevron.classList.toggle('rotate-90');
+
+                    if (details.classList.contains('hidden')) {
+                        openSalesRows.delete(index);
+                    } else {
+                        openSalesRows.add(index);
                     }
                 });
             });
