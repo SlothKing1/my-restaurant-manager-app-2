@@ -876,16 +876,26 @@
         reportEndDateInput.value = today;
 
 
-        // --- Password Logic ---
+        // --- Password Logic & Session Management ---
         const correctPassword = "Summer2025";
+
+        function showApp() {
+            loginContainer.classList.add('hidden');
+            appContent.classList.remove('hidden');
+            setupFirestoreListeners();
+            switchTab(masterTab, masterSection);
+        }
+
+        // Check for existing login session on page load
+        if (sessionStorage.getItem('isLoggedIn') === 'true') {
+            showApp();
+        }
+
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
             if (passwordInput.value === correctPassword) {
-                loginContainer.classList.add('hidden');
-                appContent.classList.remove('hidden');
-                // Initiate the Firebase listener after successful login
-                setupFirestoreListeners();
-                switchTab(masterTab, masterSection);
+                sessionStorage.setItem('isLoggedIn', 'true');
+                showApp();
             } else {
                 loginMessage.classList.remove('hidden');
             }
