@@ -715,35 +715,35 @@
         function setupFirestoreListeners() {
             if (!db) return;
 
-            // **PERMISSION FIX**: All listeners now point to subcollections under the main document.
             const ingredientsRef = collection(db, 'public', mainDocId, 'ingredients');
             onSnapshot(ingredientsRef, (snapshot) => {
                 masterIngredients = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                rerenderAllTabs();
+                renderIngredients();
+                renderMenuItems(); 
             }, (error) => console.error("Error listening to ingredients:", error));
 
             const menuItemsRef = collection(db, 'public', mainDocId, 'menuItems');
             onSnapshot(menuItemsRef, (snapshot) => {
                 menuItems = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                rerenderAllTabs();
+                renderMenuItems();
             }, (error) => console.error("Error listening to menu items:", error));
 
             const salesRef = collection(db, 'public', mainDocId, 'dailySales');
             onSnapshot(salesRef, (snapshot) => {
                 dailySales = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                rerenderAllTabs();
+                renderDailySales();
             }, (error) => console.error("Error listening to sales:", error));
 
             const purchasesRef = collection(db, 'public', mainDocId, 'dailyPurchases');
             onSnapshot(purchasesRef, (snapshot) => {
                 dailyPurchases = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                rerenderAllTabs();
+                renderPurchases();
             }, (error) => console.error("Error listening to purchases:", error));
 
             const salaryRef = collection(db, 'public', mainDocId, 'salary');
             onSnapshot(salaryRef, (snapshot) => {
                 salary = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                rerenderAllTabs();
+                renderSalary();
             }, (error) => console.error("Error listening to salary:", error));
 
             const settingsRef = doc(db, 'public', mainDocId, 'settings', 'appSettings');
@@ -754,7 +754,7 @@
                     settings = { currency: '£' };
                 }
                 document.getElementById('currency-select').value = settings.currency;
-                rerenderAllTabs();
+                rerenderAllTabs(); // Currency affects all tabs
             }, (error) => console.error("Error listening to settings:", error));
         }
         
@@ -1010,7 +1010,6 @@
                         confirmMessage.textContent = `Are you sure you want to delete the ingredient "${ingredient.name}"? This will affect any menu items that use it.`;
                         pendingAction = async () => {
                             try {
-                                // **PERMISSION FIX**: Path updated to subcollection.
                                 await deleteDoc(doc(db, 'public', mainDocId, 'ingredients', docId));
                             } catch (err) {
                                 console.error("Error deleting ingredient:", err);
@@ -1027,10 +1026,8 @@
                     const newCost = parseFloat(e.target.value);
                     if (!isNaN(newCost) && newCost >= 0 && docId) {
                         try {
-                            // **PERMISSION FIX**: Path updated to subcollection.
                             const ingredientRef = doc(db, 'public', mainDocId, 'ingredients', docId);
                             await updateDoc(ingredientRef, { cost: newCost });
-                            renderMenuItems(); 
                         } catch (err) {
                             console.error("Error updating cost:", err);
                         }
@@ -1050,7 +1047,6 @@
             
             try {
                 const newIngredient = { name, unit, cost };
-                // **PERMISSION FIX**: Path updated to subcollection.
                 await addDoc(collection(db, 'public', mainDocId, 'ingredients'), newIngredient);
                 ingredientNameInput.value = '';
                 ingredientUnitInput.value = '';
@@ -2192,7 +2188,6 @@
             } catch (e) {
                 console.error("Error saving settings:", e);
             }
-            rerenderAllTabs();
         });
 
         function rerenderAllTabs() {
@@ -2487,7 +2482,22 @@
                 sortState[table].key = key;
                 sortState[table].order = 'asc';
             }
-            rerenderAllTabs();
+            
+            // Call the specific render function for the table that was sorted
+            switch(table) {
+                case 'master':
+                    renderIngredients();
+                    break;
+                case 'sales':
+                    renderDailySales();
+                    break;
+                case 'purchases':
+                    renderPurchases();
+                    break;
+                case 'salary':
+                    renderSalary();
+                    break;
+            }
         }
 
         function updateSortIndicator(table) {
