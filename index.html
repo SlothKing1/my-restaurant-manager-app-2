@@ -165,7 +165,7 @@
                             <tr>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="name">Ingredient <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Unit</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cost">Cost per Unit <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cost" data-base-text="Cost per Unit">Cost per Unit <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                             </tr>
                         </thead>
@@ -279,10 +279,10 @@
                             <tr>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600"></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="date">Date <span class="sort-arrow"></span></th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cash">Cash <span class="sort-arrow"></span></th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="card">Card <span class="sort-arrow"></span></th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="online">Online <span class="sort-arrow"></span></th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="total">Total <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cash" data-base-text="Cash">Cash <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="card" data-base-text="Card">Card <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="online" data-base-text="Online">Online <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="total" data-base-text="Total">Total <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                             </tr>
                         </thead>
@@ -365,7 +365,7 @@
                             <tr>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="date">Date <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="item">Item/Service <span class="sort-arrow"></span></th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cost">Total Cost <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="cost" data-base-text="Total Cost">Total Cost <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Method</th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Paid By</th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
@@ -446,7 +446,7 @@
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="date">Date <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600 sortable" data-sort="employee">Employee Name <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Payment Type</th>
-                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="amount">Amount <span class="sort-arrow"></span></th>
+                                <th class="py-3 px-4 text-left font-semibold text-gray-600 currency-header sortable" data-sort="amount" data-base-text="Amount">Amount <span class="sort-arrow"></span></th>
                                 <th class="py-3 px-4 text-left font-semibold text-gray-600">Actions</th>
                             </tr>
                         </thead>
@@ -937,8 +937,7 @@
         });
 
         // --- Master Ingredients Logic ---
-        function renderIngredients() {
-            let data = [...masterIngredients];
+        function renderIngredients(data = masterIngredients) {
             const { key, order } = sortState.master;
             data.sort((a, b) => {
                 if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
@@ -1449,8 +1448,7 @@
         }
         
         // --- Daily Sales Logic ---
-        function renderDailySales() {
-            let data = [...dailySales];
+        function renderDailySales(data = dailySales) {
             const { key, order } = sortState.sales;
 
             data.sort((a, b) => {
@@ -1623,8 +1621,7 @@
         });
 
         // --- Purchases Logic ---
-        function renderPurchases() {
-            let data = [...dailyPurchases];
+        function renderPurchases(data = dailyPurchases) {
             const { key, order } = sortState.purchases;
             data.sort((a, b) => {
                 const valA = a[key] || '';
@@ -1706,8 +1703,7 @@
         });
         
         // --- Salary Logic ---
-        function renderSalary() {
-            let data = [...salary];
+        function renderSalary(data = salary) {
             const { key, order } = sortState.salary;
             data.sort((a, b) => {
                 if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
