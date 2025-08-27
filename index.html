@@ -2069,7 +2069,9 @@
             document.getElementById('salary-amount').placeholder = `Amount (${currency})`;
             
             document.querySelectorAll('.currency-header').forEach(header => {
-                header.textContent = `${header.textContent.split('(')[0]} (${currency})`;
+                const baseText = header.dataset.baseText;
+                const arrow = header.querySelector('.sort-arrow').outerHTML;
+                header.innerHTML = `${baseText} (${currency}) ${arrow}`;
             });
         }
 
