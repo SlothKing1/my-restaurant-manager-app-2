@@ -176,7 +176,7 @@
                 </div>
             </div>
             
-            <div id="master-message" class="mt-4 p-3 text-center text-sm font-medium text-gray-600 rounded-lg"></div>
+            <div id="master-message-container" class="mt-4"></div>
 
             <div class="mt-8 p-6 bg-white rounded-lg shadow-md border border-gray-200">
                 <div class="flex items-center justify-between cursor-pointer" id="toggle-manage-ingredients">
@@ -266,7 +266,7 @@
                         Record Sales
                     </button>
                 </div>
-                <div id="sales-message" class="mt-4 text-sm font-medium text-gray-600"></div>
+                <div id="sales-message-container" class="mt-4"></div>
             </div>
             
             <div class="mb-4">
@@ -352,7 +352,7 @@
                         Record Purchase
                     </button>
                 </div>
-                <div id="purchase-message" class="mt-4 text-sm font-medium text-gray-600"></div>
+                <div id="purchase-message-container" class="mt-4"></div>
             </div>
 
             <div class="mb-4">
@@ -432,7 +432,7 @@
                         Record Payment
                     </button>
                 </div>
-                <div id="salary-message" class="mt-4 text-sm font-medium text-gray-600"></div>
+                <div id="salary-message-container" class="mt-4"></div>
             </div>
 
             <div class="mb-4">
@@ -775,7 +775,7 @@
         const ingredientNameInput = document.getElementById('ingredient-name');
         const ingredientUnitInput = document.getElementById('ingredient-unit');
         const ingredientCostInput = document.getElementById('ingredient-cost');
-        const masterMessage = document.getElementById('master-message');
+        const masterMessageContainer = document.getElementById('master-message-container');
 
         const menuSearchInput = document.getElementById('menu-search');
         const menuItemsContainer = document.getElementById('menu-items-container');
@@ -796,7 +796,7 @@
         const salesAdvanceInput = document.getElementById('sales-advance');
         const salesTooGoodToGoInput = document.getElementById('sales-toogoodtogo');
         const addSalesBtn = document.getElementById('add-sales-btn');
-        const salesMessage = document.getElementById('sales-message');
+        const salesMessageContainer = document.getElementById('sales-message-container');
         const salesHistoryBody = document.getElementById('sales-history-body');
         
         const purchasesSearchInput = document.getElementById('purchases-search');
@@ -806,7 +806,7 @@
         const purchasePaymentMethodInput = document.getElementById('purchase-payment-method');
         const purchasePaidByInput = document.getElementById('purchase-paid-by');
         const addPurchaseBtn = document.getElementById('add-purchase-btn');
-        const purchaseMessage = document.getElementById('purchase-message');
+        const purchaseMessageContainer = document.getElementById('purchase-message-container');
         const purchasesHistoryBody = document.getElementById('purchases-history-body');
         
         const salarySearchInput = document.getElementById('salary-search');
@@ -815,7 +815,7 @@
         const salaryTypeInput = document.getElementById('salary-type');
         const salaryAmountInput = document.getElementById('salary-amount');
         const addSalaryBtn = document.getElementById('add-salary-btn');
-        const salaryMessage = document.getElementById('salary-message');
+        const salaryMessageContainer = document.getElementById('salary-message-container');
         const salaryHistoryBody = document.getElementById('salary-history-body');
         
         const confirmModal = document.getElementById('confirm-modal');
@@ -956,10 +956,9 @@
 
             ingredientsTableBody.innerHTML = '';
             if (sortedData.length === 0) {
-                masterMessage.textContent = 'No ingredients found.';
+                ingredientsTableBody.innerHTML = `<tr><td colspan="4" class="text-center text-gray-600 py-4">No ingredients found.</td></tr>`;
                 return;
             }
-            masterMessage.textContent = '';
             sortedData.forEach((ingredient) => {
                 const row = document.createElement('tr');
                 row.className = 'border-b border-gray-200 last:border-b-0 hover:bg-gray-50';
@@ -1031,7 +1030,7 @@
             const unit = ingredientUnitInput.value.trim();
             const cost = parseFloat(ingredientCostInput.value);
             if (!name || !unit || isNaN(cost) || cost <= 0) {
-                masterMessage.textContent = 'Please fill out all fields with valid data.';
+                showTemporaryMessage(masterMessageContainer, 'Please fill out all fields with valid data.', true);
                 return;
             }
             
@@ -1042,17 +1041,17 @@
                 ingredientNameInput.value = '';
                 ingredientUnitInput.value = '';
                 ingredientCostInput.value = '';
-                masterMessage.textContent = 'Ingredient added successfully!';
+                showTemporaryMessage(masterMessageContainer, 'Ingredient added successfully!', false);
             } catch (e) {
                 console.error("Error adding ingredient: ", e);
-                masterMessage.textContent = 'Failed to add ingredient.';
+                showTemporaryMessage(masterMessageContainer, 'Failed to add ingredient.', true);
             }
         });
 
         // Master Ingredients Download
         downloadIngredientsPdfBtn.addEventListener('click', () => {
             if (masterIngredients.length === 0) {
-                showTemporaryMessage(downloadIngredientsPdfBtn, 'No ingredients to download.');
+                showTemporaryMessage(downloadIngredientsPdfBtn.parentElement, 'No ingredients to download.', true);
                 return;
             }
             const { jsPDF } = window.jspdf;
@@ -1073,7 +1072,7 @@
 
         downloadIngredientsCsvBtn.addEventListener('click', () => {
             if (masterIngredients.length === 0) {
-                showTemporaryMessage(downloadIngredientsCsvBtn, 'No ingredients to download.');
+                showTemporaryMessage(downloadIngredientsCsvBtn.parentElement, 'No ingredients to download.', true);
                 return;
             }
             const headers = ["Ingredient Name", "Unit", "Cost per Unit"];
@@ -1098,7 +1097,7 @@
         uploadIngredientsBtn.addEventListener('click', () => {
             const file = uploadIngredientsFile.files[0];
             if (!file) {
-                masterMessage.textContent = 'Please select a CSV file to upload.';
+                showTemporaryMessage(uploadIngredientsBtn.parentElement, 'Please select a CSV file to upload.', true);
                 return;
             }
 
@@ -1109,7 +1108,7 @@
                 const newIngredients = [];
                 const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
                 if (headers[0] !== 'Ingredient Name' || headers[1] !== 'Unit' || headers[2] !== 'Cost per Unit') {
-                    masterMessage.textContent = 'Error: Invalid CSV headers. Expected "Ingredient Name", "Unit", "Cost per Unit".';
+                    showTemporaryMessage(uploadIngredientsBtn.parentElement, 'Error: Invalid CSV headers.', true);
                     return;
                 }
                 for (let i = 1; i < lines.length; i++) {
@@ -1132,10 +1131,10 @@
                     for (const ing of newIngredients) {
                         await addDoc(collection(db, 'public', mainDocId, 'ingredients'), ing);
                     }
-                    masterMessage.textContent = `Successfully uploaded ${newIngredients.length} ingredients!`;
+                    showTemporaryMessage(uploadIngredientsBtn.parentElement, `Successfully uploaded ${newIngredients.length} ingredients!`, false);
                 } catch (err) {
                     console.error("Error during upload:", err);
-                    masterMessage.textContent = 'An error occurred during the upload process.';
+                    showTemporaryMessage(uploadIngredientsBtn.parentElement, 'An error occurred during the upload process.', true);
                 }
             };
             reader.readAsText(file);
@@ -1143,30 +1142,42 @@
 
 
         // --- Unit Conversion Logic ---
-        function convertUnits(quantity, unit, masterIngredient) {
-            if (!masterIngredient || !masterIngredient.unit || !unit) {
-                console.warn(`Could not perform unit conversion due to missing data.`, { quantity, unit, masterIngredient });
-                return 0;
+        function convertUnits(quantity, fromUnit, masterIngredient) {
+            if (!masterIngredient || !masterIngredient.unit || !fromUnit) {
+                return { cost: 0, error: "Missing data for conversion." };
             }
-            const baseUnit = masterIngredient.unit.toLowerCase();
-            const targetUnit = unit.toLowerCase();
 
-            if (baseUnit === targetUnit) {
-                return masterIngredient.cost * quantity;
+            const toUnit = masterIngredient.unit;
+            const costPerBaseUnit = masterIngredient.cost;
+
+            const conversions = {
+                'g': { base: 'g', factor: 1 },
+                'kg': { base: 'g', factor: 1000 },
+                'oz': { base: 'g', factor: 28.3495 },
+                'lb': { base: 'g', factor: 453.592 },
+                'ml': { base: 'ml', factor: 1 },
+                'l': { base: 'ml', factor: 1000 },
+                'fl oz': { base: 'ml', factor: 29.5735 },
+                'gal': { base: 'ml', factor: 3785.41 },
+                'each': { base: 'each', factor: 1 }
+            };
+
+            const from = conversions[fromUnit.toLowerCase()];
+            const to = conversions[toUnit.toLowerCase()];
+
+            if (!from || !to) {
+                return { cost: 0, error: `Unit "${fromUnit}" or "${toUnit}" not recognized.` };
             }
-            if (baseUnit === 'kg' && targetUnit === 'g') {
-                return masterIngredient.cost * (quantity / 1000);
+
+            if (from.base !== to.base) {
+                return { cost: 0, error: `Cannot convert from ${fromUnit} (${from.base}) to ${toUnit} (${to.base}).` };
             }
-            if (baseUnit === 'g' && targetUnit === 'kg') {
-                return masterIngredient.cost * (quantity * 1000);
-            }
-            if (baseUnit === 'l' && targetUnit === 'ml') {
-                return masterIngredient.cost * (quantity / 1000);
-            }
-            if (baseUnit === 'ml' && targetUnit === 'l') {
-                return masterIngredient.cost * (quantity * 1000);
-            }
-            return masterIngredient.cost * quantity;
+
+            const quantityInBase = quantity * from.factor;
+            const quantityInMasterUnit = quantityInBase / to.factor;
+            const finalCost = quantityInMasterUnit * costPerBaseUnit;
+
+            return { cost: finalCost, error: null };
         }
 
 
@@ -1175,7 +1186,8 @@
             let totalCogs = 0;
             if (!ingredients) return 0;
             ingredients.forEach(item => {
-                totalCogs += calculateComponentCost(item);
+                const result = calculateComponentCost(item);
+                totalCogs += result.cost;
             });
             return totalCogs;
         }
@@ -1186,7 +1198,8 @@
                 return convertUnits(component.quantity, component.unit, masterIng);
             } else {
                 const dish = menuItems.find(i => i.name === component.name);
-                return dish ? calculateCogs(dish.ingredients) * component.quantity : 0;
+                const cost = dish ? calculateCogs(dish.ingredients) * component.quantity : 0;
+                return { cost, error: null };
             }
         }
         
@@ -1314,17 +1327,22 @@
                                     </tr>
                                 </thead>
                                 <tbody id="recipe-table-body-${item.id}">
-                                    ${(item.ingredients || []).map((ing, i) => `
+                                    ${(item.ingredients || []).map((ing, i) => {
+                                        const result = calculateComponentCost(ing);
+                                        const costDisplay = result.error 
+                                            ? `<span class="text-red-500 text-xs" title="${result.error}">Conv. Error</span>`
+                                            : `${settings.currency}${result.cost.toFixed(2)}`;
+                                        return `
                                         <tr class="border-b border-gray-200 last:border-b-0">
                                             <td class="py-2 px-3 text-gray-700">${ing.name}</td>
                                             <td class="py-2 px-3 text-gray-700">${ing.quantity}</td>
                                             <td class="py-2 px-3 text-gray-700">${ing.unit}</td>
-                                            <td class="py-2 px-3 text-gray-700">${settings.currency}${calculateComponentCost(ing).toFixed(2)}</td>
+                                            <td class="py-2 px-3 text-gray-700">${costDisplay}</td>
                                             <td class="py-2 px-3">
                                                 <button class="remove-component-btn text-red-500 hover:text-red-700" data-item-id="${item.id}" data-component-index="${i}">Remove</button>
                                             </td>
                                         </tr>
-                                    `).join('')}
+                                    `}).join('')}
                                 </tbody>
                             </table>
                         </div>
@@ -1636,20 +1654,20 @@
             const toogoodtogo = parseFloat(salesTooGoodToGoInput.value) || 0;
 
             if (!date) { 
-                salesMessage.textContent = 'Please select a date.'; 
+                showTemporaryMessage(salesMessageContainer, 'Please select a date.', true); 
                 return; 
             }
             
             const totalSales = cash + card + uber + justeat + deliveroo + website + advance + toogoodtogo;
             if (totalSales === 0) {
-                salesMessage.textContent = 'Please enter a value for at least one sales category.';
+                showTemporaryMessage(salesMessageContainer, 'Please enter a value for at least one sales category.', true);
                 return;
             }
 
             const newSale = { date, cash, card, uber, justeat, deliveroo, website, advance, toogoodtogo };
             try {
                 await addDoc(collection(db, 'public', mainDocId, 'dailySales'), newSale);
-                salesMessage.textContent = 'Sales recorded successfully!';
+                showTemporaryMessage(salesMessageContainer, 'Sales recorded successfully!', false);
                 
                 salesCashInput.value = '';
                 salesCardInput.value = '';
@@ -1662,7 +1680,7 @@
                 salesDateInput.value = new Date().toISOString().split('T')[0];
             } catch (e) {
                 console.error("Error adding sales record:", e);
-                salesMessage.textContent = 'Failed to record sales.';
+                showTemporaryMessage(salesMessageContainer, 'Failed to record sales.', true);
             }
         });
 
@@ -1737,7 +1755,7 @@
             const paymentMethod = purchasePaymentMethodInput.value;
             const paidBy = purchasePaidByInput.value.trim();
             if (!date || !item || isNaN(cost) || cost <= 0) {
-                purchaseMessage.textContent = 'Please fill out all fields with valid data.';
+                showTemporaryMessage(purchaseMessageContainer, 'Please fill out all fields with valid data.', true);
                 return;
             }
             
@@ -1749,10 +1767,10 @@
                 purchaseCostInput.value = '';
                 purchasePaymentMethodInput.value = '';
                 purchasePaidByInput.value = '';
-                purchaseMessage.textContent = 'Purchase recorded successfully!';
+                showTemporaryMessage(purchaseMessageContainer, 'Purchase recorded successfully!', false);
             } catch(e) {
                 console.error("Error adding purchase:", e);
-                purchaseMessage.textContent = 'Failed to record purchase.';
+                showTemporaryMessage(purchaseMessageContainer, 'Failed to record purchase.', true);
             }
         });
         
@@ -1837,7 +1855,7 @@
             const type = salaryTypeInput.value;
             const amount = parseFloat(salaryAmountInput.value);
             if (!date || !employee || !type || isNaN(amount) || amount <= 0) {
-                salaryMessage.textContent = 'Please fill out all fields with valid data.';
+                showTemporaryMessage(salaryMessageContainer, 'Please fill out all fields with valid data.', true);
                 return;
             }
             
@@ -1848,10 +1866,10 @@
                 salaryEmployeeInput.value = '';
                 salaryTypeInput.value = '';
                 salaryAmountInput.value = '';
-                salaryMessage.textContent = 'Salary payment recorded successfully!';
+                showTemporaryMessage(salaryMessageContainer, 'Salary payment recorded successfully!', false);
             } catch (e) {
                 console.error("Error adding salary:", e);
-                salaryMessage.textContent = 'Failed to record salary.';
+                showTemporaryMessage(salaryMessageContainer, 'Failed to record salary.', true);
             }
         });
 
@@ -1869,12 +1887,17 @@
             confirmModal.classList.add('hidden');
         });
         
-        function showTemporaryMessage(element, message, isError = true) {
+        function showTemporaryMessage(container, message, isError = true) {
             const messageDiv = document.createElement('div');
-            messageDiv.className = `mt-2 text-sm font-medium ${isError ? 'text-red-500' : 'text-green-500'}`;
+            messageDiv.className = `p-3 text-center text-sm font-medium rounded-lg ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`;
             messageDiv.textContent = message;
-            element.closest('div').insertAdjacentElement('afterend', messageDiv);
-            setTimeout(() => messageDiv.remove(), 3000);
+            container.innerHTML = ''; // Clear previous messages
+            container.appendChild(messageDiv);
+            setTimeout(() => {
+                messageDiv.style.transition = 'opacity 0.5s ease';
+                messageDiv.style.opacity = '0';
+                setTimeout(() => messageDiv.remove(), 500);
+            }, 3000);
         }
 
         // --- Download Functions ---
@@ -1882,12 +1905,12 @@
             const startDate = downloadStartDateInput.value;
             const endDate = downloadEndDateInput.value;
             if (!startDate || !endDate) {
-                showTemporaryMessage(downloadPdfBtn, 'Please select a start and end date.');
+                showTemporaryMessage(downloadPdfBtn.parentElement, 'Please select a start and end date.', true);
                 return;
             }
             const filteredSales = dailySales.filter(sale => sale.date >= startDate && sale.date <= endDate);
             if (filteredSales.length === 0) {
-                showTemporaryMessage(downloadPdfBtn, 'No sales data for the selected date range.');
+                showTemporaryMessage(downloadPdfBtn.parentElement, 'No sales data for the selected date range.', true);
                 return;
             }
             const { jsPDF } = window.jspdf;
@@ -1914,12 +1937,12 @@
             const startDate = downloadStartDateInput.value;
             const endDate = downloadEndDateInput.value;
             if (!startDate || !endDate) {
-                showTemporaryMessage(downloadCsvBtn, 'Please select a start and end date.');
+                showTemporaryMessage(downloadCsvBtn.parentElement, 'Please select a start and end date.', true);
                 return;
             }
             const filteredSales = dailySales.filter(sale => sale.date >= startDate && sale.date <= endDate);
             if (filteredSales.length === 0) {
-                showTemporaryMessage(downloadCsvBtn, 'No sales data for the selected date range.');
+                showTemporaryMessage(downloadCsvBtn.parentElement, 'No sales data for the selected date range.', true);
                 return;
             }
             const headers = ["Date", "Cash", "Card", "Uber Eats", "Just Eat", "Deliveroo", "Website", "Booking Advance", "Too Good To Go", "Total"];
@@ -1944,12 +1967,12 @@
             const startDate = downloadPurchaseStartDateInput.value;
             const endDate = downloadPurchaseEndDateInput.value;
             if (!startDate || !endDate) {
-                showTemporaryMessage(downloadPurchasePdfBtn, 'Please select a start and end date.');
+                showTemporaryMessage(downloadPurchasePdfBtn.parentElement, 'Please select a start and end date.', true);
                 return;
             }
             const filteredPurchases = dailyPurchases.filter(p => p.date >= startDate && p.date <= endDate);
             if (filteredPurchases.length === 0) {
-                showTemporaryMessage(downloadPurchasePdfBtn, 'No purchase data for the selected date range.');
+                showTemporaryMessage(downloadPurchasePdfBtn.parentElement, 'No purchase data for the selected date range.', true);
                 return;
             }
             const { jsPDF } = window.jspdf;
@@ -1966,12 +1989,12 @@
             const startDate = downloadPurchaseStartDateInput.value;
             const endDate = downloadPurchaseEndDateInput.value;
             if (!startDate || !endDate) {
-                showTemporaryMessage(downloadPurchaseCsvBtn, 'Please select a start and end date.');
+                showTemporaryMessage(downloadPurchaseCsvBtn.parentElement, 'Please select a start and end date.', true);
                 return;
             }
             const filteredPurchases = dailyPurchases.filter(p => p.date >= startDate && p.date <= endDate);
             if (filteredPurchases.length === 0) {
-                showTemporaryMessage(downloadPurchaseCsvBtn, 'No purchase data for the selected date range.');
+                showTemporaryMessage(downloadPurchaseCsvBtn.parentElement, 'No purchase data for the selected date range.', true);
                 return;
             }
             const headers = ["Date", "Item/Service", "Total Cost", "Payment Method", "Paid By"];
@@ -1993,7 +2016,7 @@
             const selectedEmployees = Array.from(downloadSalaryEmployeesSelect.selectedOptions).map(opt => opt.value);
             
             if (!startDate || !endDate) {
-                showTemporaryMessage(downloadSalaryPdfBtn, 'Please select a start and end date.');
+                showTemporaryMessage(downloadSalaryPdfBtn.parentElement, 'Please select a start and end date.', true);
                 return;
             }
 
@@ -2003,7 +2026,7 @@
             }
 
             if (filteredSalary.length === 0) {
-                showTemporaryMessage(downloadSalaryPdfBtn, 'No salary data for the selected criteria.');
+                showTemporaryMessage(downloadSalaryPdfBtn.parentElement, 'No salary data for the selected criteria.', true);
                 return;
             }
 
@@ -2027,7 +2050,7 @@
             const selectedEmployees = Array.from(downloadSalaryEmployeesSelect.selectedOptions).map(opt => opt.value);
             
             if (!startDate || !endDate) {
-                showTemporaryMessage(downloadSalaryCsvBtn, 'Please select a start and end date.');
+                showTemporaryMessage(downloadSalaryCsvBtn.parentElement, 'Please select a start and end date.', true);
                 return;
             }
 
@@ -2037,7 +2060,7 @@
             }
             
             if (filteredSalary.length === 0) {
-                showTemporaryMessage(downloadSalaryCsvBtn, 'No salary data for the selected criteria.');
+                showTemporaryMessage(downloadSalaryCsvBtn.parentElement, 'No salary data for the selected criteria.', true);
                 return;
             }
 
@@ -2283,7 +2306,7 @@
         restoreDataBtn.addEventListener('click', () => {
             const file = restoreDataInput.files[0];
             if (!file) {
-                showTemporaryMessage(restoreDataBtn, 'Please select a backup file to restore.');
+                showTemporaryMessage(restoreDataBtn.parentElement, 'Please select a backup file to restore.', true);
                 return;
             }
 
@@ -2297,15 +2320,15 @@
                     pendingAction = async () => {
                         try {
                             await restoreDataFromBackup(data);
-                            showTemporaryMessage(restoreDataBtn, 'Data restored successfully!', false); // false for non-error
+                            showTemporaryMessage(restoreDataBtn.parentElement, 'Data restored successfully!', false); // false for non-error
                         } catch (error) {
                             console.error("Restore failed:", error);
-                            showTemporaryMessage(restoreDataBtn, 'Restore failed. Check console for details.');
+                            showTemporaryMessage(restoreDataBtn.parentElement, 'Restore failed. Check console for details.', true);
                         }
                     };
                     confirmModal.classList.remove('hidden');
                 } catch (error) {
-                    showTemporaryMessage(restoreDataBtn, 'Error: Invalid backup file format.');
+                    showTemporaryMessage(restoreDataBtn.parentElement, 'Error: Invalid backup file format.', true);
                     console.error("Error parsing backup file:", error);
                 }
             };
