@@ -653,8 +653,8 @@
     <script type="module">
         // IMPORTANT: Replace with your actual Firebase project configuration
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        // **UPDATED** Import all necessary Firestore functions
         import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         
         // --- App Version ---
         const APP_VERSION = '1.7';
@@ -670,16 +670,19 @@
         };
         
         let db;
+        let auth;
+        // **PERMISSION FIX**: Define a single document ID to house all the data collections.
+        const mainDocId = 'restaurant-data';
         
-        // --- Core Data Structures ---
+        // --- Core Data Structures & Firestore Functions ---
         let masterIngredients = [];
         let menuItems = [];
         let dailySales = [];
         let dailyPurchases = [];
         let salary = [];
         let settings = { currency: '£' };
-        let openMenuItems = new Set(); // Keep track of open menu items
-        let openSalesRows = new Set(); // Keep track of open sales rows
+        let openMenuItems = new Set();
+        let openSalesRows = new Set();
         let sortState = {
             master: { key: 'name', order: 'asc' },
             sales: { key: 'date', order: 'desc' },
@@ -691,59 +694,52 @@
         try {
             const app = initializeApp(firebaseConfig);
             db = getFirestore(app);
+            auth = getAuth(app);
         } catch (e) {
             console.error("Firebase initialization failed:", e);
         }
 
-        // **REMOVED** The old saveDataToFirestore function is no longer needed.
-        // Each action (add, delete, update) now communicates with Firestore directly.
-
-        // **UPDATED** Use onSnapshot to get real-time updates from collections
+        // Use onSnapshot to get real-time updates for all data
         function setupFirestoreListeners() {
             if (!db) return;
 
-            // Listener for Master Ingredients
-            const ingredientsRef = collection(db, 'ingredients');
+            // **PERMISSION FIX**: All listeners now point to subcollections under the main document.
+            const ingredientsRef = collection(db, 'public', mainDocId, 'ingredients');
             onSnapshot(ingredientsRef, (snapshot) => {
                 masterIngredients = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 rerenderAllTabs();
             }, (error) => console.error("Error listening to ingredients:", error));
 
-            // Listener for Menu Items
-            const menuItemsRef = collection(db, 'menuItems');
+            const menuItemsRef = collection(db, 'public', mainDocId, 'menuItems');
             onSnapshot(menuItemsRef, (snapshot) => {
                 menuItems = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 rerenderAllTabs();
             }, (error) => console.error("Error listening to menu items:", error));
 
-            // Listener for Daily Sales
-            const salesRef = collection(db, 'dailySales');
+            const salesRef = collection(db, 'public', mainDocId, 'dailySales');
             onSnapshot(salesRef, (snapshot) => {
                 dailySales = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 rerenderAllTabs();
             }, (error) => console.error("Error listening to sales:", error));
 
-            // Listener for Purchases
-            const purchasesRef = collection(db, 'dailyPurchases');
+            const purchasesRef = collection(db, 'public', mainDocId, 'dailyPurchases');
             onSnapshot(purchasesRef, (snapshot) => {
                 dailyPurchases = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 rerenderAllTabs();
             }, (error) => console.error("Error listening to purchases:", error));
 
-            // Listener for Salary
-            const salaryRef = collection(db, 'salary');
+            const salaryRef = collection(db, 'public', mainDocId, 'salary');
             onSnapshot(salaryRef, (snapshot) => {
                 salary = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 rerenderAllTabs();
             }, (error) => console.error("Error listening to salary:", error));
 
-            // Listener for Settings (still a single document)
-            const settingsRef = doc(db, 'settings', 'appSettings');
+            const settingsRef = doc(db, 'public', mainDocId, 'settings', 'appSettings');
             onSnapshot(settingsRef, (docSnap) => {
                 if (docSnap.exists()) {
                     settings = docSnap.data();
                 } else {
-                    settings = { currency: '£' }; // Default settings
+                    settings = { currency: '£' };
                 }
                 document.getElementById('currency-select').value = settings.currency;
                 rerenderAllTabs();
@@ -883,11 +879,18 @@
         // --- Password Logic & Session Management ---
         const correctPassword = "Summer2025";
 
-        function showApp() {
+        async function showApp() {
             loginContainer.classList.add('hidden');
             appContent.classList.remove('hidden');
-            setupFirestoreListeners();
-            switchTab(masterTab, masterSection);
+            
+            try {
+                await signInAnonymously(auth);
+                console.log("Signed in to Firebase anonymously.");
+                setupFirestoreListeners();
+                switchTab(masterTab, masterSection);
+            } catch (error) {
+                console.error("Error during anonymous sign-in or data setup:", error);
+            }
         }
 
         // Check for existing login session on page load
@@ -943,9 +946,11 @@
         // --- Master Ingredients Logic ---
         function renderIngredients(data = masterIngredients) {
             const { key, order } = sortState.master;
-            const sortedData = [...data].sort((a, b) => { // Create a copy before sorting
-                if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
-                if (a[key] > b[key]) return order === 'asc' ? 1 : -1;
+            const sortedData = [...data].sort((a, b) => {
+                const valA = a[key] || '';
+                const valB = b[key] || '';
+                if (valA < valB) return order === 'asc' ? -1 : 1;
+                if (valA > valB) return order === 'asc' ? 1 : -1;
                 return 0;
             });
 
@@ -983,7 +988,6 @@
         });
 
         function attachIngredientEventListeners() {
-            // Delete button
             document.querySelectorAll('#ingredients-table-body .delete-ingredient-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
                     const docId = e.currentTarget.dataset.id;
@@ -993,7 +997,8 @@
                         confirmMessage.textContent = `Are you sure you want to delete the ingredient "${ingredient.name}"? This will affect any menu items that use it.`;
                         pendingAction = async () => {
                             try {
-                                await deleteDoc(doc(db, 'ingredients', docId));
+                                // **PERMISSION FIX**: Path updated to subcollection.
+                                await deleteDoc(doc(db, 'public', mainDocId, 'ingredients', docId));
                             } catch (err) {
                                 console.error("Error deleting ingredient:", err);
                             }
@@ -1003,16 +1008,15 @@
                 });
             });
 
-            // Editable cost input
             document.querySelectorAll('#ingredients-table-body input[type="number"]').forEach(input => {
-                input.addEventListener('change', async (e) => { // Use 'change' to save only when focus is lost
+                input.addEventListener('change', async (e) => {
                     const docId = e.target.dataset.id;
                     const newCost = parseFloat(e.target.value);
                     if (!isNaN(newCost) && newCost >= 0 && docId) {
                         try {
-                            const ingredientRef = doc(db, 'ingredients', docId);
+                            // **PERMISSION FIX**: Path updated to subcollection.
+                            const ingredientRef = doc(db, 'public', mainDocId, 'ingredients', docId);
                             await updateDoc(ingredientRef, { cost: newCost });
-                            // The onSnapshot listener will handle re-rendering, but we might want to instantly update menu COGS
                             renderMenuItems(); 
                         } catch (err) {
                             console.error("Error updating cost:", err);
@@ -1022,7 +1026,7 @@
             });
         }
         
-        addIngredientBtn.addEventListener('click', async () => { // **UPDATED** to be async
+        addIngredientBtn.addEventListener('click', async () => {
             const name = ingredientNameInput.value.trim();
             const unit = ingredientUnitInput.value.trim();
             const cost = parseFloat(ingredientCostInput.value);
@@ -1031,10 +1035,10 @@
                 return;
             }
             
-            // **UPDATED** Save directly to Firestore
             try {
                 const newIngredient = { name, unit, cost };
-                await addDoc(collection(db, 'ingredients'), newIngredient);
+                // **PERMISSION FIX**: Path updated to subcollection.
+                await addDoc(collection(db, 'public', mainDocId, 'ingredients'), newIngredient);
                 ingredientNameInput.value = '';
                 ingredientUnitInput.value = '';
                 ingredientCostInput.value = '';
@@ -1074,7 +1078,7 @@
             }
             const headers = ["Ingredient Name", "Unit", "Cost per Unit"];
             const rows = masterIngredients.map(ing => [
-                `"${ing.name.replace(/"/g, '""')}"`, // Handle quotes in names
+                `"${ing.name.replace(/"/g, '""')}"`,
                 `"${ing.unit.replace(/"/g, '""')}"`,
                 ing.cost
             ].join(","));
@@ -1099,9 +1103,9 @@
             }
 
             const reader = new FileReader();
-            reader.onload = async (e) => { // **UPDATED** to be async
+            reader.onload = async (e) => {
                 const content = e.target.result;
-                const lines = content.split(/\r?\n/); // Handle different line endings
+                const lines = content.split(/\r?\n/);
                 const newIngredients = [];
                 const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
                 if (headers[0] !== 'Ingredient Name' || headers[1] !== 'Unit' || headers[2] !== 'Cost per Unit') {
@@ -1121,15 +1125,12 @@
                     }
                 }
                 
-                // **UPDATED** This is a destructive action. We delete all old and add all new.
                 try {
-                    // Delete all existing ingredients
                     for (const ing of masterIngredients) {
-                        await deleteDoc(doc(db, 'ingredients', ing.id));
+                        await deleteDoc(doc(db, 'public', mainDocId, 'ingredients', ing.id));
                     }
-                    // Add all new ingredients
                     for (const ing of newIngredients) {
-                        await addDoc(collection(db, 'ingredients'), ing);
+                        await addDoc(collection(db, 'public', mainDocId, 'ingredients'), ing);
                     }
                     masterMessage.textContent = `Successfully uploaded ${newIngredients.length} ingredients!`;
                 } catch (err) {
@@ -1143,7 +1144,6 @@
 
         // --- Unit Conversion Logic ---
         function convertUnits(quantity, unit, masterIngredient) {
-            // If the master ingredient, its unit, or the target unit are missing, we can't calculate.
             if (!masterIngredient || !masterIngredient.unit || !unit) {
                 console.warn(`Could not perform unit conversion due to missing data.`, { quantity, unit, masterIngredient });
                 return 0;
@@ -1151,28 +1151,21 @@
             const baseUnit = masterIngredient.unit.toLowerCase();
             const targetUnit = unit.toLowerCase();
 
-            // If units are the same, no conversion needed
             if (baseUnit === targetUnit) {
                 return masterIngredient.cost * quantity;
             }
-
-            // Weight conversions
             if (baseUnit === 'kg' && targetUnit === 'g') {
                 return masterIngredient.cost * (quantity / 1000);
             }
             if (baseUnit === 'g' && targetUnit === 'kg') {
                 return masterIngredient.cost * (quantity * 1000);
             }
-
-            // Volume conversions
             if (baseUnit === 'l' && targetUnit === 'ml') {
                 return masterIngredient.cost * (quantity / 1000);
             }
             if (baseUnit === 'ml' && targetUnit === 'l') {
                 return masterIngredient.cost * (quantity * 1000);
             }
-
-            // If no conversion rule found, assume 1:1 (e.g., 'each')
             return masterIngredient.cost * quantity;
         }
 
@@ -1191,13 +1184,12 @@
             if (component.type === 'ingredient') {
                 const masterIng = masterIngredients.find(i => i.name === component.name);
                 return convertUnits(component.quantity, component.unit, masterIng);
-            } else { // It's a dish/platter etc.
+            } else {
                 const dish = menuItems.find(i => i.name === component.name);
                 return dish ? calculateCogs(dish.ingredients) * component.quantity : 0;
             }
         }
         
-        // Helper function to get the COGS star icon based on percentage
         function getCogsStar(percent) {
             let colorClass = 'text-gray-400';
             if (percent > 0 && percent <= 30) {
@@ -1226,7 +1218,7 @@
                 menuItemsContainer.innerHTML = '<div class="text-center text-gray-600">No menu items found.</div>';
                 return;
             }
-            data.forEach((item, index) => {
+            data.forEach((item) => {
                 const cogs = calculateCogs(item.ingredients);
                 const dineInVat = item.dineInPrice ? item.dineInPrice * 0.20 : 0;
                 const takeAwayVat = item.takeAwayPrice ? item.takeAwayPrice * 0.20 : 0;
@@ -1290,7 +1282,6 @@
                             </div>
                         </div>
 
-                        <!-- Online Markup Calculator -->
                         <div class="p-4 border border-indigo-200 rounded-lg bg-indigo-50 mt-4">
                             <div class="flex items-center justify-between cursor-pointer toggle-online-pricing" data-id="${item.id}">
                                 <h4 class="text-md font-semibold text-gray-700">Online Platform Pricing</h4>
@@ -1357,7 +1348,6 @@
                 menuItemsContainer.appendChild(itemCard);
             });
             
-            // Restore open states
             openMenuItems.forEach(id => {
                 const details = document.getElementById(`item-details-${id}`);
                 const chevron = document.getElementById(`chevron-${id}`);
@@ -1376,17 +1366,16 @@
             renderMenuItems(filteredMenu);
         });
 
-        addMenuItemBtn.addEventListener('click', async () => { // **UPDATED** to be async
+        addMenuItemBtn.addEventListener('click', async () => {
             const name = menuItemNameInput.value.trim();
             const type = itemTypeSelect.value;
             const dineInPrice = parseFloat(dineInPriceInput.value) || 0;
             const takeAwayPrice = parseFloat(takeAwayPriceInput.value) || 0;
             if (!name) { return; }
             
-            // **UPDATED** Save directly to Firestore
             try {
                 const newItem = { name, type, ingredients: [], dineInPrice, takeAwayPrice };
-                await addDoc(collection(db, 'menuItems'), newItem);
+                await addDoc(collection(db, 'public', mainDocId, 'menuItems'), newItem);
                 menuItemNameInput.value = '';
                 dineInPriceInput.value = '';
                 takeAwayPriceInput.value = '';
@@ -1418,7 +1407,7 @@
                     item.ingredients.push({ name, quantity, unit, type });
                     
                     try {
-                        await updateDoc(doc(db, 'menuItems', itemId), { ingredients: item.ingredients });
+                        await updateDoc(doc(db, 'public', mainDocId, 'menuItems', itemId), { ingredients: item.ingredients });
                         card.querySelector('.component-select').value = '';
                         card.querySelector('.component-quantity').value = '';
                         card.querySelector('.component-unit').value = '';
@@ -1437,7 +1426,7 @@
                         confirmMessage.textContent = `Are you sure you want to delete the menu item "${item.name}"?`;
                         pendingAction = async () => {
                             try {
-                                await deleteDoc(doc(db, 'menuItems', docId));
+                                await deleteDoc(doc(db, 'public', mainDocId, 'menuItems', docId));
                             } catch(e) {
                                 console.error("Error deleting menu item:", e);
                             }
@@ -1455,7 +1444,7 @@
                     if (item && item.ingredients) {
                         item.ingredients.splice(componentIndex, 1);
                         try {
-                            await updateDoc(doc(db, 'menuItems', itemId), { ingredients: item.ingredients });
+                            await updateDoc(doc(db, 'public', mainDocId, 'menuItems', itemId), { ingredients: item.ingredients });
                         } catch(e) {
                             console.error("Error removing component:", e);
                         }
@@ -1476,7 +1465,6 @@
                 });
             });
 
-            // Toggle collapsible sections
             document.querySelectorAll('.toggle-menu-item').forEach(header => {
                 header.addEventListener('click', (e) => {
                     if (e.target.closest('.delete-item-btn')) {
@@ -1608,7 +1596,7 @@
                         confirmMessage.textContent = `Are you sure you want to delete the sales record for ${sale.date}?`;
                         pendingAction = async () => {
                             try {
-                                await deleteDoc(doc(db, 'dailySales', docId));
+                                await deleteDoc(doc(db, 'public', mainDocId, 'dailySales', docId));
                             } catch(e) {
                                 console.error("Error deleting sales record:", e);
                             }
@@ -1636,7 +1624,7 @@
             });
         }
 
-        addSalesBtn.addEventListener('click', async () => { // **UPDATED** to be async
+        addSalesBtn.addEventListener('click', async () => {
             const date = salesDateInput.value;
             const cash = parseFloat(salesCashInput.value) || 0;
             const card = parseFloat(salesCardInput.value) || 0;
@@ -1658,13 +1646,11 @@
                 return;
             }
 
-            // **UPDATED** Always add a new record. No more updating based on date.
             const newSale = { date, cash, card, uber, justeat, deliveroo, website, advance, toogoodtogo };
             try {
-                await addDoc(collection(db, 'dailySales'), newSale);
+                await addDoc(collection(db, 'public', mainDocId, 'dailySales'), newSale);
                 salesMessage.textContent = 'Sales recorded successfully!';
                 
-                // Clear input fields
                 salesCashInput.value = '';
                 salesCardInput.value = '';
                 salesUberInput.value = '';
@@ -1733,7 +1719,7 @@
                         confirmMessage.textContent = `Are you sure you want to delete the purchase record for "${purchase.item}" on ${purchase.date}?`;
                         pendingAction = async () => {
                             try {
-                                await deleteDoc(doc(db, 'dailyPurchases', docId));
+                                await deleteDoc(doc(db, 'public', mainDocId, 'dailyPurchases', docId));
                             } catch(e) {
                                 console.error("Error deleting purchase:", e);
                             }
@@ -1744,7 +1730,7 @@
             });
         }
         
-        addPurchaseBtn.addEventListener('click', async () => { // **UPDATED** to be async
+        addPurchaseBtn.addEventListener('click', async () => {
             const date = purchaseDateInput.value;
             const item = purchaseItemInput.value.trim();
             const cost = parseFloat(purchaseCostInput.value);
@@ -1757,7 +1743,7 @@
             
             const newPurchase = { date, item, cost, paymentMethod, paidBy };
             try {
-                await addDoc(collection(db, 'dailyPurchases'), newPurchase);
+                await addDoc(collection(db, 'public', mainDocId, 'dailyPurchases'), newPurchase);
                 purchaseDateInput.value = today;
                 purchaseItemInput.value = '';
                 purchaseCostInput.value = '';
@@ -1774,8 +1760,10 @@
         function renderSalary(data = salary) {
             const { key, order } = sortState.salary;
             const sortedData = [...data].sort((a, b) => {
-                if (a[key] < b[key]) return order === 'asc' ? -1 : 1;
-                if (a[key] > b[key]) return order === 'asc' ? 1 : -1;
+                const valA = a[key] || '';
+                const valB = b[key] || '';
+                if (valA < valB) return order === 'asc' ? -1 : 1;
+                if (valA > valB) return order === 'asc' ? 1 : -1;
                 return 0;
             });
 
@@ -1832,7 +1820,7 @@
                         confirmMessage.textContent = `Are you sure you want to delete the salary payment for "${payment.employee}" on ${payment.date}?`;
                         pendingAction = async () => {
                             try {
-                                await deleteDoc(doc(db, 'salary', docId));
+                                await deleteDoc(doc(db, 'public', mainDocId, 'salary', docId));
                             } catch(e) {
                                 console.error("Error deleting salary:", e);
                             }
@@ -1843,7 +1831,7 @@
             });
         }
 
-        addSalaryBtn.addEventListener('click', async () => { // **UPDATED** to be async
+        addSalaryBtn.addEventListener('click', async () => {
             const date = salaryDateInput.value;
             const employee = salaryEmployeeInput.value.trim();
             const type = salaryTypeInput.value;
@@ -1855,7 +1843,7 @@
             
             const newPayment = { date, employee, type, amount };
             try {
-                await addDoc(collection(db, 'salary'), newPayment);
+                await addDoc(collection(db, 'public', mainDocId, 'salary'), newPayment);
                 salaryDateInput.value = today;
                 salaryEmployeeInput.value = '';
                 salaryTypeInput.value = '';
@@ -1881,19 +1869,15 @@
             confirmModal.classList.add('hidden');
         });
         
-        // --- Helper function for temporary messages ---
         function showTemporaryMessage(element, message, isError = true) {
             const messageDiv = document.createElement('div');
             messageDiv.className = `mt-2 text-sm font-medium ${isError ? 'text-red-500' : 'text-green-500'}`;
             messageDiv.textContent = message;
-            // Insert after the button's container
             element.closest('div').insertAdjacentElement('afterend', messageDiv);
             setTimeout(() => messageDiv.remove(), 3000);
         }
 
         // --- Download Functions ---
-
-        // Sales PDF Download
         downloadPdfBtn.addEventListener('click', () => {
             const startDate = downloadStartDateInput.value;
             const endDate = downloadEndDateInput.value;
@@ -1926,7 +1910,6 @@
             doc.save(`Sales_Report_v${APP_VERSION}_${startDate}_to_${endDate}.pdf`);
         });
 
-        // Sales CSV Download
         downloadCsvBtn.addEventListener('click', () => {
             const startDate = downloadStartDateInput.value;
             const endDate = downloadEndDateInput.value;
@@ -1957,7 +1940,6 @@
             document.body.removeChild(link);
         });
         
-        // Purchases PDF Download
         downloadPurchasePdfBtn.addEventListener('click', () => {
             const startDate = downloadPurchaseStartDateInput.value;
             const endDate = downloadPurchaseEndDateInput.value;
@@ -1980,7 +1962,6 @@
             doc.save(`Purchases_Report_v${APP_VERSION}_${startDate}_to_${endDate}.pdf`);
         });
 
-        // Purchases CSV Download
         downloadPurchaseCsvBtn.addEventListener('click', () => {
             const startDate = downloadPurchaseStartDateInput.value;
             const endDate = downloadPurchaseEndDateInput.value;
@@ -2006,7 +1987,6 @@
             document.body.removeChild(link);
         });
 
-        // Salary PDF Download
         downloadSalaryPdfBtn.addEventListener('click', () => {
             const startDate = downloadSalaryStartDateInput.value;
             const endDate = downloadSalaryEndDateInput.value;
@@ -2041,7 +2021,6 @@
             doc.save(`Salary_Report_v${APP_VERSION}_${startDate}_to_${endDate}.pdf`);
         });
 
-        // Salary CSV Download
         downloadSalaryCsvBtn.addEventListener('click', () => {
             const startDate = downloadSalaryStartDateInput.value;
             const endDate = downloadSalaryEndDateInput.value;
@@ -2112,11 +2091,10 @@
         }
         populateCurrencyDropdown();
 
-        currencySelect.addEventListener('change', async (e) => { // **UPDATED** to be async
+        currencySelect.addEventListener('change', async (e) => {
             settings.currency = e.target.value;
             try {
-                // **UPDATED** Save settings to its own document
-                await setDoc(doc(db, 'settings', 'appSettings'), settings);
+                await setDoc(doc(db, 'public', mainDocId, 'settings', 'appSettings'), settings);
             } catch (e) {
                 console.error("Error saving settings:", e);
             }
@@ -2202,7 +2180,6 @@
         function renderReportCharts(purchaseTotal, salaryTotal) {
             if (expensesChart) expensesChart.destroy();
 
-            // Expenses Breakdown Chart (Doughnut)
             const expensesCtx = document.getElementById('expenses-chart').getContext('2d');
             expensesChart = new Chart(expensesCtx, {
                 type: 'doughnut',
@@ -2254,10 +2231,6 @@
                     confirmTitle.textContent = 'Confirm Restore';
                     confirmMessage.textContent = 'Are you sure you want to restore from this backup? This will overwrite all current data in the application.';
                     pendingAction = async () => {
-                        // **UPDATED** This is now a more complex operation.
-                        // It requires deleting all docs in all collections and then adding the new ones.
-                        // This is an advanced topic. For now, we will show a message.
-                        // A full implementation would require batch writes.
                         alert("Restoring from backup with the new database structure requires a more complex migration. This feature is temporarily disabled in this version.");
                     };
                     confirmModal.classList.remove('hidden');
