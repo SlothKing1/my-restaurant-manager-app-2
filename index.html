@@ -653,7 +653,7 @@
     <script type="module">
         // IMPORTANT: Replace with your actual Firebase project configuration
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, deleteDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc, onSnapshot, collection, addDoc, deleteDoc, updateDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         
         // --- App Version ---
@@ -2217,6 +2217,69 @@
             URL.revokeObjectURL(url);
         });
 
+        async function restoreDataFromBackup(data) {
+            // Helper function to clear a collection
+            async function clearCollection(collName) {
+                const collectionRef = collection(db, 'public', mainDocId, collName);
+                const snapshot = await getDocs(collectionRef);
+                const deletePromises = snapshot.docs.map(docToDelete => deleteDoc(docToDelete.ref));
+                await Promise.all(deletePromises);
+                console.log(`Collection "${collName}" cleared.`);
+            }
+
+            // Clear all existing data
+            const collectionNames = ['ingredients', 'menuItems', 'dailySales', 'dailyPurchases', 'salary'];
+            await Promise.all(collectionNames.map(name => clearCollection(name)));
+
+            // Add new data from the backup file
+            const addPromises = [];
+
+            // Restore ingredients
+            if (data.masterIngredients && Array.isArray(data.masterIngredients)) {
+                data.masterIngredients.forEach(item => {
+                    // Remove 'id' field if it exists to let Firestore generate a new one
+                    delete item.id; 
+                    addPromises.push(addDoc(collection(db, 'public', mainDocId, 'ingredients'), item));
+                });
+            }
+            // Restore menu items
+            if (data.menuItems && Array.isArray(data.menuItems)) {
+                data.menuItems.forEach(item => {
+                    delete item.id;
+                    addPromises.push(addDoc(collection(db, 'public', mainDocId, 'menuItems'), item));
+                });
+            }
+            // Restore sales
+            if (data.dailySales && Array.isArray(data.dailySales)) {
+                data.dailySales.forEach(item => {
+                    delete item.id;
+                    addPromises.push(addDoc(collection(db, 'public', mainDocId, 'dailySales'), item));
+                });
+            }
+            // Restore purchases
+            if (data.dailyPurchases && Array.isArray(data.dailyPurchases)) {
+                data.dailyPurchases.forEach(item => {
+                    delete item.id;
+                    addPromises.push(addDoc(collection(db, 'public', mainDocId, 'dailyPurchases'), item));
+                });
+            }
+            // Restore salary
+            if (data.salary && Array.isArray(data.salary)) {
+                data.salary.forEach(item => {
+                    delete item.id;
+                    addPromises.push(addDoc(collection(db, 'public', mainDocId, 'salary'), item));
+                });
+            }
+            // Restore settings
+            if (data.settings) {
+                addPromises.push(setDoc(doc(db, 'public', mainDocId, 'settings', 'appSettings'), data.settings));
+            }
+
+            await Promise.all(addPromises);
+            console.log("All data restored successfully.");
+        }
+
+
         restoreDataBtn.addEventListener('click', () => {
             const file = restoreDataInput.files[0];
             if (!file) {
@@ -2230,8 +2293,15 @@
                     const data = JSON.parse(e.target.result);
                     confirmTitle.textContent = 'Confirm Restore';
                     confirmMessage.textContent = 'Are you sure you want to restore from this backup? This will overwrite all current data in the application.';
+                    
                     pendingAction = async () => {
-                        alert("Restoring from backup with the new database structure requires a more complex migration. This feature is temporarily disabled in this version.");
+                        try {
+                            await restoreDataFromBackup(data);
+                            showTemporaryMessage(restoreDataBtn, 'Data restored successfully!', false); // false for non-error
+                        } catch (error) {
+                            console.error("Restore failed:", error);
+                            showTemporaryMessage(restoreDataBtn, 'Restore failed. Check console for details.');
+                        }
                     };
                     confirmModal.classList.remove('hidden');
                 } catch (error) {
